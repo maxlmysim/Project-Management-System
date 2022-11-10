@@ -7,3 +7,18 @@
 html {
     font-size:10px;
 }
+
+html::-webkit-scrollbar {
+    height: 12px;
+    width: 10px;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: linear-gradient(0deg,#004e92,#000428);
+    border: 1px solid #666;
+    border-radius: 10px;
+}
+
+html::-webkit-scrollbar-track {
+    background: rgba(0,0,0,.2);
+}
