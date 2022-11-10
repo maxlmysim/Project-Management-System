@@ -1,0 +1,19 @@
+.footer {
+    height: 6rem;
+    background: #d7e1ec;
+    color: #000428;
+}
+
+.footerCarsContainer {
+    height: 100%;
+    max-width: 60rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    font-size: 2rem;
+}
+
+.logoSchool {
+    height: 4rem;
+}
