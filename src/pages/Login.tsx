@@ -2,11 +2,9 @@ import React, { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Avatar, Box, Button, Container, styled, TextField, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
-type Inputs = {
-  login: string;
-  password: string;
-};
+import { signIn } from '../store/authSlice';
+import { useAppDispatch } from '../hooks/storeHooks';
+import { User } from '../api/authService';
 
 const Form = styled('form')`
   label,
@@ -24,16 +22,18 @@ const Form = styled('form')`
 `;
 
 const Login: FC = () => {
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<User>({
     mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<User> = (data) => {
+    dispatch(signIn(data));
   };
 
   return (
@@ -87,6 +87,7 @@ const Login: FC = () => {
                 message: 'Длинна пароля должна быть 8 символов или более ',
               },
             })}
+            type="password"
             placeholder="Введите ваш пароль"
             sx={{ width: 1 }}
             error={!!errors.password}

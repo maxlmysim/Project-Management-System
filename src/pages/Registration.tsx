@@ -105,6 +105,7 @@ const Registration: FC = () => {
                 message: 'Длинна пароля должна быть 8 символов или более ',
               },
             })}
+            type="password"
             placeholder="Введите ваш пароль"
             sx={{ width: 1 }}
             error={!!errors.password}
