@@ -8,13 +8,11 @@ import { signInFieldList } from 'constants/auth';
 const Login: FC = () => {
   return (
     <Container component="main">
-      <Box
-        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '3rem' }}
-      >
+      <Box alignItems="center" sx={{ display: 'flex', flexDirection: 'column', marginTop: '3rem' }}>
         <Avatar sx={{ backgroundColor: 'rgb(156, 39, 176);' }}>
           <LockOutlinedIcon sx={{ width: '70%', height: 'auto' }} />
         </Avatar>
-        <Typography variant="h3" component="h3" sx={{ textAlign: 'center', margin: '0 auto 1rem' }}>
+        <Typography variant="h3" component="h3" align="center" sx={{ margin: '0 auto 1rem' }}>
           Вход
         </Typography>
         <AuthField fields={signInFieldList} action={signIn} buttonText="Войти" />
