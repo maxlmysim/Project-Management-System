@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
-import { Button, styled, TextField } from '@mui/material';
+import { styled, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { signIn, signUp } from '../store/authSlice';
-import { useAppDispatch } from '../hooks/storeHooks';
+import { authSelector, signIn, signUp } from '../store/authSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { NewUser, User } from '../api/authService';
 import { IAuthFieldProps } from '../constants/auth';
 import { AppDispatch } from 'store/store';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const Form = styled('form')`
   max-width: 400px;
@@ -27,6 +28,21 @@ const Form = styled('form')`
   p {
     font-size: 1.3rem;
   }
+
+  button {
+    width: 100%;
+    font-size: 1.5rem;
+    background-color: #1976d2;
+    color: white;
+
+    &:hover {
+      background-color: #1565c0;
+    }
+
+    svg {
+      color: white;
+    }
+  }
 `;
 
 interface props {
@@ -37,6 +53,8 @@ interface props {
 
 const AuthField: FC<props> = ({ action, buttonText, fields }) => {
   const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector(authSelector);
+
   const {
     register,
     handleSubmit,
@@ -67,9 +85,9 @@ const AuthField: FC<props> = ({ action, buttonText, fields }) => {
             }
           />
         ))}
-      <Button variant="contained" type="submit" sx={{ width: 1, fontSize: '1.5rem' }}>
+      <LoadingButton type="submit" loading={isLoading} loadingPosition="center" variant="outlined">
         {buttonText}
-      </Button>
+      </LoadingButton>
     </Form>
   );
 };

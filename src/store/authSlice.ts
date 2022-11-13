@@ -9,6 +9,7 @@ interface AuthState {
   login: string;
   userId: string;
   userName: string;
+  isLoading: boolean;
 }
 
 const initialState: AuthState = {
@@ -16,6 +17,7 @@ const initialState: AuthState = {
   login: '',
   userId: '',
   userName: '',
+  isLoading: false,
 };
 
 export const signIn = createAsyncThunk('users/singIn', async (user: User, { rejectWithValue }) => {
@@ -66,6 +68,24 @@ const authSlice = createSlice({
       state.userName = action.payload.name;
       state.login = action.payload.login;
       localStorage.setItem(TOKEN, action.payload.token);
+      state.isLoading = false;
+    });
+    builder.addCase(signIn.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(signIn.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(signUp.fulfilled, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(signUp.pending, (state, action) => {
+      state.isLoading = true;
+      console.log(action);
+    });
+    builder.addCase(signUp.rejected, (state, action) => {
+      state.isLoading = false;
+      console.log(action);
     });
   },
 });
