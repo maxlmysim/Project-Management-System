@@ -1,11 +1,11 @@
 import React from 'react';
+import AddBoardsButton from "../components/AddBoardsButton";
 
 const Boards = () => {
-  return (
-    <h1>
-      Boards
-    </h1>
-  );
+  return (<div>
+    <h1>Boards</h1>
+    <AddBoardsButton onClick={()=>{}}></AddBoardsButton>
+  </div>);
 };
 
 export default Boards;
