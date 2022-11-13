@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { TOKEN } from '../constants/authorization';
+import { API_URL, TOKEN } from '../constants/api';
 
 export const api = axios.create({
-  baseURL: 'https://projectmanagement.herokuapp.com/',
+  baseURL: API_URL,
   headers: {
     Authorization: `Bearer ${localStorage.getItem(TOKEN)}`,
   },

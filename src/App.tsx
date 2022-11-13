@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import './App.module.css';
-import Header from './components/Header/Header';
+import Header from './components/Header';
 import Footer from 'components/Footer/Footer';
 import style from './App.module.css';
 import { Routes, Route } from 'react-router-dom';
-import WelcomePage from './pages/WelcomePage/WelcomePage';
+import WelcomePage from './pages/WelcomePage';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import { AppRoutes } from './constants/routes';

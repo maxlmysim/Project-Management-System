@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { authService, User } from '../api/authService';
+import { authService, NewUser, User } from '../api/authService';
 import { AxiosError } from 'axios';
-import { TOKEN } from '../constants/authorization';
+import { TOKEN } from '../constants/api';
 import { RootState } from './store';
 
 interface AuthState {
@@ -30,6 +30,22 @@ export const signIn = createAsyncThunk('users/singIn', async (user: User, { reje
     return rejectWithValue(error.response?.data);
   }
 });
+
+export const signUp = createAsyncThunk(
+  'users/singUp',
+  async (newUser: NewUser, { rejectWithValue }) => {
+    try {
+      const response = await authService.signUpUser(newUser);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: 'Auth',
