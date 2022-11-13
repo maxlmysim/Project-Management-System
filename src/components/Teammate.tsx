@@ -1,7 +1,7 @@
 import { Link, styled, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { ITeammate } from '../pages/WelcomePage/WelcomePage';
 import GroupsIcon from '@mui/icons-material/Groups';
+import { ITeammate } from 'constants/welcomePageInfo';
 
 const LinkStyle = styled(Link)`
   display: grid;

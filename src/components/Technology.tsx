@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { CardMedia, Link, styled, Typography } from '@mui/material';
-import { ITechnology } from '../pages/WelcomePage/WelcomePage';
+import { ITechnology } from 'constants/welcomePageInfo';
 
 const LinkStyled = styled(Link)`
   display: flex;
