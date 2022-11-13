@@ -1,23 +1,18 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import { AppBar, Button, Container, Toolbar, Typography } from '@mui/material';
-import { useAppSelector } from '../hooks/storeHooks';
-import { authSelector } from '../store/authSlice';
 import LanguageSwitcher from './LanguageSwitcher';
 import AuthButtonsContainer from './AuthButtonsContainer';
 
 const fontSize = '1.8rem';
 
-const Header: FC = () => {
-  const navigate = useNavigate();
-  const { isLogin, userId } = useAppSelector(authSelector);
+interface props {
+  isLogin: boolean;
+}
 
-  useEffect(() => {
-    if (userId) {
-      navigate('/');
-    }
-  }, [userId]);
+const Header: FC<props> = ({ isLogin }) => {
+  const navigate = useNavigate();
 
   function onMainPage(): void {
     navigate('/');

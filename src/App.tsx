@@ -1,24 +1,34 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import './App.module.css';
 import Header from './components/Header';
 import Footer from 'components/Footer/Footer';
 import style from './App.module.css';
-import { Routes, Route } from 'react-router-dom';
-import WelcomePage from './pages/WelcomePage';
-import Login from './pages/Login';
-import Registration from './pages/Registration';
-import { AppRoutes } from './constants/routes';
+import { useAppDispatch, useAppSelector } from 'hooks/storeHooks';
+import { authSelector, getMyData } from './store/authSlice';
+import { welcomeSelector } from './store/welcomeSlice';
+import Loader from './components/Loader';
+import Router from './router/Router';
 
 const App: FC = () => {
+  const dispatch = useAppDispatch();
+  const { isLoadingPage } = useAppSelector(welcomeSelector);
+  const { isLogin } = useAppSelector(authSelector);
+
+  useEffect(() => {
+    dispatch(getMyData());
+  }, []);
+
   return (
     <div className={style.mainContainer}>
-      <Header />
-      <Routes>
-        <Route path={AppRoutes.WELCOME} element={<WelcomePage />} />
-        <Route path={AppRoutes.LOGIN} element={<Login />} />
-        <Route path={AppRoutes.REGISTRATION} element={<Registration />} />
-      </Routes>
-      <Footer />
+      {isLoadingPage ? (
+        <Loader />
+      ) : (
+        <>
+          <Header isLogin={isLogin} />
+          <Router isLogin={isLogin} />
+          <Footer />
+        </>
+      )}
     </div>
   );
 };
