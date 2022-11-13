@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { authService, NewUser, User } from '../api/authService';
 import { AxiosError } from 'axios';
-import { TOKEN } from '../constants/api';
+import { TOKEN, USER_ID } from '../constants/api';
 import { RootState } from './store';
+import { userService } from '../api/userService';
 
 interface AuthState {
   isLogin: boolean;
@@ -49,6 +50,36 @@ export const signUp = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  'users/getUser',
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const response = await userService.getUser(userId);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const getMyData = createAsyncThunk('users/getMyData', async (_, { rejectWithValue }) => {
+  try {
+    const userId = localStorage.getItem(USER_ID) || 'lorem';
+    const response = await userService.getUser(userId);
+    return response.data;
+  } catch (err) {
+    const error = err as AxiosError;
+    if (!error.response) {
+      throw err;
+    }
+    return rejectWithValue(error.response?.data);
+  }
+});
+
 const authSlice = createSlice({
   name: 'Auth',
   initialState,
@@ -59,6 +90,7 @@ const authSlice = createSlice({
       state.userId = '';
       state.userName = '';
       localStorage.removeItem(TOKEN);
+      localStorage.removeItem(USER_ID);
     },
   },
   extraReducers: (builder) => {
@@ -68,6 +100,7 @@ const authSlice = createSlice({
       state.userName = action.payload.name;
       state.login = action.payload.login;
       localStorage.setItem(TOKEN, action.payload.token);
+      localStorage.setItem(USER_ID, action.payload.userId);
       state.isLoading = false;
     });
     builder.addCase(signIn.pending, (state) => {
@@ -79,13 +112,23 @@ const authSlice = createSlice({
     builder.addCase(signUp.fulfilled, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(signUp.pending, (state, action) => {
+    builder.addCase(signUp.pending, (state) => {
       state.isLoading = true;
-      console.log(action);
     });
-    builder.addCase(signUp.rejected, (state, action) => {
+    builder.addCase(signUp.rejected, (state) => {
       state.isLoading = false;
-      console.log(action);
+    });
+    builder.addCase(getMyData.fulfilled, (state, action) => {
+      state.isLogin = true;
+      state.userId = action.payload._id;
+      state.userName = action.payload.name;
+      state.login = action.payload.login;
+    });
+    builder.addCase(getMyData.rejected, (state) => {
+      state.isLogin = false;
+      state.login = '';
+      state.userId = '';
+      state.userName = '';
     });
   },
 });

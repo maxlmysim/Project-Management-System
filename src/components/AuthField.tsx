@@ -68,7 +68,7 @@ const AuthField: FC<props> = ({ action, buttonText, fields }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} style={{}}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       {fields &&
         fields.map((field) => (
           <TextField
