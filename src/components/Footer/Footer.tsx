@@ -14,6 +14,9 @@ const Footer: FC = () => {
         <div className="footer-card-item">
           maxlmysim <GitHubIcon sx={GitHubIconStyle} />
         </div>
+        <div className="footer-card-item">
+          jocker-py <GitHubIcon sx={GitHubIconStyle} />
+        </div>
         <div className="footer-card-item">© 2022</div>
         <div className="footer-card-item">
           <LogoSchool className={style.logoSchool} />
