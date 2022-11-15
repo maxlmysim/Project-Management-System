@@ -1,6 +1,8 @@
+import { IBoard } from './boardTypes';
+
 export interface ResponseUserData {
-  name: string;
   _id: string;
+  name: string;
   login: string;
 }
 
@@ -11,8 +13,8 @@ export interface SignInResponse {
   userId: string;
 }
 
-export interface SignUpResponse {
+export type SignUpResponse = ResponseUserData;
+
+export interface BoardsResponse extends IBoard {
   _id: string;
-  name: string;
-  login: string;
 }

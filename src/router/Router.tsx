@@ -5,6 +5,7 @@ import { AppRoutes } from '../constants/routes';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
+import NewBoards from '../pages/NewBoards';
 
 interface props {
   isLogin: boolean;
@@ -13,15 +14,15 @@ interface props {
 const Router: FC<props> = ({ isLogin }) => {
   return (
     <Routes>
+      <Route path={AppRoutes.WELCOME} element={<WelcomePage />} />
       {isLogin ? (
         <>
-          <Route path={AppRoutes.WELCOME} element={<WelcomePage />} />
           <Route path={AppRoutes.PROFILE} element={<Profile />} />
-          <Route path={AppRoutes.BOARDS} element={<Profile />} />
+          {/*<Route path={AppRoutes.BOARDS} element={<Boards />} />*/}
+          <Route path={AppRoutes.BOARDS} element={<NewBoards />} />
         </>
       ) : (
         <>
-          <Route path={AppRoutes.WELCOME} element={<WelcomePage />} />
           <Route path={AppRoutes.LOGIN} element={<Login />} />
           <Route path={AppRoutes.REGISTRATION} element={<Registration />} />
         </>

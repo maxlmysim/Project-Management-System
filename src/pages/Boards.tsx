@@ -1,10 +1,10 @@
-import React from 'react';
-import AddBoardsButton from "../components/AddBoardsButton";
-import {Avatar, Box, Container, Typography} from "@mui/material";
+import React, { FC } from 'react';
+import AddBoardsButton from '../components/AddBoardsButton';
+import { Avatar, Box, Container, Typography } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import BoardsList from "./BoardsList";
+import BoardsList from './BoardsList';
 
-const Boards = () => {
+const Boards: FC = () => {
   return (
     <Container component="main">
       <Box
@@ -16,11 +16,11 @@ const Boards = () => {
         <Typography variant="h3" component="h3" sx={{ textAlign: 'center', margin: '0 auto 1rem' }}>
           Доски
         </Typography>
-        <AddBoardsButton onClick={()=>{}} />
+        <AddBoardsButton onClick={(): void => {}} />
       </Box>
       <BoardsList />
     </Container>
-    );
+  );
 };
 
 export default Boards;

@@ -39,7 +39,8 @@ const Profile: FC = () => {
             </Typography>
             <Button
               variant="contained"
-              style={{ backgroundColor: 'rgb(237, 108, 2)', color: 'white', fontSize: '1.5rem' }}
+              color="warning"
+              style={{ fontSize: '1.5rem' }}
               onClick={openDeleteUserModal}
             >
               Удалить учетную запись
