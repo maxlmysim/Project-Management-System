@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import { AppBar, Button, Container, Toolbar, Typography } from '@mui/material';
+import { AppBar, Container, Toolbar } from '@mui/material';
 import LanguageSwitcher from './LanguageSwitcher';
 import AuthButtonsContainer from './AuthButtonsContainer';
-import ModalWindow from './ModalWindow';
+import ProfileButton from './ProfileButton';
+import MainButton from './MainButton';
+import BoardsButton from './BoardsButton';
+import { AppRoutes } from '../constants/routes';
 
 const fontSize = '1.8rem';
 
@@ -15,25 +17,21 @@ interface props {
 const Header: FC<props> = ({ isLogin }) => {
   const navigate = useNavigate();
 
-  function onMainPage(): void {
-    navigate('/');
-  }
+  const onMainPage = (): void => navigate(AppRoutes.WELCOME);
+  const onProfilePage = (): void => navigate(AppRoutes.PROFILE);
+  const onBoardsPage = (): void => navigate(AppRoutes.BOARDS);
 
   return (
     <AppBar position="static" component="header">
       <Container>
         <Toolbar>
-          <Typography component="div" sx={{ flexGrow: 1 }}>
-            <Button color="inherit" sx={{ fontSize: fontSize }} onClick={onMainPage}>
-              <HomeIcon sx={{ fontSize: '1.2em', marginRight: '5px' }} />
-              Главная
-            </Button>
-          </Typography>
+          <MainButton onClick={onMainPage}>Главная</MainButton>
+          <BoardsButton onClick={onBoardsPage}>Доски</BoardsButton>
+          <ProfileButton onClick={onProfilePage}>Профиль</ProfileButton>
           <LanguageSwitcher fontSize={fontSize} />
           <AuthButtonsContainer isLogin={isLogin} fontSize={fontSize} />
         </Toolbar>
       </Container>
-      <ModalWindow />
     </AppBar>
   );
 };

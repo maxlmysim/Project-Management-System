@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
-import {Button, Typography} from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
+import { Button, Typography } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
 
-interface IButtonProps{
+interface IButtonProps {
   children: React.ReactNode;
   onClick: () => void;
 }
 
-const MainButton: FC<IButtonProps> = ({onClick, children}) => {
+const MainButton: FC<IButtonProps> = ({ onClick, children }) => {
   return (
     <Typography component="div" sx={{ flexGrow: 1 }}>
       <Button color="inherit" sx={{ fontSize: '1.8rem' }} onClick={onClick}>
