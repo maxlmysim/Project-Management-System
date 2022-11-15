@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import { AppBar, Button, Container, Toolbar, Typography } from '@mui/material';
+import { AppBar, Container, Toolbar } from '@mui/material';
 import LanguageSwitcher from './LanguageSwitcher';
 import AuthButtonsContainer from './AuthButtonsContainer';
 import ProfileButton from './ProfileButton';
@@ -28,8 +27,12 @@ const Header: FC<props> = ({ isLogin }) => {
       <Container>
         <Toolbar>
           <MainButton onClick={onMainPage}>Главная</MainButton>
-          <BoardsButton onClick={onBoardsPage}>Доски</BoardsButton>
-          <ProfileButton onClick={onProfilePage}>Профиль</ProfileButton>
+          {isLogin && (
+            <>
+              <BoardsButton onClick={onBoardsPage}>Доски</BoardsButton>
+              <ProfileButton onClick={onProfilePage}>Профиль</ProfileButton>
+            </>
+          )}
           <LanguageSwitcher fontSize={fontSize} />
           <AuthButtonsContainer isLogin={isLogin} fontSize={fontSize} />
         </Toolbar>
