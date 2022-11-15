@@ -11,4 +11,7 @@ export const userService = {
   updateUser(userId: string, data: UserData): Promise<AxiosResponse<ResponseUserData>> {
     return api.put(`${Endpoints.USERS}/${userId}`, data);
   },
+  deleteUser(userId: string): Promise<AxiosResponse<ResponseUserData>> {
+    return api.delete(`${Endpoints.USERS}/${userId}`);
+  },
 };

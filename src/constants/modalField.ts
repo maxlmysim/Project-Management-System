@@ -1,5 +1,5 @@
 import { FormContent, ModalFormActions } from '../types/formTypes';
-import { editLogin, editName } from '../store/authSlice';
+import { deleteUser, editLogin, editName } from '../store/authSlice';
 
 export interface IFieldProps {
   label: string;
@@ -92,7 +92,14 @@ export const EDIT_NAME: FormContent = {
   fields: changeNameFieldList,
 };
 
+export const DELETE_USER: FormContent = {
+  modalTitle: 'Удалить пользователя?',
+  action: 'deleteUser',
+  fields: [],
+};
+
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
+  deleteUser,
 };
