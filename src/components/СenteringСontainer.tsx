@@ -15,6 +15,7 @@ interface props {
   wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
   direction?: 'column' | 'row' | 'row-reverse' | 'column-reverse';
   sx?: SxProps<Theme>;
+  gap?: number;
 }
 
 const CenteringContainer: FC<props> = ({
@@ -24,6 +25,7 @@ const CenteringContainer: FC<props> = ({
   wrap = 'nowrap',
   direction = 'row',
   sx = {},
+  gap = 0,
 }) => {
   return (
     <Box
@@ -33,6 +35,7 @@ const CenteringContainer: FC<props> = ({
         justifyContent: justifyContent,
         flexDirection: direction,
         flexWrap: wrap,
+        gap: gap,
       }}
       sx={sx}
     >

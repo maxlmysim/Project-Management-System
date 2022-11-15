@@ -5,7 +5,7 @@ import { authSelector } from '../store/authSlice';
 import EditTooltipButton from '../components/EditTooltipButton';
 import CenteringContainer from '../components/СenteringСontainer';
 import { showModalWindow } from '../store/modalSlice';
-import { EDIT_LOGIN, EDIT_NAME } from '../constants/modalField';
+import { DELETE_USER, EDIT_LOGIN, EDIT_NAME } from '../constants/modalField';
 
 const Profile: FC = () => {
   const { login, name } = useAppSelector(authSelector);
@@ -14,8 +14,13 @@ const Profile: FC = () => {
   const openEditName = (): void => {
     dispatch(showModalWindow(EDIT_NAME));
   };
+
   const openEditLogin = (): void => {
     dispatch(showModalWindow(EDIT_LOGIN));
+  };
+
+  const openDeleteUserModal = (): void => {
+    dispatch(showModalWindow(DELETE_USER));
   };
 
   return (
@@ -35,6 +40,7 @@ const Profile: FC = () => {
             <Button
               variant="contained"
               style={{ backgroundColor: 'rgb(237, 108, 2)', color: 'white', fontSize: '1.5rem' }}
+              onClick={openDeleteUserModal}
             >
               Удалить учетную запись
             </Button>

@@ -7,6 +7,7 @@ import { userService } from '../api/userService';
 import { AppFormTypes } from '../types/formTypes';
 import { NewUser, User } from 'types/userTypes';
 import { ResponseUserData, SignInResponse, SignUpResponse } from '../types/responseTypes';
+import { closeModalWindow } from './modalSlice';
 
 interface IAuthState {
   isLogin: boolean;
@@ -91,9 +92,8 @@ export const getMyUserData = createAsyncThunk<ResponseUserData, void, TypedThunk
 
 export const editLogin = createAsyncThunk<ResponseUserData, AppFormTypes, TypedThunkAPI>(
   'users/editLogin',
-  async (data: AppFormTypes, { rejectWithValue, getState }) => {
+  async (data: AppFormTypes, { rejectWithValue, getState, dispatch }) => {
     try {
-      console.log('edit login');
       const { userId, name } = getState().authStore;
       const { login, password } = data;
       const usedData = { name, login, password };
@@ -106,16 +106,16 @@ export const editLogin = createAsyncThunk<ResponseUserData, AppFormTypes, TypedT
         throw err;
       }
       return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
     }
   }
 );
 
 export const editName = createAsyncThunk<ResponseUserData, AppFormTypes, TypedThunkAPI>(
   'users/editName',
-  async (data: AppFormTypes, { rejectWithValue, getState }) => {
+  async (data: AppFormTypes, { rejectWithValue, getState, dispatch }) => {
     try {
-      console.log('edit name');
-
       const { userId, login } = getState().authStore;
       const { name, password } = data;
       const usedData = { name, login, password };
@@ -128,6 +128,27 @@ export const editName = createAsyncThunk<ResponseUserData, AppFormTypes, TypedTh
         throw err;
       }
       return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk<ResponseUserData, void, TypedThunkAPI>(
+  'users/deleteUser',
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { userId } = getState().authStore;
+      const response = await userService.deleteUser(userId);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
     }
   }
 );
@@ -136,7 +157,7 @@ const authSlice = createSlice({
   name: 'Auth',
   initialState,
   reducers: {
-    signOut(state: IAuthState) {
+    signOut(state) {
       state.isLogin = false;
       state.login = '';
       state.userId = '';
@@ -179,12 +200,18 @@ const authSlice = createSlice({
     builder.addCase(editLogin.fulfilled, (state, action) => {
       state.login = action.payload.login;
       state.name = action.payload.name;
-      console.log(action.payload);
     });
     builder.addCase(editName.fulfilled, (state, action) => {
       state.login = action.payload.login;
       state.name = action.payload.name;
-      console.log(action.payload);
+    });
+    builder.addCase(deleteUser.fulfilled, (state) => {
+      state.isLogin = false;
+      state.login = '';
+      state.userId = '';
+      state.name = '';
+      localStorage.removeItem(TOKEN);
+      localStorage.removeItem(USER_ID);
     });
   },
 });
