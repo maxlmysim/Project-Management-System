@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { Avatar, Box, Container, Typography } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AuthField from '../components/AuthField';
-import { registrationFieldList } from '../constants/auth';
 import { signUp } from 'store/authSlice';
+import { registrationFieldList } from '../constants/modalField';
 
 const Registration: FC = () => {
   return (

@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Footer from 'components/Footer/Footer';
 import style from './App.module.css';
 import { useAppDispatch, useAppSelector } from 'hooks/storeHooks';
-import { authSelector, getMyData } from './store/authSlice';
+import { authSelector, getMyUserData } from './store/authSlice';
 import { welcomeSelector } from './store/welcomeSlice';
 import Loader from './components/Loader';
 import Router from './router/Router';
@@ -15,7 +15,7 @@ const App: FC = () => {
   const { isLogin } = useAppSelector(authSelector);
 
   useEffect(() => {
-    dispatch(getMyData());
+    dispatch(getMyUserData());
   }, []);
 
   return (

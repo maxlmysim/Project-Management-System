@@ -1,40 +1,46 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { authService, NewUser, User } from '../api/authService';
+import { authService } from '../api/authService';
 import { AxiosError } from 'axios';
 import { TOKEN, USER_ID } from '../constants/api';
-import { RootState } from './store';
+import { RootState, TypedThunkAPI } from './store';
 import { userService } from '../api/userService';
+import { AppFormTypes } from '../types/formTypes';
+import { NewUser, User } from 'types/userTypes';
+import { ResponseUserData, SignInResponse, SignUpResponse } from '../types/responseTypes';
 
-interface AuthState {
+interface IAuthState {
   isLogin: boolean;
   login: string;
   userId: string;
-  userName: string;
+  name: string;
   isLoading: boolean;
 }
 
-const initialState: AuthState = {
+const initialState: IAuthState = {
   isLogin: false,
   login: '',
   userId: '',
-  userName: '',
+  name: '',
   isLoading: false,
 };
 
-export const signIn = createAsyncThunk('users/singIn', async (user: User, { rejectWithValue }) => {
-  try {
-    const response = await authService.signInUser(user);
-    return response.data;
-  } catch (err) {
-    const error = err as AxiosError;
-    if (!error.response) {
-      throw err;
+export const signIn = createAsyncThunk<SignInResponse, User, TypedThunkAPI>(
+  'users/singIn',
+  async (user: User, { rejectWithValue }) => {
+    try {
+      const response = await authService.signInUser(user);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
     }
-    return rejectWithValue(error.response?.data);
   }
-});
+);
 
-export const signUp = createAsyncThunk(
+export const signUp = createAsyncThunk<SignUpResponse, NewUser, TypedThunkAPI>(
   'users/singUp',
   async (newUser: NewUser, { rejectWithValue }) => {
     try {
@@ -50,7 +56,7 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const getUser = createAsyncThunk(
+export const getUserData = createAsyncThunk<ResponseUserData, string, TypedThunkAPI>(
   'users/getUser',
   async (userId: string, { rejectWithValue }) => {
     try {
@@ -66,29 +72,75 @@ export const getUser = createAsyncThunk(
   }
 );
 
-export const getMyData = createAsyncThunk('users/getMyData', async (_, { rejectWithValue }) => {
-  try {
-    const userId = localStorage.getItem(USER_ID) || 'lorem';
-    const response = await userService.getUser(userId);
-    return response.data;
-  } catch (err) {
-    const error = err as AxiosError;
-    if (!error.response) {
-      throw err;
+export const getMyUserData = createAsyncThunk<ResponseUserData, void, TypedThunkAPI>(
+  'users/getMyData',
+  async (_, { rejectWithValue }) => {
+    try {
+      const userId = localStorage.getItem(USER_ID) || 'lorem';
+      const response = await userService.getUser(userId);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
     }
-    return rejectWithValue(error.response?.data);
   }
-});
+);
+
+export const editLogin = createAsyncThunk<ResponseUserData, AppFormTypes, TypedThunkAPI>(
+  'users/editLogin',
+  async (data: AppFormTypes, { rejectWithValue, getState }) => {
+    try {
+      console.log('edit login');
+      const { userId, name } = getState().authStore;
+      const { login, password } = data;
+      const usedData = { name, login, password };
+
+      const response = await userService.updateUser(userId, usedData);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const editName = createAsyncThunk<ResponseUserData, AppFormTypes, TypedThunkAPI>(
+  'users/editName',
+  async (data: AppFormTypes, { rejectWithValue, getState }) => {
+    try {
+      console.log('edit name');
+
+      const { userId, login } = getState().authStore;
+      const { name, password } = data;
+      const usedData = { name, login, password };
+
+      const response = await userService.updateUser(userId, usedData);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: 'Auth',
   initialState,
   reducers: {
-    signOut(state: AuthState) {
+    signOut(state: IAuthState) {
       state.isLogin = false;
       state.login = '';
       state.userId = '';
-      state.userName = '';
+      state.name = '';
       localStorage.removeItem(TOKEN);
       localStorage.removeItem(USER_ID);
     },
@@ -97,7 +149,7 @@ const authSlice = createSlice({
     builder.addCase(signIn.fulfilled, (state, action) => {
       state.isLogin = true;
       state.userId = action.payload.userId;
-      state.userName = action.payload.name;
+      state.name = action.payload.name;
       state.login = action.payload.login;
       localStorage.setItem(TOKEN, action.payload.token);
       localStorage.setItem(USER_ID, action.payload.userId);
@@ -118,17 +170,21 @@ const authSlice = createSlice({
     builder.addCase(signUp.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(getMyData.fulfilled, (state, action) => {
+    builder.addCase(getMyUserData.fulfilled, (state, action) => {
       state.isLogin = true;
       state.userId = action.payload._id;
-      state.userName = action.payload.name;
+      state.name = action.payload.name;
       state.login = action.payload.login;
     });
-    builder.addCase(getMyData.rejected, (state) => {
-      state.isLogin = false;
-      state.login = '';
-      state.userId = '';
-      state.userName = '';
+    builder.addCase(editLogin.fulfilled, (state, action) => {
+      state.login = action.payload.login;
+      state.name = action.payload.name;
+      console.log(action.payload);
+    });
+    builder.addCase(editName.fulfilled, (state, action) => {
+      state.login = action.payload.login;
+      state.name = action.payload.name;
+      console.log(action.payload);
     });
   },
 });
@@ -137,4 +193,4 @@ export const { signOut } = authSlice.actions;
 
 export const authReducers = authSlice.reducer;
 
-export const authSelector = (state: RootState): AuthState => state.authStore;
+export const authSelector = (state: RootState): IAuthState => state.authStore;

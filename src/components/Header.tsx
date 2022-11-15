@@ -4,6 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { AppBar, Button, Container, Toolbar, Typography } from '@mui/material';
 import LanguageSwitcher from './LanguageSwitcher';
 import AuthButtonsContainer from './AuthButtonsContainer';
+import ModalWindow from './ModalWindow';
 
 const fontSize = '1.8rem';
 
@@ -32,6 +33,7 @@ const Header: FC<props> = ({ isLogin }) => {
           <AuthButtonsContainer isLogin={isLogin} fontSize={fontSize} />
         </Toolbar>
       </Container>
+      <ModalWindow />
     </AppBar>
   );
 };
