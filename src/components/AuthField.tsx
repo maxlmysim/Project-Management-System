@@ -3,10 +3,10 @@ import { styled, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { authSelector, signIn, signUp } from '../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { NewUser, User } from '../api/authService';
-import { IAuthFieldProps } from '../constants/auth';
 import { AppDispatch } from 'store/store';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { NewUser, User } from 'types/userTypes';
+import { IFieldProps } from '../constants/modalField';
 
 const Form = styled('form')`
   max-width: 400px;
@@ -46,7 +46,7 @@ const Form = styled('form')`
 `;
 
 interface props {
-  fields: IAuthFieldProps[];
+  fields: IFieldProps[];
   action: typeof signIn | typeof signUp;
   buttonText: string;
 }

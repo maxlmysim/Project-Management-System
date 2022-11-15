@@ -1,11 +1,13 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { authReducers } from './authSlice';
 import { welcomeReducers } from './welcomeSlice';
+import { modalReducer } from './modalSlice';
 
 export const store = configureStore({
   reducer: {
     authStore: authReducers,
     welcomeStore: welcomeReducers,
+    modalStore: modalReducer,
   },
   devTools: true,
 });
@@ -18,3 +20,13 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+interface ValidationErrors {
+  errorMessage: string;
+  field_errors: Record<string, string>;
+}
+
+export type TypedThunkAPI = {
+  state: RootState;
+  rejectWithValue: ValidationErrors;
+};

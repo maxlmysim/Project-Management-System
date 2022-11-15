@@ -1,15 +1,14 @@
 import { AxiosResponse } from 'axios';
 import { api } from './index';
 import Endpoints from '../constants/endpoints';
-
-interface IGetUserResponse {
-  _id: 'string';
-  name: 'string';
-  login: 'string';
-}
+import { UserData } from '../types/userTypes';
+import { ResponseUserData } from '../types/responseTypes';
 
 export const userService = {
-  getUser(userId: string): Promise<AxiosResponse<IGetUserResponse>> {
-    return api.get(`${Endpoints.GET_USER}/${userId}`);
+  getUser(userId: string): Promise<AxiosResponse<ResponseUserData>> {
+    return api.get(`${Endpoints.USERS}/${userId}`);
+  },
+  updateUser(userId: string, data: UserData): Promise<AxiosResponse<ResponseUserData>> {
+    return api.put(`${Endpoints.USERS}/${userId}`, data);
   },
 };

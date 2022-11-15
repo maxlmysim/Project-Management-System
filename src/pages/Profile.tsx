@@ -1,12 +1,23 @@
 import React, { FC } from 'react';
 import { Button, Card, CardContent, Typography } from '@mui/material';
-import { useAppSelector } from '../hooks/storeHooks';
+import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { authSelector } from '../store/authSlice';
-import EditTooltip from '../components/EditTooltip';
+import EditTooltipButton from '../components/EditTooltipButton';
 import CenteringContainer from '../components/СenteringСontainer';
+import { showModalWindow } from '../store/modalSlice';
+import { EDIT_LOGIN, EDIT_NAME } from '../constants/modalField';
 
-const EditProfile: FC = () => {
-  const { login, userName } = useAppSelector(authSelector);
+const Profile: FC = () => {
+  const { login, name } = useAppSelector(authSelector);
+  const dispatch = useAppDispatch();
+
+  const openEditName = (): void => {
+    dispatch(showModalWindow(EDIT_NAME));
+  };
+  const openEditLogin = (): void => {
+    dispatch(showModalWindow(EDIT_LOGIN));
+  };
+
   return (
     <div style={{ backgroundColor: 'rgb(66, 165, 245)', flexGrow: 1, color: 'white' }}>
       <Typography variant="h3" component="h3" align="center" margin="2rem auto">
@@ -16,10 +27,10 @@ const EditProfile: FC = () => {
         <Card sx={{ maxWidth: 700, width: 1 }}>
           <CardContent>
             <Typography variant="h4" component="h4" fontWeight="bold" gutterBottom>
-              Имя: {userName} <EditTooltip title="edit" />
+              Имя: {name} <EditTooltipButton title="edit" handler={openEditName} />
             </Typography>
             <Typography variant="h4" component="h4" fontWeight="bold" gutterBottom>
-              Логин: {login} <EditTooltip title="edit" />
+              Логин: {login} <EditTooltipButton title="edit" handler={openEditLogin} />
             </Typography>
             <Button
               variant="contained"
@@ -37,4 +48,4 @@ const EditProfile: FC = () => {
   );
 };
 
-export default EditProfile;
+export default Profile;
