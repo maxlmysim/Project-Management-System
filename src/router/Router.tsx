@@ -1,13 +1,10 @@
 import React, { FC } from 'react';
-import Login from '../pages/Login';
-import Boards from "../pages/Boards";
-import Profile from "../pages/Profile";
-import NotFound from "../pages/NotFound";
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { AppRoutes } from '../constants/routes';
 import WelcomePage from '../pages/WelcomePage';
 import Registration from '../pages/Registration';
-import { AppRoutes } from '../constants/routes';
-import { Route, Routes } from 'react-router-dom';
-
+import Profile from '../pages/Profile';
+import Login from 'pages/Login';
 
 interface props {
   isLogin: boolean;
@@ -19,8 +16,7 @@ const Router: FC<props> = ({ isLogin }) => {
       {isLogin ? (
         <>
           <Route path={AppRoutes.WELCOME} element={<WelcomePage />} />
-          <Route path={AppRoutes.PROFILE} element={<Profile />}/>
-          <Route path={AppRoutes.BOARDS} element={<Boards />}/>
+          <Route path={AppRoutes.PROFILE} element={<Profile />} />
         </>
       ) : (
         <>
@@ -29,7 +25,7 @@ const Router: FC<props> = ({ isLogin }) => {
           <Route path={AppRoutes.REGISTRATION} element={<Registration />} />
         </>
       )}
-      <Route path={AppRoutes.NOTFOUND} element={<NotFound />} />
+      <Route path="*" element={<Navigate to={AppRoutes.WELCOME} />} />
     </Routes>
   );
 };

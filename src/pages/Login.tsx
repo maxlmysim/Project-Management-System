@@ -3,7 +3,7 @@ import { Avatar, Box, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AuthField from '../components/AuthField';
 import { signIn } from '../store/authSlice';
-import { signInFieldList } from 'constants/auth';
+import { signInFieldList } from '../constants/modalField';
 
 const Login: FC = () => {
   return (

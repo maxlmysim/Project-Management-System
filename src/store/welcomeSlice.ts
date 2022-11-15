@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getMyData } from './authSlice';
+import { getMyUserData } from './authSlice';
 import { RootState } from './store';
 
 interface IWelcomeState {
@@ -15,10 +15,10 @@ const welcomeSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(getMyData.fulfilled, (state) => {
+    builder.addCase(getMyUserData.fulfilled, (state) => {
       state.isLoadingPage = false;
     });
-    builder.addCase(getMyData.rejected, (state) => {
+    builder.addCase(getMyUserData.rejected, (state) => {
       state.isLoadingPage = false;
     });
   },
