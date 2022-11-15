@@ -5,8 +5,8 @@ import { TOKEN, USER_ID } from '../constants/api';
 import { RootState, TypedThunkAPI } from './store';
 import { userService } from '../api/userService';
 import { AppFormTypes } from '../types/formTypes';
-import { NewUser, User } from 'types/userTypes';
-import { ResponseUserData, SignInResponse, SignUpResponse } from '../types/responseTypes';
+import { INewUser, IUser } from 'types/userTypes';
+import { IResponseUserData, ISignInResponse, ISignUpResponse } from '../types/responseTypes';
 import { closeModalWindow } from './modalSlice';
 
 interface IAuthState {
@@ -25,9 +25,9 @@ const initialState: IAuthState = {
   isLoading: false,
 };
 
-export const signIn = createAsyncThunk<SignInResponse, User, TypedThunkAPI>(
+export const signIn = createAsyncThunk<ISignInResponse, IUser, TypedThunkAPI>(
   'users/singIn',
-  async (user: User, { rejectWithValue }) => {
+  async (user: IUser, { rejectWithValue }) => {
     try {
       const response = await authService.signInUser(user);
       return response.data;
@@ -41,9 +41,9 @@ export const signIn = createAsyncThunk<SignInResponse, User, TypedThunkAPI>(
   }
 );
 
-export const signUp = createAsyncThunk<SignUpResponse, NewUser, TypedThunkAPI>(
+export const signUp = createAsyncThunk<ISignUpResponse, INewUser, TypedThunkAPI>(
   'users/singUp',
-  async (newUser: NewUser, { rejectWithValue }) => {
+  async (newUser: INewUser, { rejectWithValue }) => {
     try {
       const response = await authService.signUpUser(newUser);
       return response.data;
@@ -57,7 +57,7 @@ export const signUp = createAsyncThunk<SignUpResponse, NewUser, TypedThunkAPI>(
   }
 );
 
-export const getUserData = createAsyncThunk<ResponseUserData, string, TypedThunkAPI>(
+export const getUserData = createAsyncThunk<IResponseUserData, string, TypedThunkAPI>(
   'users/getUser',
   async (userId: string, { rejectWithValue }) => {
     try {
@@ -73,7 +73,7 @@ export const getUserData = createAsyncThunk<ResponseUserData, string, TypedThunk
   }
 );
 
-export const getMyUserData = createAsyncThunk<ResponseUserData, void, TypedThunkAPI>(
+export const getMyUserData = createAsyncThunk<IResponseUserData, void, TypedThunkAPI>(
   'users/getMyData',
   async (_, { rejectWithValue }) => {
     try {
@@ -90,7 +90,7 @@ export const getMyUserData = createAsyncThunk<ResponseUserData, void, TypedThunk
   }
 );
 
-export const editLogin = createAsyncThunk<ResponseUserData, AppFormTypes, TypedThunkAPI>(
+export const editLogin = createAsyncThunk<IResponseUserData, AppFormTypes, TypedThunkAPI>(
   'users/editLogin',
   async (data: AppFormTypes, { rejectWithValue, getState, dispatch }) => {
     try {
@@ -112,7 +112,7 @@ export const editLogin = createAsyncThunk<ResponseUserData, AppFormTypes, TypedT
   }
 );
 
-export const editName = createAsyncThunk<ResponseUserData, AppFormTypes, TypedThunkAPI>(
+export const editName = createAsyncThunk<IResponseUserData, AppFormTypes, TypedThunkAPI>(
   'users/editName',
   async (data: AppFormTypes, { rejectWithValue, getState, dispatch }) => {
     try {
@@ -134,7 +134,7 @@ export const editName = createAsyncThunk<ResponseUserData, AppFormTypes, TypedTh
   }
 );
 
-export const deleteUser = createAsyncThunk<ResponseUserData, void, TypedThunkAPI>(
+export const deleteUser = createAsyncThunk<IResponseUserData, void, TypedThunkAPI>(
   'users/deleteUser',
   async (_, { rejectWithValue, getState, dispatch }) => {
     try {

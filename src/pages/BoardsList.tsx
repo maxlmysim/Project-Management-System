@@ -12,11 +12,11 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { BoardsResponse } from '../types/responseTypes';
+import { IBoardsResponse } from '../types/responseTypes';
 import AddIcon from '@mui/icons-material/Add';
 import muiTheme from '../constants/muiTheme';
 
-const boards: BoardsResponse[] = [
+const boards: IBoardsResponse[] = [
   {
     title: 'first',
     owner: 'First t board ',

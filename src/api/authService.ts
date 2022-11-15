@@ -1,14 +1,14 @@
 import { api } from './index';
 import { AxiosResponse } from 'axios';
 import Endpoints from '../constants/endpoints';
-import { NewUser, User } from 'types/userTypes';
-import { SignInResponse, SignUpResponse } from 'types/responseTypes';
+import { INewUser, IUser } from 'types/userTypes';
+import { ISignInResponse, ISignUpResponse } from 'types/responseTypes';
 
 export const authService = {
-  signInUser(user: User): Promise<AxiosResponse<SignInResponse>> {
+  signInUser(user: IUser): Promise<AxiosResponse<ISignInResponse>> {
     return api.post(Endpoints.SIGN_IN, user);
   },
-  signUpUser(user: NewUser): Promise<AxiosResponse<SignUpResponse>> {
+  signUpUser(user: INewUser): Promise<AxiosResponse<ISignUpResponse>> {
     return api.post(Endpoints.SIGN_UP, user);
   },
 };
