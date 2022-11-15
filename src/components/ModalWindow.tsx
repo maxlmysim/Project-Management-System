@@ -3,16 +3,21 @@ import { Box, Button, Modal, styled, TextField, Typography } from '@mui/material
 import CenteringContainer from './СenteringСontainer';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { closeModalWindow, modalSelector } from '../store/modalSlice';
+import { closeModalWindow, confirmModalAction, modalSelector } from '../store/modalSlice';
 import { AppFormTypes } from '../types/formTypes';
 import { modalActions } from '../constants/modalField';
+import { AppDispatch } from '../store/store';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const style = {
   position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  maxWidth: 400,
+  maxWidth: 600,
+  width: 1,
   bgcolor: 'rgb(255, 255, 255)',
   border: '2px solid rgba(0, 0, 0, 0.12)',
   boxShadow:
@@ -22,8 +27,7 @@ const style = {
 };
 
 const Form = styled('form')`
-  max-width: 400px;
-  min-width: 320px;
+  min-width: 300px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -53,7 +57,7 @@ const ModalWindow: FC = () => {
     mode: 'onBlur',
   });
 
-  const { isShowModal, fieldProps, modalTitle, action } = useAppSelector(modalSelector);
+  const { isShowModal, fieldProps, modalTitle, action, isLoading } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
 
   const handleClose = (): void => {
@@ -61,7 +65,8 @@ const ModalWindow: FC = () => {
   };
 
   const onSubmit = (data: AppFormTypes): void => {
-    dispatch(modalActions[action](data));
+    dispatch(confirmModalAction());
+    dispatch(modalActions[action](data) as Parameters<AppDispatch>[0]);
   };
 
   return (
@@ -78,6 +83,7 @@ const ModalWindow: FC = () => {
           component="h3"
           fontWeight="bold"
           marginBottom="2rem"
+          textAlign="center"
         >
           {modalTitle}
         </Typography>
@@ -97,17 +103,24 @@ const ModalWindow: FC = () => {
               }
             />
           ))}
-          <CenteringContainer justifyContent="flex-end">
-            <Button
-              variant="text"
+          <CenteringContainer justifyContent="flex-end" gap={10}>
+            <LoadingButton
+              loadingPosition="start"
+              startIcon={<DoneIcon />}
+              variant="contained"
+              color="success"
               type="submit"
-              style={{ color: 'rgb(46, 125, 50)', fontSize: ' 1.6rem' }}
+              style={{ fontSize: ' 1.6rem' }}
+              loading={isLoading}
             >
               Подтвердить
-            </Button>
+            </LoadingButton>
             <Button
-              variant="text"
-              style={{ color: 'rgb(237, 108, 2)', fontSize: ' 1.6rem' }}
+              variant="contained"
+              color="warning"
+              type="submit"
+              style={{ fontSize: ' 1.6rem' }}
+              startIcon={<CloseIcon />}
               onClick={handleClose}
             >
               Закрыть
