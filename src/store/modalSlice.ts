@@ -8,6 +8,7 @@ interface IModalState {
   modalTitle: string;
   action: ModalActionKeys;
   fieldProps: IFieldProps[];
+  isLoading: boolean;
 }
 
 const initialState: IModalState = {
@@ -15,6 +16,7 @@ const initialState: IModalState = {
   action: 'editName',
   isShowModal: false,
   fieldProps: [],
+  isLoading: false,
 };
 
 const modalSlice = createSlice({
@@ -31,12 +33,16 @@ const modalSlice = createSlice({
     closeModalWindow(state: IModalState) {
       state.isShowModal = false;
       state.fieldProps = [];
+      state.isLoading = false;
+    },
+    confirmModalAction(state: IModalState) {
+      state.isLoading = true;
     },
   },
 });
 
 export const modalReducer = modalSlice.reducer;
 
-export const { showModalWindow, closeModalWindow } = modalSlice.actions;
+export const { showModalWindow, closeModalWindow, confirmModalAction } = modalSlice.actions;
 
 export const modalSelector = (state: RootState): IModalState => state.modalStore;

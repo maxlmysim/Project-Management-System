@@ -1,9 +1,10 @@
-import { editLogin, editName } from '../store/authSlice';
+import { editLogin, editName, deleteUser } from '../store/authSlice';
 import { IFieldProps } from '../constants/modalField';
 
 export type ModalFormActions = {
   editLogin: typeof editLogin;
   editName: typeof editName;
+  deleteUser: typeof deleteUser;
 };
 
 export type ModalActionKeys = keyof ModalFormActions;
