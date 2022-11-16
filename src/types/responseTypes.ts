@@ -15,6 +15,6 @@ export interface ISignInResponse {
 
 export type ISignUpResponse = IResponseUserData;
 
-export interface IBoardsResponse extends IBoard {
+export interface IBoardResponse extends IBoard {
   _id: string;
 }

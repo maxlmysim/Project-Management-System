@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -12,48 +12,12 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { IBoardsResponse } from '../types/responseTypes';
 import AddIcon from '@mui/icons-material/Add';
 import muiTheme from '../constants/muiTheme';
-
-const boards: IBoardsResponse[] = [
-  {
-    title: 'first',
-    owner: 'First t board ',
-    _id: '1',
-    users: [],
-  },
-  {
-    title: 'second',
-    owner: ' ard First board',
-    _id: '2',
-    users: [],
-  },
-  {
-    title: 'third',
-    owner: 'Foard Firard',
-    _id: '3',
-    users: [],
-  },
-  {
-    title: 'first',
-    owner: 'rd Firsrd',
-    _id: '4',
-    users: [],
-  },
-  {
-    title: 'second',
-    owner: 'Fist boardirst board',
-    _id: '5',
-    users: [],
-  },
-  {
-    title: 'third',
-    owner: 'Firrd t board',
-    users: [],
-    _id: '6',
-  },
-];
+import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
+import { boardSelector, getAllBoards } from '../store/boardSlice';
+import { showModalWindow } from '../store/modalSlice';
+import { ADD_BOARD } from '../constants/modalField';
 
 const GridContainer = styled('div')`
   display: grid;
@@ -79,13 +43,24 @@ const GridContainer = styled('div')`
 `;
 
 const BoardsList: FC = () => {
+  const dispatch = useAppDispatch();
+  const { boards } = useAppSelector(boardSelector);
+
   const [isShowPaginator, setIsShowPaginator] = useState(false);
+
+  const addNewBoard = (): void => {
+    dispatch(showModalWindow(ADD_BOARD));
+  };
+
+  useEffect(() => {
+    dispatch(getAllBoards());
+  }, []);
 
   return (
     <Container sx={{ p: '1rem' }}>
       <GridContainer>
         {boards.map((board) => (
-          <Card key={board._id} sx={{ maxWidth: 275, width: 1, minHeight: 100 }}>
+          <Card key={board._id} sx={{ maxWidth: 275, width: 1, minHeight: 100, cursor: 'pointer' }}>
             <CardContent>
               <Typography
                 sx={{ fontSize: '2.4rem' }}
@@ -99,11 +74,6 @@ const BoardsList: FC = () => {
               </Typography>
               <Typography sx={{ mb: 0.5 }} color="text.secondary">
                 {board.owner}
-              </Typography>
-              <Typography variant="body2">
-                {board.users.map((user) => (
-                  <p key={user}>{user}</p>
-                ))}
               </Typography>
             </CardContent>
             <Divider variant="middle" sx={{ m: '0 1rem 1rem' }} color="#696565" />
@@ -126,6 +96,7 @@ const BoardsList: FC = () => {
             fontSize: '2rem',
             padding: 'auto',
           }}
+          onClick={addNewBoard}
         >
           <AddIcon fontSize="large" />
           Добавить доску

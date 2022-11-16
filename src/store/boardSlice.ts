@@ -1,31 +1,44 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { RootState, TypedThunkAPI } from './store';
-import { IBoardsResponse } from '../types/responseTypes';
+import { IBoardResponse } from '../types/responseTypes';
 import { IBoard } from '../types/boardTypes';
 import { boardService } from '../api/boardService';
+import { closeModalWindow } from './modalSlice';
 
 interface IBoardState {
-  isLogin: boolean;
-  login: string;
-  userId: string;
-  name: string;
-  isLoading: boolean;
+  boards: IBoardResponse[];
 }
 
 const initialState: IBoardState = {
-  isLogin: false,
-  login: '',
-  userId: '',
-  name: '',
-  isLoading: false,
+  boards: [],
 };
 
-export const addNewBoard = createAsyncThunk<IBoardsResponse, IBoard, TypedThunkAPI>(
+export const addNewBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>(
   'board/addNewBoard',
-  async (data: IBoard, { rejectWithValue }) => {
+  async (data: IBoard, { rejectWithValue, getState, dispatch }) => {
     try {
+      const { userId } = getState().authStore;
+      data.users = [userId];
       const response = await boardService.addNewBoard(data);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
+    }
+  }
+);
+
+export const getAllBoards = createAsyncThunk<IBoardResponse[], void, TypedThunkAPI>(
+  'board/getAllBoards',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await boardService.getAllBoards();
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
@@ -42,7 +55,12 @@ const boardSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addNewBoard.fulfilled, () => {});
+    builder.addCase(addNewBoard.fulfilled, (state, { payload: board }) => {
+      state.boards = [...state.boards, board];
+    });
+    builder.addCase(getAllBoards.fulfilled, (state, { payload: boards }) => {
+      state.boards = boards;
+    });
   },
 });
 

@@ -1,9 +1,10 @@
-import { FormContent, ModalFormActions } from '../types/formTypes';
+import { IFormContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
+import { addNewBoard } from 'store/boardSlice';
 
 export interface IFieldProps {
   label: string;
-  name: 'login' | 'password' | 'name';
+  name: 'login' | 'password' | 'name' | 'owner' | 'title';
   placeholder: string;
   type: string;
   registerOptions: IRegisterOptions;
@@ -75,31 +76,73 @@ const fieldName: IFieldProps = {
   },
 };
 
+const boardName: IFieldProps = {
+  label: 'Название доски',
+  name: 'title',
+  type: 'text',
+  placeholder: 'Введите название доски',
+  registerOptions: {
+    required: {
+      value: true,
+      message: 'Это поле обязательно!',
+    },
+    minLength: {
+      value: 4,
+      message: 'Длинна имени должна быть больше 3 символов',
+    },
+  },
+};
+
+const boardDescription: IFieldProps = {
+  label: 'Описание',
+  name: 'owner',
+  type: 'text',
+  placeholder: 'Введите описание',
+  registerOptions: {
+    required: {
+      value: true,
+      message: 'Это поле обязательно!',
+    },
+    minLength: {
+      value: 4,
+      message: 'Длинна имени должна быть больше 3 символов',
+    },
+  },
+};
+
 export const signInFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
 export const registrationFieldList: IFieldProps[] = [fieldName, fieldLogin, fieldPassword];
 export const changeNameFieldList: IFieldProps[] = [fieldName, fieldPassword];
 export const changeLoginFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
+export const addBoardFieldList: IFieldProps[] = [boardName, boardDescription];
 
-export const EDIT_LOGIN: FormContent = {
+export const EDIT_LOGIN: IFormContent = {
   modalTitle: 'Изменить логин',
   action: 'editLogin',
   fields: changeLoginFieldList,
 };
 
-export const EDIT_NAME: FormContent = {
+export const EDIT_NAME: IFormContent = {
   modalTitle: 'Изменить имя',
   action: 'editName',
   fields: changeNameFieldList,
 };
 
-export const DELETE_USER: FormContent = {
+export const DELETE_USER: IFormContent = {
   modalTitle: 'Удалить пользователя?',
   action: 'deleteUser',
   fields: [],
+};
+
+export const ADD_BOARD: IFormContent = {
+  modalTitle: 'Добавить доску',
+  action: 'addNewBoard',
+  fields: addBoardFieldList,
 };
 
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
   deleteUser,
+  addNewBoard,
 };

@@ -1,25 +1,18 @@
 import React, { FC } from 'react';
-import AddBoardsButton from '../components/AddBoardsButton';
-import { Avatar, Box, Container, Typography } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import BoardsList from './BoardsList';
+import { Grid, Typography } from '@mui/material';
+import CenteringContainer from '../components/СenteringСontainer';
+import BoardsList from '../components/BoardsList';
 
 const Boards: FC = () => {
   return (
-    <Container component="main">
-      <Box
-        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '3rem' }}
-      >
-        <Avatar sx={{ backgroundColor: 'rgb(156, 39, 176);' }}>
-          <DashboardIcon sx={{ width: '70%', height: 'auto' }} />
-        </Avatar>
-        <Typography variant="h3" component="h3" sx={{ textAlign: 'center', margin: '0 auto 1rem' }}>
+    <Grid component="main" style={{ backgroundColor: 'rgb(66, 165, 245)', flex: '1' }}>
+      <CenteringContainer direction="column">
+        <Typography variant="h1" component="h3" textAlign="center" fontWeight="bold" color="white">
           Доски
         </Typography>
-        <AddBoardsButton onClick={(): void => {}} />
-      </Box>
-      <BoardsList />
-    </Container>
+        <BoardsList />
+      </CenteringContainer>
+    </Grid>
   );
 };
 

@@ -5,7 +5,7 @@ import { AppRoutes } from '../constants/routes';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
-import NewBoards from '../pages/NewBoards';
+import Boards from '../pages/Boards';
 
 interface props {
   isLogin: boolean;
@@ -18,8 +18,7 @@ const Router: FC<props> = ({ isLogin }) => {
       {isLogin ? (
         <>
           <Route path={AppRoutes.PROFILE} element={<Profile />} />
-          {/*<Route path={AppRoutes.BOARDS} element={<Boards />} />*/}
-          <Route path={AppRoutes.BOARDS} element={<NewBoards />} />
+          <Route path={AppRoutes.BOARDS} element={<Boards />} />
         </>
       ) : (
         <>
