@@ -118,8 +118,8 @@ const boardDescription: IFieldProps = {
       message: 'Минимальная длинна описания 4 символа',
     },
     maxLength: {
-      value: 50,
-      message: 'Максимальная длинна описания 200 символов',
+      value: 100,
+      message: 'Максимальная длинна описания 100 символов',
     },
   },
 };

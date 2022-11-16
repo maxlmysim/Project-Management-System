@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Container, Toolbar } from '@mui/material';
+import { AppBar, Button, Container, Toolbar } from '@mui/material';
 import LanguageSwitcher from './LanguageSwitcher';
 import AuthButtonsContainer from './AuthButtonsContainer';
-import ProfileButton from './ProfileButton';
 import MainButton from './MainButton';
-import BoardsButton from './BoardsButton';
 import { AppRoutes } from '../constants/routes';
 import ModalWindow from './ModalWindow';
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 
 const fontSize = '1.8rem';
 
@@ -29,8 +29,14 @@ const Header: FC<props> = ({ isLogin }) => {
           <MainButton onClick={onMainPage}>Главная</MainButton>
           {isLogin && (
             <>
-              <BoardsButton onClick={onBoardsPage}>Доски</BoardsButton>
-              <ProfileButton onClick={onProfilePage}>Профиль</ProfileButton>
+              <Button color="inherit" sx={{ fontSize: '1.8rem' }} onClick={onBoardsPage}>
+                <DashboardRoundedIcon sx={{ fontSize: '1.2em', marginRight: '5px' }} />
+                Доски
+              </Button>
+              <Button color="inherit" sx={{ fontSize: '1.8rem' }} onClick={onProfilePage}>
+                <AccountBoxRoundedIcon sx={{ fontSize: '1.2em', marginRight: '5px' }} />
+                Профиль
+              </Button>
             </>
           )}
           <LanguageSwitcher fontSize={fontSize} />
