@@ -5,8 +5,8 @@ import { authSelector, signIn, signUp } from '../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { AppDispatch } from 'store/store';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { NewUser, User } from 'types/userTypes';
 import { IFieldProps } from '../constants/modalField';
+import { AppFormTypes } from '../types/formTypes';
 
 const Form = styled('form')`
   max-width: 400px;
@@ -59,11 +59,11 @@ const AuthField: FC<props> = ({ action, buttonText, fields }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<User & NewUser>({
+  } = useForm<AppFormTypes>({
     mode: 'onBlur',
   });
 
-  const onSubmit = (data: NewUser & User): void => {
+  const onSubmit = (data: AppFormTypes): void => {
     dispatch(action(data) as AppDispatch);
   };
 

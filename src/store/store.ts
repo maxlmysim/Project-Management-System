@@ -2,12 +2,14 @@ import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { authReducers } from './authSlice';
 import { welcomeReducers } from './welcomeSlice';
 import { modalReducer } from './modalSlice';
+import { boardReducer } from './boardSlice';
 
 export const store = configureStore({
   reducer: {
     authStore: authReducers,
     welcomeStore: welcomeReducers,
     modalStore: modalReducer,
+    boardStore: boardReducer,
   },
   devTools: true,
 });

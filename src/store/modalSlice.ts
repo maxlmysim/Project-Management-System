@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
-import { FormContent, ModalActionKeys } from '../types/formTypes';
+import { IFormContent, ModalActionKeys } from '../types/formTypes';
 import { IFieldProps } from '../constants/modalField';
 
 interface IModalState {
@@ -23,7 +23,7 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    showModalWindow(state: IModalState, { payload: content }: PayloadAction<FormContent>) {
+    showModalWindow(state: IModalState, { payload: content }: PayloadAction<IFormContent>) {
       console.log(content);
       state.isShowModal = true;
       state.fieldProps = content.fields;

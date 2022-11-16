@@ -1,14 +1,14 @@
-export interface UserData {
+export interface IUserData {
   name: string;
   login: string;
 }
 
-export interface User {
+export interface IUser {
   password: string;
   login: string;
 }
 
-export interface NewUser {
+export interface INewUser {
   name: string;
   password: string;
   login: string;

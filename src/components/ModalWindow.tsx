@@ -103,7 +103,7 @@ const ModalWindow: FC = () => {
               }
             />
           ))}
-          <CenteringContainer justifyContent="flex-end" gap={10}>
+          <CenteringContainer justifyContent="flex-end" gap="1rem">
             <LoadingButton
               loadingPosition="start"
               startIcon={<DoneIcon />}

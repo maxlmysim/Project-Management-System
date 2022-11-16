@@ -1,19 +1,24 @@
-import { FormContent, ModalFormActions } from '../types/formTypes';
+import { IFormContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
+import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
+
+type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title';
 
 export interface IFieldProps {
   label: string;
-  name: 'login' | 'password' | 'name';
+  name: fieldName;
   placeholder: string;
   type: string;
   registerOptions: IRegisterOptions;
 }
 
+interface IRequired {
+  value: boolean;
+  message: string;
+}
+
 interface IRegisterOptions {
-  required?: {
-    value: boolean;
-    message: string;
-  };
+  required?: IRequired;
   minLength?: {
     value: number;
     message: string;
@@ -24,19 +29,25 @@ interface IRegisterOptions {
   };
 }
 
+const required: IRequired = {
+  value: true,
+  message: 'Это поле обязательно!',
+};
+
 const fieldLogin: IFieldProps = {
   label: 'Логин',
   name: 'login',
   type: 'text',
   placeholder: 'Введите ваш логин',
   registerOptions: {
-    required: {
-      value: true,
-      message: 'Это поле обязательно!',
-    },
+    required,
     minLength: {
       value: 4,
-      message: 'Длинна логина должна быть больше 3 символов',
+      message: 'Минимальная длинна логина 4 символа',
+    },
+    maxLength: {
+      value: 20,
+      message: 'Максимальная длинна логина 20 символов',
     },
   },
 };
@@ -45,13 +56,14 @@ const fieldPassword: IFieldProps = {
   label: 'Пароль',
   name: 'password',
   registerOptions: {
-    required: {
-      value: true,
-      message: 'Это поле обязательно!',
-    },
+    required,
     minLength: {
       value: 8,
-      message: 'Длинна пароля должна быть 8 символов или более ',
+      message: 'Минимальная длинна пароля 8 символа',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Максимальная длинна пароля 50 символов',
     },
   },
   type: 'password',
@@ -64,42 +76,102 @@ const fieldName: IFieldProps = {
   type: 'text',
   placeholder: 'Введите ваше имя',
   registerOptions: {
-    required: {
-      value: true,
-      message: 'Это поле обязательно!',
+    required,
+    minLength: {
+      value: 2,
+      message: 'Минимальная длинна имени 2 символа',
     },
+    maxLength: {
+      value: 50,
+      message: 'Максимальная длинна имени 50 символов',
+    },
+  },
+};
+
+const boardName: IFieldProps = {
+  label: 'Название доски',
+  name: 'title',
+  type: 'text',
+  placeholder: 'Введите название доски',
+  registerOptions: {
+    required,
+    minLength: {
+      value: 2,
+      message: 'Минимальная длинна имени 2 символа',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Максимальная длинна имени 30 символов',
+    },
+  },
+};
+
+const boardDescription: IFieldProps = {
+  label: 'Описание',
+  name: 'owner',
+  type: 'text',
+  placeholder: 'Введите описание',
+  registerOptions: {
+    required,
     minLength: {
       value: 4,
-      message: 'Длинна имени должна быть больше 3 символов',
+      message: 'Минимальная длинна описания 4 символа',
+    },
+    maxLength: {
+      value: 100,
+      message: 'Максимальная длинна описания 100 символов',
     },
   },
 };
 
 export const signInFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
 export const registrationFieldList: IFieldProps[] = [fieldName, fieldLogin, fieldPassword];
-export const changeNameFieldList: IFieldProps[] = [fieldName, fieldPassword];
-export const changeLoginFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
+const changeNameFieldList: IFieldProps[] = [fieldName, fieldPassword];
+const changeLoginFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
+const addBoardFieldList: IFieldProps[] = [boardName, boardDescription];
+const editBoardFieldList: IFieldProps[] = [boardName, boardDescription];
 
-export const EDIT_LOGIN: FormContent = {
+export const EDIT_LOGIN: IFormContent = {
   modalTitle: 'Изменить логин',
   action: 'editLogin',
   fields: changeLoginFieldList,
 };
 
-export const EDIT_NAME: FormContent = {
+export const EDIT_NAME: IFormContent = {
   modalTitle: 'Изменить имя',
   action: 'editName',
   fields: changeNameFieldList,
 };
 
-export const DELETE_USER: FormContent = {
+export const DELETE_USER: IFormContent = {
   modalTitle: 'Удалить пользователя?',
   action: 'deleteUser',
   fields: [],
+};
+
+export const ADD_BOARD: IFormContent = {
+  modalTitle: 'Добавить доску',
+  action: 'addNewBoard',
+  fields: addBoardFieldList,
+};
+
+export const DELETE_BOARD: IFormContent = {
+  modalTitle: 'Удалить доску?',
+  action: 'deleteBoard',
+  fields: [],
+};
+
+export const EDIT_BOARD: IFormContent = {
+  modalTitle: 'Редактирование',
+  action: 'editBoard',
+  fields: editBoardFieldList,
 };
 
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
   deleteUser,
+  addNewBoard,
+  deleteBoard,
+  editBoard,
 };
