@@ -11,4 +11,10 @@ export const boardService = {
   getAllBoards(): Promise<AxiosResponse<IBoardResponse[]>> {
     return api.get(Endpoints.BOARDS);
   },
+  deleteBoard(id: string): Promise<AxiosResponse<IBoardResponse>> {
+    return api.delete(Endpoints.BOARDS + '/' + id);
+  },
+  editBoard(id: string, data: IBoard): Promise<AxiosResponse<IBoardResponse>> {
+    return api.post(Endpoints.BOARDS + '/' + id, data);
+  },
 };

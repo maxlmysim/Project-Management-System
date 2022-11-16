@@ -1,6 +1,6 @@
 import { IFormContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
-import { addNewBoard } from 'store/boardSlice';
+import { addNewBoard, deleteBoard } from 'store/boardSlice';
 
 export interface IFieldProps {
   label: string;
@@ -140,9 +140,16 @@ export const ADD_BOARD: IFormContent = {
   fields: addBoardFieldList,
 };
 
+export const DELETE_BOARD: IFormContent = {
+  modalTitle: 'Удалить доску?',
+  action: 'deleteBoard',
+  fields: [],
+};
+
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
   deleteUser,
   addNewBoard,
+  deleteBoard,
 };
