@@ -12,11 +12,13 @@ export interface IFieldProps {
   registerOptions: IRegisterOptions;
 }
 
+interface IRequired {
+  value: boolean;
+  message: string;
+}
+
 interface IRegisterOptions {
-  required?: {
-    value: boolean;
-    message: string;
-  };
+  required?: IRequired;
   minLength?: {
     value: number;
     message: string;
@@ -27,16 +29,18 @@ interface IRegisterOptions {
   };
 }
 
+const required: IRequired = {
+  value: true,
+  message: 'Это поле обязательно!',
+};
+
 const fieldLogin: IFieldProps = {
   label: 'Логин',
   name: 'login',
   type: 'text',
   placeholder: 'Введите ваш логин',
   registerOptions: {
-    required: {
-      value: true,
-      message: 'Это поле обязательно!',
-    },
+    required,
     minLength: {
       value: 4,
       message: 'Минимальная длинна логина 4 символа',
@@ -52,10 +56,7 @@ const fieldPassword: IFieldProps = {
   label: 'Пароль',
   name: 'password',
   registerOptions: {
-    required: {
-      value: true,
-      message: 'Это поле обязательно!',
-    },
+    required,
     minLength: {
       value: 8,
       message: 'Минимальная длинна пароля 8 символа',
@@ -75,10 +76,7 @@ const fieldName: IFieldProps = {
   type: 'text',
   placeholder: 'Введите ваше имя',
   registerOptions: {
-    required: {
-      value: true,
-      message: 'Это поле обязательно!',
-    },
+    required,
     minLength: {
       value: 2,
       message: 'Минимальная длинна имени 2 символа',
@@ -96,10 +94,7 @@ const boardName: IFieldProps = {
   type: 'text',
   placeholder: 'Введите название доски',
   registerOptions: {
-    required: {
-      value: true,
-      message: 'Это поле обязательно!',
-    },
+    required,
     minLength: {
       value: 2,
       message: 'Минимальная длинна имени 2 символа',
@@ -117,10 +112,7 @@ const boardDescription: IFieldProps = {
   type: 'text',
   placeholder: 'Введите описание',
   registerOptions: {
-    required: {
-      value: true,
-      message: 'Это поле обязательно!',
-    },
+    required,
     minLength: {
       value: 4,
       message: 'Минимальная длинна описания 4 символа',
