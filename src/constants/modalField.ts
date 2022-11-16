@@ -1,6 +1,6 @@
 import { IFormContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
-import { addNewBoard, deleteBoard } from 'store/boardSlice';
+import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
 
 export interface IFieldProps {
   label: string;
@@ -112,9 +112,10 @@ const boardDescription: IFieldProps = {
 
 export const signInFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
 export const registrationFieldList: IFieldProps[] = [fieldName, fieldLogin, fieldPassword];
-export const changeNameFieldList: IFieldProps[] = [fieldName, fieldPassword];
-export const changeLoginFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
-export const addBoardFieldList: IFieldProps[] = [boardName, boardDescription];
+const changeNameFieldList: IFieldProps[] = [fieldName, fieldPassword];
+const changeLoginFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
+const addBoardFieldList: IFieldProps[] = [boardName, boardDescription];
+const editBoardFieldList: IFieldProps[] = [boardName, boardDescription];
 
 export const EDIT_LOGIN: IFormContent = {
   modalTitle: 'Изменить логин',
@@ -146,10 +147,17 @@ export const DELETE_BOARD: IFormContent = {
   fields: [],
 };
 
+export const EDIT_BOARD: IFormContent = {
+  modalTitle: 'Редактирование',
+  action: 'editBoard',
+  fields: editBoardFieldList,
+};
+
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
   deleteUser,
   addNewBoard,
   deleteBoard,
+  editBoard,
 };

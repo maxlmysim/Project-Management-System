@@ -8,12 +8,12 @@ import { closeModalWindow } from './modalSlice';
 
 interface IBoardState {
   boards: IBoardResponse[];
-  currentBoardId: string;
+  currentBoard: IBoardResponse;
 }
 
 const initialState: IBoardState = {
   boards: [],
-  currentBoardId: '',
+  currentBoard: { users: [], owner: '', title: '', _id: '' },
 };
 
 export const addNewBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>(
@@ -56,8 +56,28 @@ export const deleteBoard = createAsyncThunk<IBoardResponse, void, TypedThunkAPI>
   'board/deleteBoard',
   async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { currentBoardId } = getState().boardStore;
-      const response = await boardService.deleteBoard(currentBoardId);
+      const { _id } = getState().boardStore.currentBoard;
+      const response = await boardService.deleteBoard(_id);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
+    }
+  }
+);
+
+export const editBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>(
+  'board/editBoard',
+  async (board, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { _id, users } = getState().boardStore.currentBoard;
+      const data = { ...board, users };
+      const response = await boardService.editBoard(_id, data);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
@@ -75,8 +95,8 @@ const boardSlice = createSlice({
   name: 'Board',
   initialState,
   reducers: {
-    setBoardId(state: IBoardState, action) {
-      state.currentBoardId = action.payload;
+    setBoard(state: IBoardState, action) {
+      state.currentBoard = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -89,10 +109,19 @@ const boardSlice = createSlice({
     builder.addCase(deleteBoard.fulfilled, (state, { payload: board }) => {
       state.boards = state.boards.filter((boardState) => boardState._id !== board._id);
     });
+    builder.addCase(editBoard.fulfilled, (state, { payload: board }) => {
+      state.boards = state.boards.map((boardState) => {
+        if (boardState._id === board._id) {
+          boardState.title = board.title;
+          boardState.owner = board.owner;
+        }
+        return boardState;
+      });
+    });
   },
 });
 
-export const { setBoardId } = boardSlice.actions;
+export const { setBoard } = boardSlice.actions;
 
 export const boardReducer = boardSlice.reducer;
 

@@ -15,6 +15,6 @@ export const boardService = {
     return api.delete(Endpoints.BOARDS + '/' + id);
   },
   editBoard(id: string, data: IBoard): Promise<AxiosResponse<IBoardResponse>> {
-    return api.post(Endpoints.BOARDS + '/' + id, data);
+    return api.put(Endpoints.BOARDS + '/' + id, data);
   },
 };

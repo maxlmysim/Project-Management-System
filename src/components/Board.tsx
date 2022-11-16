@@ -4,9 +4,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IBoardResponse } from '../types/responseTypes';
 import { useAppDispatch } from '../hooks/storeHooks';
-import { setBoardId } from '../store/boardSlice';
+import { setBoard } from '../store/boardSlice';
 import { showModalWindow } from '../store/modalSlice';
-import { DELETE_BOARD } from '../constants/modalField';
+import { DELETE_BOARD, EDIT_BOARD } from '../constants/modalField';
 
 interface props {
   board: IBoardResponse;
@@ -14,11 +14,15 @@ interface props {
 
 const Board: FC<props> = ({ board }) => {
   const dispatch = useAppDispatch();
-  const { _id } = board;
 
   const onDeleteBoard = (): void => {
-    dispatch(setBoardId(_id));
+    dispatch(setBoard(board));
     dispatch(showModalWindow(DELETE_BOARD));
+  };
+
+  const onEditBoard = (): void => {
+    dispatch(setBoard(board));
+    dispatch(showModalWindow(EDIT_BOARD));
   };
 
   return (
@@ -40,7 +44,7 @@ const Board: FC<props> = ({ board }) => {
       </CardContent>
       <Divider variant="middle" sx={{ m: '0 1rem 1rem' }} color="#696565" />
       <CardActions style={{ justifyContent: 'center' }}>
-        <Button variant="contained" color="warning">
+        <Button variant="contained" color="warning" onClick={onEditBoard}>
           <EditIcon /> Изменить
         </Button>
         <Button variant="contained" color="warning" onClick={onDeleteBoard}>
