@@ -2,9 +2,11 @@ import { IFormContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
 import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
 
+type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title';
+
 export interface IFieldProps {
   label: string;
-  name: 'login' | 'password' | 'name' | 'owner' | 'title';
+  name: fieldName;
   placeholder: string;
   type: string;
   registerOptions: IRegisterOptions;
@@ -37,7 +39,11 @@ const fieldLogin: IFieldProps = {
     },
     minLength: {
       value: 4,
-      message: 'Длинна логина должна быть больше 3 символов',
+      message: 'Минимальная длинна логина 4 символа',
+    },
+    maxLength: {
+      value: 20,
+      message: 'Максимальная длинна логина 20 символов',
     },
   },
 };
@@ -52,7 +58,11 @@ const fieldPassword: IFieldProps = {
     },
     minLength: {
       value: 8,
-      message: 'Длинна пароля должна быть 8 символов или более ',
+      message: 'Минимальная длинна пароля 8 символа',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Максимальная длинна пароля 50 символов',
     },
   },
   type: 'password',
@@ -70,8 +80,12 @@ const fieldName: IFieldProps = {
       message: 'Это поле обязательно!',
     },
     minLength: {
-      value: 4,
-      message: 'Длинна имени должна быть больше 3 символов',
+      value: 2,
+      message: 'Минимальная длинна имени 2 символа',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Максимальная длинна имени 50 символов',
     },
   },
 };
@@ -87,8 +101,12 @@ const boardName: IFieldProps = {
       message: 'Это поле обязательно!',
     },
     minLength: {
-      value: 4,
-      message: 'Длинна имени должна быть больше 3 символов',
+      value: 2,
+      message: 'Минимальная длинна имени 2 символа',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Максимальная длинна имени 30 символов',
     },
   },
 };
@@ -105,7 +123,11 @@ const boardDescription: IFieldProps = {
     },
     minLength: {
       value: 4,
-      message: 'Длинна имени должна быть больше 3 символов',
+      message: 'Минимальная длинна описания 4 символа',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Максимальная длинна описания 200 символов',
     },
   },
 };
