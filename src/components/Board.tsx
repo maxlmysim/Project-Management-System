@@ -7,6 +7,8 @@ import { useAppDispatch } from '../hooks/storeHooks';
 import { setBoard } from '../store/boardSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { DELETE_BOARD, EDIT_BOARD } from '../constants/modalField';
+import { useNavigate } from 'react-router-dom';
+import Endpoints from '../constants/endpoints';
 
 interface props {
   board: IBoardResponse;
@@ -14,19 +16,30 @@ interface props {
 
 const Board: FC<props> = ({ board }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const onDeleteBoard = (): void => {
+  const onDeleteBoard = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
     dispatch(setBoard(board));
     dispatch(showModalWindow(DELETE_BOARD));
   };
 
-  const onEditBoard = (): void => {
+  const onEditBoard = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
     dispatch(setBoard(board));
     dispatch(showModalWindow(EDIT_BOARD));
   };
 
+  const onOpenBoard = (): void => {
+    navigate(Endpoints.BOARDS + '/' + board._id);
+  };
+
   return (
-    <Card key={board._id} sx={{ maxWidth: 275, width: 1, minHeight: 100, cursor: 'pointer' }}>
+    <Card
+      key={board._id}
+      sx={{ maxWidth: 275, width: 1, minHeight: 100, cursor: 'pointer' }}
+      onClick={onOpenBoard}
+    >
       <CardContent>
         <Typography
           sx={{ fontSize: '2.4rem' }}
