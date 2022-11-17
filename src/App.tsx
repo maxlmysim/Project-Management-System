@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/storeHooks';
 import { authSelector, getMyUserData } from './store/authSlice';
 import { welcomeSelector } from './store/welcomeSlice';
 import Loader from './components/Loader';
-import Router from './router/Router';
+import AppRouter from './router/Router';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ const App: FC = () => {
       ) : (
         <>
           <Header isLogin={isLogin} />
-          <Router isLogin={isLogin} />
+          <AppRouter isLogin={isLogin} />
           <Footer />
         </>
       )}

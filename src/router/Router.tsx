@@ -6,13 +6,13 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 import Boards from '../pages/Boards';
-import Board from '../pages/Board';
+import Board from 'pages/Board';
 
 interface props {
   isLogin: boolean;
 }
 
-const Router: FC<props> = ({ isLogin }) => {
+const AppRouter: FC<props> = ({ isLogin }) => {
   return (
     <Routes>
       <Route path={AppRoutes.WELCOME} element={<WelcomePage />} />
@@ -20,7 +20,7 @@ const Router: FC<props> = ({ isLogin }) => {
         <>
           <Route path={AppRoutes.PROFILE} element={<Profile />} />
           <Route path={AppRoutes.BOARDS} element={<Boards />} />
-          <Route path={AppRoutes.BOARDS + '/:idBoard'} element={<Board />} />;
+          <Route path={AppRoutes.BOARDS + AppRoutes.ID_BOARDS} element={<Board />} />;
         </>
       ) : (
         <>
@@ -33,4 +33,4 @@ const Router: FC<props> = ({ isLogin }) => {
   );
 };
 
-export default Router;
+export default AppRouter;

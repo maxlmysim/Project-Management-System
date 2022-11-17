@@ -7,6 +7,8 @@ import { boardSelector, getAllBoards } from '../store/boardSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_BOARD } from '../constants/modalField';
 import Board from './Board';
+import { loaderSelector } from '../store/loaderSlice';
+import Loader from './Loader';
 
 const GridContainer = styled('div')`
   display: grid;
@@ -34,6 +36,7 @@ const GridContainer = styled('div')`
 const BoardsList: FC = () => {
   const dispatch = useAppDispatch();
   const { boards } = useAppSelector(boardSelector);
+  const { isLoading } = useAppSelector(loaderSelector);
 
   const [isShowPaginator, setIsShowPaginator] = useState(false);
 
@@ -46,28 +49,34 @@ const BoardsList: FC = () => {
   }, []);
 
   return (
-    <Container sx={{ p: '1rem' }}>
-      <GridContainer>
-        {boards.map((board) => (
-          <Board board={board} key={board._id} />
-        ))}
-        <Button
-          variant="contained"
-          sx={{
-            maxWidth: 275,
-            width: 1,
-            minHeight: '140px',
-            fontSize: '2rem',
-            padding: 'auto',
-          }}
-          onClick={addNewBoard}
-        >
-          <AddIcon fontSize="large" />
-          Добавить доску
-        </Button>
-      </GridContainer>
-      {isShowPaginator && (
-        <Pagination count={Math.floor(boards.length / 12)} size="large" color="primary" />
+    <Container sx={{ p: '1rem', position: 'relative', height: 1 }}>
+      {isLoading ? (
+        <Loader color="#ffffff" />
+      ) : (
+        <>
+          <GridContainer>
+            {boards.map((board) => (
+              <Board board={board} key={board._id} />
+            ))}
+            <Button
+              variant="contained"
+              sx={{
+                maxWidth: 275,
+                width: 1,
+                minHeight: '140px',
+                fontSize: '2rem',
+                padding: 'auto',
+              }}
+              onClick={addNewBoard}
+            >
+              <AddIcon fontSize="large" />
+              Добавить доску
+            </Button>
+          </GridContainer>
+          {isShowPaginator && (
+            <Pagination count={Math.floor(boards.length / 12)} size="large" color="primary" />
+          )}
+        </>
       )}
     </Container>
   );

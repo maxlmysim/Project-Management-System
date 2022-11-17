@@ -16,6 +16,7 @@ interface props {
   direction?: 'column' | 'row' | 'row-reverse' | 'column-reverse';
   sx?: SxProps<Theme>;
   gap?: string;
+  flex?: string;
 }
 
 const CenteringContainer: FC<props> = ({
@@ -26,6 +27,7 @@ const CenteringContainer: FC<props> = ({
   direction = 'row',
   sx = {},
   gap = '0',
+  flex = '1',
 }) => {
   return (
     <Box
@@ -36,6 +38,7 @@ const CenteringContainer: FC<props> = ({
         flexDirection: direction,
         flexWrap: wrap,
         gap: gap,
+        flex: flex,
       }}
       sx={sx}
     >

@@ -1,10 +1,10 @@
-import { api } from './index';
-import { AxiosResponse } from 'axios';
-import Endpoints from '../constants/endpoints';
-import { IBoardResponse } from 'types/responseTypes';
 import { IBoard } from '../types/boardTypes';
+import { AxiosResponse } from 'axios';
+import { IBoardResponse } from '../types/responseTypes';
+import { api } from './index';
+import Endpoints from '../constants/endpoints';
 
-export const boardService = {
+export const columnService = {
   addNewBoard(data: IBoard): Promise<AxiosResponse<IBoardResponse>> {
     return api.post(Endpoints.BOARDS, data);
   },

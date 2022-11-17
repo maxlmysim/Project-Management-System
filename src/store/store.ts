@@ -3,6 +3,7 @@ import { authReducers } from './authSlice';
 import { welcomeReducers } from './welcomeSlice';
 import { modalReducer } from './modalSlice';
 import { boardReducer } from './boardSlice';
+import { loaderReducer } from './loaderSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     welcomeStore: welcomeReducers,
     modalStore: modalReducer,
     boardStore: boardReducer,
+    loaderStore: loaderReducer,
   },
   devTools: true,
 });

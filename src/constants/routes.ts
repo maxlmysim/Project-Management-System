@@ -3,5 +3,6 @@ export enum AppRoutes {
   LOGIN = '/login',
   REGISTRATION = '/registration',
   PROFILE = '/profile',
-  BOARDS = '/boards',
+  BOARDS = 'boards',
+  ID_BOARDS = '/:idBoard',
 }

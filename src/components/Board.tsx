@@ -32,6 +32,7 @@ const Board: FC<props> = ({ board }) => {
 
   const onOpenBoard = (): void => {
     navigate(Endpoints.BOARDS + '/' + board._id);
+    dispatch(setBoard(board));
   };
 
   return (
