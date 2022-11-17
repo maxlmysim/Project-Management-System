@@ -5,13 +5,16 @@ import { IBoardResponse } from '../types/responseTypes';
 import { IBoard } from '../types/boardTypes';
 import { boardService } from '../api/boardService';
 import { closeModalWindow } from './modalSlice';
+import { hideLoader, showLoader } from './loaderSlice';
 
 interface IBoardState {
   boards: IBoardResponse[];
   currentBoard: IBoardResponse;
+  isLoading: boolean;
 }
 
 const initialState: IBoardState = {
+  isLoading: false,
   boards: [],
   currentBoard: { users: [], owner: '', title: '', _id: '' },
 };
@@ -38,8 +41,9 @@ export const addNewBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAP
 
 export const getAllBoards = createAsyncThunk<IBoardResponse[], void, TypedThunkAPI>(
   'board/getAllBoards',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
+      dispatch(showLoader());
       const response = await boardService.getAllBoards();
       return response.data;
     } catch (err) {
@@ -48,6 +52,8 @@ export const getAllBoards = createAsyncThunk<IBoardResponse[], void, TypedThunkA
         throw err;
       }
       return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(hideLoader());
     }
   }
 );

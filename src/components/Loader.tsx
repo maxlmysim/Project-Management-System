@@ -4,9 +4,10 @@ import Box from '@mui/material/Box';
 
 interface props {
   sizeLoader?: number;
+  color?: string;
 }
 
-const Loader: FC<props> = ({ sizeLoader = 50 }) => {
+const Loader: FC<props> = ({ sizeLoader = 50, color = '#1976d2' }) => {
   return (
     <Box
       sx={{
@@ -17,7 +18,7 @@ const Loader: FC<props> = ({ sizeLoader = 50 }) => {
         justifyContent: 'center',
       }}
     >
-      <CircularProgress size={sizeLoader} />
+      <CircularProgress size={sizeLoader} style={{ color: color }} />
     </Box>
   );
 };
