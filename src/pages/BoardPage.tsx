@@ -7,7 +7,7 @@ import { loaderSelector } from '../store/loaderSlice';
 import Loader from '../components/Loader';
 import { boardSelector } from '../store/boardSlice';
 
-const Board: FC = () => {
+const BoardPage: FC = () => {
   const { isLoading } = useAppSelector(loaderSelector);
   const { currentBoard } = useAppSelector(boardSelector);
 
@@ -28,4 +28,4 @@ const Board: FC = () => {
   );
 };
 
-export default Board;
+export default BoardPage;
