@@ -1,14 +1,16 @@
 import React, { FC } from 'react';
-import { Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Card, CardActions, CardContent, Divider, Typography } from '@mui/material';
 import { IBoardResponse } from '../types/responseTypes';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { setBoard } from '../store/boardSlice';
 import { showModalWindow } from '../store/modalSlice';
-import { DELETE_BOARD, EDIT_BOARD } from '../constants/modalField';
+import { DELETE_BOARD, EDIT_BOARD, SHOW_BOARD } from '../constants/modalField';
 import { useNavigate } from 'react-router-dom';
 import Endpoints from '../constants/endpoints';
+import EditButton from './Buttons/EditButton';
+import DeleteButton from './Buttons/DeleteButton';
+import InfoButton from './Buttons/InfoButton';
+import CenteringContainer from './СenteringСontainer';
 
 interface props {
   board: IBoardResponse;
@@ -17,6 +19,11 @@ interface props {
 const Board: FC<props> = ({ board }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const onShowBoardInfo = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+    dispatch(setBoard(board));
+    dispatch(showModalWindow(SHOW_BOARD));
+  };
 
   const onDeleteBoard = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
@@ -42,28 +49,27 @@ const Board: FC<props> = ({ board }) => {
       onClick={onOpenBoard}
     >
       <CardContent>
-        <Typography
-          sx={{ fontSize: '2.4rem' }}
-          variant="h5"
-          component="h4"
-          gutterBottom
-          color="#1565c0"
-          fontWeight="bold"
-        >
-          {board.title}
-        </Typography>
+        <CenteringContainer justifyContent="space-between">
+          <Typography
+            sx={{ fontSize: '2.4rem' }}
+            variant="h5"
+            component="h4"
+            gutterBottom
+            color="#1565c0"
+            fontWeight="bold"
+          >
+            {board.title}
+          </Typography>
+          <InfoButton onClick={onShowBoardInfo} />
+        </CenteringContainer>
         <Typography sx={{ mb: 0.5 }} color="text.secondary">
           {board.owner}
         </Typography>
       </CardContent>
       <Divider variant="middle" sx={{ m: '0 1rem 1rem' }} color="#696565" />
       <CardActions style={{ justifyContent: 'center' }}>
-        <Button variant="contained" color="warning" onClick={onEditBoard}>
-          <EditIcon /> Изменить
-        </Button>
-        <Button variant="contained" color="warning" onClick={onDeleteBoard}>
-          <DeleteIcon /> Удалить
-        </Button>
+        <EditButton onClick={onEditBoard} />
+        <DeleteButton onClick={onDeleteBoard} />
       </CardActions>
     </Card>
   );
