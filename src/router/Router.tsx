@@ -6,7 +6,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 import Boards from '../pages/Boards';
-import Board from 'pages/Board';
+import BoardPage from 'pages/BoardPage';
 
 interface props {
   isLogin: boolean;
@@ -20,7 +20,7 @@ const AppRouter: FC<props> = ({ isLogin }) => {
         <>
           <Route path={AppRoutes.PROFILE} element={<Profile />} />
           <Route path={AppRoutes.BOARDS} element={<Boards />} />
-          <Route path={AppRoutes.BOARDS + AppRoutes.ID_BOARDS} element={<Board />} />;
+          <Route path={AppRoutes.BOARDS + AppRoutes.ID_BOARDS} element={<BoardPage />} />;
         </>
       ) : (
         <>
