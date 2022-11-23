@@ -1,6 +1,6 @@
 import { IFormContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
-import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
+import { addNewBoard, deleteBoard, editBoard, showBoard } from 'store/boardSlice';
 
 type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title';
 
@@ -167,6 +167,12 @@ export const EDIT_BOARD: IFormContent = {
   fields: editBoardFieldList,
 };
 
+export const SHOW_BOARD: IFormContent = {
+  modalTitle: 'Доска ',
+  action: 'showBoard',
+  fields: [],
+};
+
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
@@ -174,4 +180,5 @@ export const modalActions: ModalFormActions = {
   addNewBoard,
   deleteBoard,
   editBoard,
+  showBoard,
 };
