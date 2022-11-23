@@ -17,7 +17,7 @@ export const boardService = {
   editBoard(id: string, data: IBoard): Promise<AxiosResponse<IBoardResponse>> {
     return api.put(Endpoints.BOARDS + '/' + id, data);
   },
-  getBoard(id: string): Promise<IBoardResponse> {
+  getBoard(id: string): Promise<AxiosResponse<IBoardResponse>> {
     return api.get(Endpoints.BOARDS + '/' + id);
   },
 };
