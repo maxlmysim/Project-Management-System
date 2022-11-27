@@ -11,12 +11,14 @@ interface IBoardState {
   boards: IBoardResponse[];
   currentBoard: IBoardResponse;
   isLoading: boolean;
+  currentPage: number;
 }
 
 const initialState: IBoardState = {
   isLoading: false,
   boards: [],
   currentBoard: { users: [], owner: '', title: '', _id: '' },
+  currentPage: 1,
 };
 
 export const addNewBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>(
@@ -45,6 +47,25 @@ export const getAllBoards = createAsyncThunk<IBoardResponse[], void, TypedThunkA
     try {
       dispatch(showLoader());
       const response = await boardService.getAllBoards();
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(hideLoader());
+    }
+  }
+);
+
+export const getBoard = createAsyncThunk<IBoardResponse, string, TypedThunkAPI>(
+  'board/getBoard',
+  async (_id, { rejectWithValue, dispatch }) => {
+    try {
+      dispatch(showLoader());
+      const response = await boardService.getBoard(_id);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
@@ -97,6 +118,23 @@ export const editBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>
   }
 );
 
+export const showBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>(
+  'board/showBoard',
+  (board, { rejectWithValue, getState, dispatch }) => {
+    try {
+      return getState().boardStore.currentBoard;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
+    }
+  }
+);
+
 const boardSlice = createSlice({
   name: 'Board',
   initialState,
@@ -104,16 +142,23 @@ const boardSlice = createSlice({
     setBoard(state: IBoardState, action) {
       state.currentBoard = action.payload;
     },
+    setPage(state: IBoardState, action) {
+      state.currentPage = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addNewBoard.fulfilled, (state, { payload: board }) => {
       state.boards = [...state.boards, board];
+    });
+    builder.addCase(getBoard.fulfilled, (state, { payload: board }) => {
+      state.currentBoard = board;
     });
     builder.addCase(getAllBoards.fulfilled, (state, { payload: boards }) => {
       state.boards = boards;
     });
     builder.addCase(deleteBoard.fulfilled, (state, { payload: board }) => {
       state.boards = state.boards.filter((boardState) => boardState._id !== board._id);
+      state.currentBoard = initialState.currentBoard;
     });
     builder.addCase(editBoard.fulfilled, (state, { payload: board }) => {
       state.boards = state.boards.map((boardState) => {
@@ -127,8 +172,11 @@ const boardSlice = createSlice({
   },
 });
 
-export const { setBoard } = boardSlice.actions;
+export const { setBoard, setPage } = boardSlice.actions;
 
 export const boardReducer = boardSlice.reducer;
 
 export const boardSelector = (state: RootState): IBoardState => state.boardStore;
+
+export const currentBoardSelector = (state: RootState): IBoardResponse =>
+  state.boardStore.currentBoard;

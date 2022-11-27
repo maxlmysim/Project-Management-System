@@ -1,20 +1,32 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Button, Container, Pagination, styled } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import React, { FC, useLayoutEffect } from 'react';
+import { Container, Pagination, styled } from '@mui/material';
 import muiTheme from '../constants/muiTheme';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { boardSelector, getAllBoards } from '../store/boardSlice';
+import { boardSelector, getAllBoards, setPage } from '../store/boardSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_BOARD } from '../constants/modalField';
 import Board from './Board';
 import { loaderSelector } from '../store/loaderSlice';
 import Loader from './Loader';
+import AddButton from './Buttons/AddButton';
+
+const ContainerStyle = {
+  m: '1rem',
+  p: '1rem',
+  position: 'relative',
+  height: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+};
 
 const GridContainer = styled('div')`
   display: grid;
   gap: 1rem;
   width: 100%;
   justify-items: center;
+  margin-bottom: 2rem;
 
   @media screen and (min-width: ${muiTheme.breakpoints.values.xs}px) {
     grid-template-columns: repeat(1, 1fr);
@@ -35,47 +47,39 @@ const GridContainer = styled('div')`
 
 const BoardsList: FC = () => {
   const dispatch = useAppDispatch();
-  const { boards } = useAppSelector(boardSelector);
+  const { boards, currentPage } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(loaderSelector);
-
-  const [isShowPaginator, setIsShowPaginator] = useState(false);
-
+  const boardsToShow = boards.slice(12 * (currentPage - 1), 12 * currentPage);
+  const lastPage = Math.floor(boards.length / 12) + 1;
+  const isShowAddBoard = lastPage === currentPage;
   const addNewBoard = (): void => {
     dispatch(showModalWindow(ADD_BOARD));
   };
-
-  useEffect(() => {
+  const handlePage = (event: React.ChangeEvent<unknown>, page: number): void => {
+    dispatch(setPage(page));
+  };
+  useLayoutEffect(() => {
     dispatch(getAllBoards());
-  }, []);
-
+  }, [dispatch]);
   return (
-    <Container sx={{ p: '1rem', position: 'relative', height: 1 }}>
+    <Container sx={ContainerStyle}>
       {isLoading ? (
         <Loader color="#ffffff" />
       ) : (
         <>
           <GridContainer>
-            {boards.map((board) => (
+            {boardsToShow.map((board) => (
               <Board board={board} key={board._id} />
             ))}
-            <Button
-              variant="contained"
-              sx={{
-                maxWidth: 275,
-                width: 1,
-                minHeight: '140px',
-                fontSize: '2rem',
-                padding: 'auto',
-              }}
-              onClick={addNewBoard}
-            >
-              <AddIcon fontSize="large" />
-              Добавить доску
-            </Button>
+            {isShowAddBoard && <AddButton onClick={addNewBoard} />}
           </GridContainer>
-          {isShowPaginator && (
-            <Pagination count={Math.floor(boards.length / 12)} size="large" color="primary" />
-          )}
+          <Pagination
+            count={lastPage}
+            size="large"
+            color="primary"
+            shape="rounded"
+            onChange={handlePage}
+          />
         </>
       )}
     </Container>
