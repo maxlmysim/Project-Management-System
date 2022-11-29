@@ -15,7 +15,6 @@ const BoardPage: FC = () => {
   console.log(param);
 
   useEffect(() => {}, []);
-
   return (
     <Grid component="main" style={{ backgroundColor: 'rgb(66, 165, 245)', flex: '1' }}>
       {isLoading && <Loader color="#ffffff" />}
