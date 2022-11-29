@@ -25,7 +25,7 @@ const ColumnList: FC = () => {
       alignItems="flex-start"
       gap="1rem"
       flex="1 1"
-      sx={{ p: '1rem', w: 1 }}
+      style={{ padding: '1rem', width: '100%' }}
     >
       {isLoading ? (
         <Loader color="#ffffff" />

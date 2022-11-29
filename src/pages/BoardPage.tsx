@@ -1,22 +1,13 @@
-import React, { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FC } from 'react';
 import { Box } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { currentBoardSelector, getBoard } from '../store/boardSlice';
-import { modalSelector } from '../store/modalSlice';
-import { AppRoutes } from '../constants/routes';
+import { useAppSelector } from '../hooks/storeHooks';
+import { currentBoardSelector } from '../store/boardSlice';
 import BoardHeader from '../components/BoardHeader';
 import ColumnList from '../components/ColumnList';
 
 const BoardPage: FC = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { isShowModal } = useAppSelector(modalSelector);
-  const { title, _id, owner } = useAppSelector(currentBoardSelector);
-  useEffect(() => {
-    dispatch(getBoard(_id));
-    !_id && navigate(AppRoutes.BOARDS);
-  }, [title, _id, owner, navigate, dispatch, isShowModal]);
+  const { title, owner } = useAppSelector(currentBoardSelector);
+
   return (
     <Box
       sx={{

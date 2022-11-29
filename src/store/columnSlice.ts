@@ -22,17 +22,14 @@ export const getAllColumns = createAsyncThunk<IColumnResponse[], void, TypedThun
       dispatch(showLoader());
       const { _id } = getState().boardStore.currentBoard;
       const response = await columnService.getAllColumns(_id);
-      console.log('response ' + response);
       return response.data;
     } catch (err) {
-      console.log('err', err);
       const error = err as AxiosError;
       if (!error.response) {
         throw err;
       }
       return rejectWithValue(error.response?.data);
     } finally {
-      console.log('loaderClose');
       dispatch(hideLoader());
     }
   }

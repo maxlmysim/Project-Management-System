@@ -29,7 +29,7 @@ const BoardHeader: FC<IBoardHeader> = ({ title, owner }) => {
     dispatch(showModalWindow(EDIT_BOARD));
   };
   return (
-    <CenteringContainer direction="column" sx={{ mb: 1 }}>
+    <CenteringContainer direction="column" style={{ marginBottom: '1rem' }}>
       <Title>{title}</Title>
       <CenteringContainer justifyContent="space-between">
         <InfoButton variant="contained" onClick={onShowBoardInfo} />
