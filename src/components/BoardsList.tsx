@@ -71,7 +71,7 @@ const BoardsList: FC = () => {
             {boardsToShow.map((board) => (
               <Board board={board} key={board._id} />
             ))}
-            {isShowAddBoard && <AddButton onClick={addNewBoard} />}
+            {isShowAddBoard && <AddButton onClick={addNewBoard}>{'Добавить доску'}</AddButton>}
           </GridContainer>
           <Pagination
             count={lastPage}
