@@ -11,12 +11,19 @@ interface props {
   color?: string;
   handler: () => void;
   icon?: React.ReactNode;
+  backgroundColor?: string;
 }
 
-const TooltipButton: FC<props> = ({ title, handler, color = 'rgb(237, 108, 2)', icon }) => {
+const TooltipButton: FC<props> = ({
+  title,
+  handler,
+  color = 'rgb(237, 108, 2)',
+  backgroundColor = 'rgba(0,0,0,0.8)',
+  icon,
+}) => {
   return (
-    <Tooltip title={<Title>{title}</Title>} placement="right-end" onClick={handler}>
-      <IconButton sx={{ color: color }} aria-label="upload picture" component="label">
+    <Tooltip title={title && <Title>{title}</Title>} placement="right-end" onClick={handler} arrow>
+      <IconButton sx={{ color, backgroundColor }} aria-label="upload picture" component="label">
         {icon}
       </IconButton>
     </Tooltip>

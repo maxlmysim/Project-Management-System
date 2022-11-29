@@ -47,7 +47,12 @@ const Board: FC<props> = ({ board }) => {
   return (
     <Card
       key={board._id}
-      sx={{ maxWidth: 275, width: 1, minHeight: 100, cursor: 'pointer' }}
+      sx={{
+        maxWidth: 275,
+        width: 1,
+        minHeight: 100,
+        cursor: 'pointer',
+      }}
       onClick={onOpenBoard}
     >
       <CardContent>

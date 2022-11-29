@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { Button } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 import { IButtonComponent } from './types';
 
 const styleFull = {
@@ -24,10 +24,12 @@ const AddButton: FC<IButtonComponent> = ({
 }) => {
   const isFull = type === 'full';
   return (
-    <Button variant={variant} sx={isFull ? styleFull : styleSmall} onClick={onClick}>
-      <AddIcon fontSize={isFull ? 'large' : 'medium'} />
-      {isFull ? children : ''}
-    </Button>
+    <Tooltip title={children} arrow>
+      <Button variant={variant} sx={isFull ? styleFull : styleSmall} onClick={onClick}>
+        <AddIcon fontSize={isFull ? 'large' : 'medium'} />
+        {isFull ? children : ''}
+      </Button>
+    </Tooltip>
   );
 };
 
