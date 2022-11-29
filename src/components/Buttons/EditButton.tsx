@@ -1,15 +1,12 @@
 import React, { FC } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button } from '@mui/material';
+import { IButton } from './types';
 
-interface IEditButton {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}
-
-const EditButton: FC<IEditButton> = ({ onClick }) => {
+const EditButton: FC<IButton> = ({ onClick, type = 'full', variant = 'contained' }) => {
   return (
-    <Button variant="contained" color="warning" onClick={onClick}>
-      <EditIcon /> Изменить
+    <Button variant={variant} color="warning" onClick={onClick}>
+      <EditIcon /> {type === 'full' ? 'Изменить' : ''}
     </Button>
   );
 };
