@@ -7,6 +7,7 @@ import ProfilePage from '../pages/ProfilePage';
 import LoginPage from '../pages/LoginPage';
 import BoardsPage from '../pages/BoardsPage';
 import BoardPage from 'pages/BoardPage';
+import NotFound from '../pages/NotFound';
 
 interface props {
   isLogin: boolean;
@@ -28,7 +29,7 @@ const AppRouter: FC<props> = ({ isLogin }) => {
           <Route path={AppRoutes.REGISTRATION} element={<RegistrationPage />} />
         </>
       )}
-      <Route path="*" element={<Navigate to={AppRoutes.WELCOME} />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
