@@ -38,8 +38,8 @@ const Board: FC<props> = ({ board }) => {
   };
 
   const onOpenBoard = (): void => {
-    navigate(Endpoints.BOARDS + '/' + board._id);
     dispatch(setBoard(board));
+    navigate(Endpoints.BOARDS + '/' + board._id);
   };
 
   return (
@@ -49,7 +49,7 @@ const Board: FC<props> = ({ board }) => {
       onClick={onOpenBoard}
     >
       <CardContent>
-        <CenteringContainer justifyContent="space-between">
+        <CenteringContainer justifyContent="space-between" alignItems="center">
           <Typography
             sx={{ fontSize: '2.4rem' }}
             variant="h5"
@@ -60,7 +60,7 @@ const Board: FC<props> = ({ board }) => {
           >
             {board.title}
           </Typography>
-          <InfoButton onClick={onShowBoardInfo} />
+          <InfoButton variant="text" onClick={onShowBoardInfo} />
         </CenteringContainer>
         <Typography sx={{ mb: 0.5 }} color="text.secondary">
           {board.owner}

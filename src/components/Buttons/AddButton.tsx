@@ -1,24 +1,32 @@
 import React, { FC } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@mui/material';
+import { IButtonComponent } from './types';
 
-interface IAddButton {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}
-
-const style = {
+const styleFull = {
   maxWidth: 275,
   width: 1,
-  minHeight: '140px',
-  fontSize: '2rem',
+  minHeight: '5px',
+  fontSize: '1.6rem',
   padding: 'auto',
+  flexShrink: 0,
 };
 
-const AddButton: FC<IAddButton> = ({ onClick }) => {
+const styleSmall = {
+  flexShrink: 1,
+};
+
+const AddButton: FC<IButtonComponent> = ({
+  onClick,
+  children,
+  variant = 'contained',
+  type = 'full',
+}) => {
+  const isFull = type === 'full';
   return (
-    <Button variant="contained" sx={style} onClick={onClick}>
-      <AddIcon fontSize="large" />
-      Добавить доску
+    <Button variant={variant} sx={isFull ? styleFull : styleSmall} onClick={onClick}>
+      <AddIcon fontSize={isFull ? 'large' : 'medium'} />
+      {isFull ? children : ''}
     </Button>
   );
 };

@@ -1,6 +1,7 @@
 import { IFormContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
 import { addNewBoard, deleteBoard, editBoard, showBoard } from 'store/boardSlice';
+import { addNewColumn } from 'store/columnSlice';
 
 type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title';
 
@@ -124,12 +125,31 @@ const boardDescription: IFieldProps = {
   },
 };
 
+const columnName: IFieldProps = {
+  label: 'Название списка',
+  name: 'title',
+  type: 'text',
+  placeholder: 'Введите название',
+  registerOptions: {
+    required,
+    minLength: {
+      value: 2,
+      message: 'Минимальная длинна имени 2 символа',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Максимальная длинна имени 30 символов',
+    },
+  },
+};
+
 export const signInFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
 export const registrationFieldList: IFieldProps[] = [fieldName, fieldLogin, fieldPassword];
 const changeNameFieldList: IFieldProps[] = [fieldName, fieldPassword];
 const changeLoginFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
 const addBoardFieldList: IFieldProps[] = [boardName, boardDescription];
 const editBoardFieldList: IFieldProps[] = [boardName, boardDescription];
+const addColumnFieldList: IFieldProps[] = [columnName];
 
 export const EDIT_LOGIN: IFormContent = {
   modalTitle: 'Изменить логин',
@@ -167,6 +187,12 @@ export const EDIT_BOARD: IFormContent = {
   fields: editBoardFieldList,
 };
 
+export const ADD_COLUMN: IFormContent = {
+  modalTitle: 'Создать cписок задач',
+  action: 'addNewColumn',
+  fields: addColumnFieldList,
+};
+
 export const SHOW_BOARD: IFormContent = {
   modalTitle: 'Доска ',
   action: 'showBoard',
@@ -181,4 +207,5 @@ export const modalActions: ModalFormActions = {
   deleteBoard,
   editBoard,
   showBoard,
+  addNewColumn,
 };

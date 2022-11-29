@@ -1,15 +1,12 @@
 import React, { FC } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
+import { IButton } from './types';
 
-interface IDeleteButton {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}
-
-const DeleteButton: FC<IDeleteButton> = ({ onClick }) => {
+const DeleteButton: FC<IButton> = ({ onClick, type = 'full', variant = 'contained' }) => {
   return (
-    <Button variant="contained" color="warning" onClick={onClick}>
-      <DeleteIcon /> Удалить
+    <Button variant={variant} color="warning" onClick={onClick}>
+      <DeleteIcon /> {type === 'full' ? 'Удалить' : ''}
     </Button>
   );
 };

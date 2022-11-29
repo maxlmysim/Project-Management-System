@@ -4,6 +4,7 @@ import { welcomeReducers } from './welcomeSlice';
 import { modalReducer } from './modalSlice';
 import { boardReducer } from './boardSlice';
 import { loaderReducer } from './loaderSlice';
+import { columnReducer } from './columnSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     welcomeStore: welcomeReducers,
     modalStore: modalReducer,
     boardStore: boardReducer,
+    columnStore: columnReducer,
     loaderStore: loaderReducer,
   },
   devTools: true,
