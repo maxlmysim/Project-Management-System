@@ -4,10 +4,10 @@ import { AppBar, Button, Container, Toolbar } from '@mui/material';
 import LanguageSwitcher from './LanguageSwitcher';
 import AuthButtonsContainer from './AuthButtonsContainer';
 import { AppRoutes } from '../constants/routes';
-import ModalWindow from './ModalWindow';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import HomeIcon from '@mui/icons-material/Home';
+import ModalWindow from './Modal/ModalWindow';
 
 const fontSize = '1.8rem';
 

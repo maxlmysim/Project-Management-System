@@ -1,6 +1,6 @@
 import { editLogin, editName, deleteUser } from '../store/authSlice';
 import { IFieldProps } from '../constants/modalField';
-import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
+import { addNewBoard, deleteBoard, editBoard, showBoard } from 'store/boardSlice';
 
 export type ModalFormActions = {
   editLogin: typeof editLogin;
@@ -9,6 +9,7 @@ export type ModalFormActions = {
   addNewBoard: typeof addNewBoard;
   deleteBoard: typeof deleteBoard;
   editBoard: typeof editBoard;
+  showBoard: typeof showBoard;
 };
 
 export type ModalActionKeys = keyof ModalFormActions;
