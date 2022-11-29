@@ -3,3 +3,10 @@ export type IBoard = {
   owner: string;
   users: string[];
 };
+
+export type IColumn = {
+  title: string;
+  users: string[];
+  owner: string;
+  order: number;
+};
