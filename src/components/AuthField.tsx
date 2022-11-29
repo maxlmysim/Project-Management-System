@@ -5,7 +5,7 @@ import { authSelector, signIn, signUp } from '../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { AppDispatch } from 'store/store';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { IFieldProps } from '../constants/modalField';
+import { IFieldPropsInput } from '../constants/modalField';
 import { AppFormTypes } from '../types/formTypes';
 
 const Form = styled('form')`
@@ -46,7 +46,7 @@ const Form = styled('form')`
 `;
 
 interface props {
-  fields: IFieldProps[];
+  fields: IFieldPropsInput[];
   action: typeof signIn | typeof signUp;
   buttonText: string;
 }
