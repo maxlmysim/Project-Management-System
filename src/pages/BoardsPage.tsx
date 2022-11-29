@@ -3,7 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import CenteringContainer from '../components/СenteringСontainer';
 import BoardsList from '../components/BoardsList';
 
-const Boards: FC = () => {
+const BoardsPage: FC = () => {
   return (
     <Grid
       component="main"
@@ -19,4 +19,4 @@ const Boards: FC = () => {
   );
 };
 
-export default Boards;
+export default BoardsPage;

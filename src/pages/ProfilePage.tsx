@@ -7,7 +7,7 @@ import CenteringContainer from '../components/СenteringСontainer';
 import { showModalWindow } from '../store/modalSlice';
 import { DELETE_USER, EDIT_LOGIN, EDIT_NAME } from '../constants/modalField';
 
-const Profile: FC = () => {
+const ProfilePage: FC = () => {
   const { login, name } = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
 
@@ -55,4 +55,4 @@ const Profile: FC = () => {
   );
 };
 
-export default Profile;
+export default ProfilePage;

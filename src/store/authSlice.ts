@@ -8,6 +8,7 @@ import { AppFormTypes } from '../types/formTypes';
 import { INewUser, IUser } from 'types/userTypes';
 import { IResponseUserData, ISignInResponse, ISignUpResponse } from '../types/responseTypes';
 import { closeModalWindow } from './modalSlice';
+import { AppRoutes } from '../constants/routes';
 
 interface IAuthState {
   isLogin: boolean;
@@ -184,6 +185,7 @@ const authSlice = createSlice({
     });
     builder.addCase(signUp.fulfilled, (state) => {
       state.isLoading = false;
+      window.location.href = AppRoutes.LOGIN;
     });
     builder.addCase(signUp.pending, (state) => {
       state.isLoading = true;

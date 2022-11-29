@@ -5,7 +5,7 @@ import AuthField from '../components/AuthField';
 import { signIn } from '../store/authSlice';
 import { signInFieldList } from '../constants/modalField';
 
-const Login: FC = () => {
+const LoginPage: FC = () => {
   return (
     <Container component="main">
       <Box alignItems="center" sx={{ display: 'flex', flexDirection: 'column', marginTop: '3rem' }}>
@@ -21,4 +21,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

@@ -5,7 +5,7 @@ import AuthField from '../components/AuthField';
 import { signUp } from 'store/authSlice';
 import { registrationFieldList } from '../constants/modalField';
 
-const Registration: FC = () => {
+const RegistrationPage: FC = () => {
   return (
     <Container component="main">
       <Box
@@ -23,4 +23,4 @@ const Registration: FC = () => {
   );
 };
 
-export default Registration;
+export default RegistrationPage;
