@@ -32,4 +32,5 @@ export type IFormContent = {
   modalTitle: string;
   action: ModalActionKeys;
   fields: IFieldProps[];
+  fieldInfo?: string;
 };

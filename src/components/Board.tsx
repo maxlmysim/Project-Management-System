@@ -4,7 +4,7 @@ import { IBoardResponse } from '../types/responseTypes';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { setBoard } from '../store/boardSlice';
 import { showModalWindow } from '../store/modalSlice';
-import { DELETE_BOARD, EDIT_BOARD, SHOW_BOARD } from '../constants/modalField';
+import { DELETE_BOARD, EDIT_BOARD, SHOW_BOARD_INFO } from '../constants/modalField';
 import { useNavigate } from 'react-router-dom';
 import Endpoints from '../constants/endpoints';
 import EditButton from './Buttons/EditButton';
@@ -22,7 +22,7 @@ const Board: FC<props> = ({ board }) => {
   const onShowBoardInfo = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     dispatch(setBoard(board));
-    dispatch(showModalWindow(SHOW_BOARD));
+    dispatch(showModalWindow(SHOW_BOARD_INFO));
   };
 
   const onDeleteBoard = (e: React.MouseEvent<HTMLButtonElement>): void => {

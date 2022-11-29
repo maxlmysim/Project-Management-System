@@ -2,10 +2,11 @@ import React, { FC } from 'react';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { authSelector } from '../store/authSlice';
-import EditTooltipButton from '../components/EditTooltipButton';
+import TooltipButton from '../components/TooltipButton';
 import CenteringContainer from '../components/СenteringСontainer';
 import { showModalWindow } from '../store/modalSlice';
 import { DELETE_USER, EDIT_LOGIN, EDIT_NAME } from '../constants/modalField';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ProfilePage: FC = () => {
   const { login, name } = useAppSelector(authSelector);
@@ -32,10 +33,12 @@ const ProfilePage: FC = () => {
         <Card sx={{ maxWidth: 700, width: 1 }}>
           <CardContent>
             <Typography variant="h4" component="h4" fontWeight="bold" gutterBottom>
-              Имя: {name} <EditTooltipButton title="edit" handler={openEditName} />
+              Имя: {name}
+              <TooltipButton title="edit" handler={openEditName} icon={<EditIcon />} />
             </Typography>
             <Typography variant="h4" component="h4" fontWeight="bold" gutterBottom>
-              Логин: {login} <EditTooltipButton title="edit" handler={openEditLogin} />
+              Логин: {login}{' '}
+              <TooltipButton title="edit" handler={openEditLogin} icon={<EditIcon />} />
             </Typography>
             <Button
               variant="contained"

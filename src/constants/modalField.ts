@@ -193,7 +193,7 @@ export const ADD_COLUMN: IFormContent = {
   fields: addColumnFieldList,
 };
 
-export const SHOW_BOARD: IFormContent = {
+export const SHOW_BOARD_INFO: IFormContent = {
   modalTitle: 'Доска ',
   action: 'showBoard',
   fields: [],
