@@ -7,7 +7,7 @@ import { AppRoutes } from '../constants/routes';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import HomeIcon from '@mui/icons-material/Home';
-import ModalWindow from './Modal/ModalWindow';
+import ModalWindow from './ModalWindow/ModalWindow';
 
 const fontSize = '1.8rem';
 

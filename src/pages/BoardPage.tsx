@@ -27,7 +27,7 @@ const BoardPage: FC = () => {
         w: 1,
       }}
     >
-      <BoardHeader title={title} />
+      <BoardHeader title={title} owner={owner} />
       <ColumnList />
     </Box>
   );

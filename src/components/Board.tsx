@@ -3,7 +3,7 @@ import { Card, CardActions, CardContent, Divider, Typography } from '@mui/materi
 import { IBoardResponse } from '../types/responseTypes';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { setBoard } from '../store/boardSlice';
-import { showModalWindow } from '../store/modalSlice';
+import { addFieldsInfoModal, showModalWindow } from '../store/modalSlice';
 import { DELETE_BOARD, EDIT_BOARD, SHOW_BOARD_INFO } from '../constants/modalField';
 import { useNavigate } from 'react-router-dom';
 import Endpoints from '../constants/endpoints';
@@ -19,9 +19,11 @@ interface props {
 const Board: FC<props> = ({ board }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const onShowBoardInfo = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     dispatch(setBoard(board));
+    dispatch(addFieldsInfoModal({ title: board.title, owner: board.owner }));
     dispatch(showModalWindow(SHOW_BOARD_INFO));
   };
 

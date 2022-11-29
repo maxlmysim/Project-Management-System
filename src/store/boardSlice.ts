@@ -103,26 +103,10 @@ export const editBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>
   async (board, { rejectWithValue, getState, dispatch }) => {
     try {
       const { _id, users } = getState().boardStore.currentBoard;
+      console.log(_id);
       const data = { ...board, users };
       const response = await boardService.editBoard(_id, data);
       return response.data;
-    } catch (err) {
-      const error = err as AxiosError;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response?.data);
-    } finally {
-      dispatch(closeModalWindow());
-    }
-  }
-);
-
-export const showBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>(
-  'board/showBoard',
-  (board, { rejectWithValue, getState, dispatch }) => {
-    try {
-      return getState().boardStore.currentBoard;
     } catch (err) {
       const error = err as AxiosError;
       if (!error.response) {

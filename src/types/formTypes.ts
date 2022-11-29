@@ -1,6 +1,6 @@
-import { editLogin, editName, deleteUser } from '../store/authSlice';
-import { IFieldProps } from '../constants/modalField';
-import { addNewBoard, deleteBoard, editBoard, showBoard } from 'store/boardSlice';
+import { deleteUser, editLogin, editName } from '../store/authSlice';
+import { IFieldPropsInput } from '../constants/modalField';
+import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
 import { IColumn } from './boardTypes';
 import { addNewColumn } from '../store/columnSlice';
 
@@ -11,7 +11,6 @@ export type ModalFormActions = {
   addNewBoard: typeof addNewBoard;
   deleteBoard: typeof deleteBoard;
   editBoard: typeof editBoard;
-  showBoard: typeof showBoard;
   addNewColumn: typeof addNewColumn;
 };
 
@@ -28,9 +27,9 @@ export type AppFormTypes = {
   order: number;
 };
 
-export type IFormContent = {
+export type IModalContent = {
   modalTitle: string;
-  action: ModalActionKeys;
-  fields: IFieldProps[];
-  fieldInfo?: string;
+  action?: ModalActionKeys;
+  fieldsInput?: IFieldPropsInput[];
+  isHideConfirmButton?: boolean;
 };

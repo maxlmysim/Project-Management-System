@@ -1,7 +1,6 @@
-import ModalForm from './ModalForm';
+import ModalContent from './ModalContent';
 import { Box, Modal } from '@mui/material';
 import React, { FC } from 'react';
-import ModalInfo from './ModalInfo';
 import { closeModalWindow, modalSelector } from '../../store/modalSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 
@@ -29,8 +28,7 @@ const ModalWindow: FC = () => {
   const handleClose = (): void => {
     dispatch(closeModalWindow());
   };
-  const { isShowModal, action } = useAppSelector(modalSelector);
-  const isInfo = action === 'showBoard';
+  const { isShowModal } = useAppSelector(modalSelector);
   return (
     <Modal
       open={isShowModal}
@@ -38,7 +36,9 @@ const ModalWindow: FC = () => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>{isInfo ? <ModalInfo /> : <ModalForm />}</Box>
+      <Box sx={style}>
+        <ModalContent />
+      </Box>
     </Modal>
   );
 };
