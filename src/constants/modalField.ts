@@ -101,7 +101,7 @@ const boardName: IFieldProps = {
       message: 'Минимальная длинна имени 2 символа',
     },
     maxLength: {
-      value: 50,
+      value: 30,
       message: 'Максимальная длинна имени 30 символов',
     },
   },
