@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Card, CardActions, CardContent, Divider, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, Divider } from '@mui/material';
 import { IBoardResponse } from '../types/responseTypes';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { setBoard } from '../store/boardSlice';
@@ -11,10 +11,18 @@ import EditButton from './Buttons/EditButton';
 import DeleteButton from './Buttons/DeleteButton';
 import InfoButton from './Buttons/InfoButton';
 import CenteringContainer from './СenteringСontainer';
+import Title from './Title';
 
 interface props {
   board: IBoardResponse;
 }
+
+const styleCard = {
+  maxWidth: 275,
+  width: 1,
+  minHeight: 100,
+  cursor: 'pointer',
+};
 
 const Board: FC<props> = ({ board }) => {
   const dispatch = useAppDispatch();
@@ -45,33 +53,13 @@ const Board: FC<props> = ({ board }) => {
   };
 
   return (
-    <Card
-      key={board._id}
-      sx={{
-        maxWidth: 275,
-        width: 1,
-        minHeight: 100,
-        cursor: 'pointer',
-      }}
-      onClick={onOpenBoard}
-    >
+    <Card key={board._id} sx={styleCard} onClick={onOpenBoard}>
       <CardContent>
         <CenteringContainer justifyContent="space-between" alignItems="center">
-          <Typography
-            sx={{ fontSize: '2.4rem' }}
-            variant="h5"
-            component="h4"
-            gutterBottom
-            color="#1565c0"
-            fontWeight="bold"
-          >
-            {board.title}
-          </Typography>
+          <Title type="board">{board.title}</Title>
           <InfoButton variant="text" onClick={onShowBoardInfo} />
         </CenteringContainer>
-        <Typography sx={{ mb: 0.5 }} color="text.secondary">
-          {board.owner}
-        </Typography>
+        <Title type="owner">{board.owner}</Title>
       </CardContent>
       <Divider variant="middle" sx={{ m: '0 1rem 1rem' }} color="#696565" />
       <CardActions style={{ justifyContent: 'center' }}>
