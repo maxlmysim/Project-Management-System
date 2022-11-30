@@ -1,9 +1,7 @@
-import React, { FC } from 'react';
-import { Box, Theme } from '@mui/material';
-import { SxProps } from '@mui/system';
+import React, { CSSProperties, FC } from 'react';
 
 interface props {
-  children: React.ReactNode;
+  children: React.ReactNode | boolean;
   alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
   justifyContent?:
     | 'flex-start'
@@ -14,7 +12,7 @@ interface props {
     | 'space-evenly';
   wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
   direction?: 'column' | 'row' | 'row-reverse' | 'column-reverse';
-  sx?: SxProps<Theme>;
+  style?: CSSProperties;
   gap?: string;
   flex?: string;
 }
@@ -25,12 +23,12 @@ const CenteringContainer: FC<props> = ({
   alignItems = 'center',
   wrap = 'nowrap',
   direction = 'row',
-  sx = {},
+  style = {},
   gap = '0',
   flex = '1',
 }) => {
   return (
-    <Box
+    <div
       style={{
         display: 'flex',
         alignItems: alignItems,
@@ -39,11 +37,11 @@ const CenteringContainer: FC<props> = ({
         flexWrap: wrap,
         gap: gap,
         flex: flex,
+        ...style,
       }}
-      sx={sx}
     >
       {children}
-    </Box>
+    </div>
   );
 };
 

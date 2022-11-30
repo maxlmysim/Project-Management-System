@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
-import { IFormContent, ModalActionKeys } from '../types/formTypes';
-import { IFieldProps } from '../constants/modalField';
+import { IModalContent, ModalActionKeys } from '../types/formTypes';
+import { IFieldPropsInfo, IFieldPropsInput } from '../constants/modalField';
 
 interface IModalState {
   isShowModal: boolean;
   modalTitle: string;
   action: ModalActionKeys;
-  fieldProps: IFieldProps[];
+  fieldProps: IFieldPropsInput[];
   isLoading: boolean;
+  fieldsInfo?: IFieldPropsInfo | null;
+  isHideConfirmButton?: boolean;
 }
 
 const initialState: IModalState = {
@@ -17,32 +19,48 @@ const initialState: IModalState = {
   isShowModal: false,
   fieldProps: [],
   isLoading: false,
+  fieldsInfo: null,
+  isHideConfirmButton: false,
 };
 
 const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    showModalWindow(state: IModalState, { payload: content }: PayloadAction<IFormContent>) {
+    showModalWindow(state: IModalState, { payload: content }: PayloadAction<IModalContent>) {
       console.log(content);
       state.isShowModal = true;
-      state.fieldProps = content.fields;
       state.modalTitle = content.modalTitle;
-      state.action = content.action;
+
+      if (content.fieldsInput) {
+        state.fieldProps = content.fieldsInput;
+      }
+      if (content.action) {
+        state.action = content.action;
+      }
+      if (content.isHideConfirmButton) {
+        state.isHideConfirmButton = content.isHideConfirmButton;
+      }
     },
     closeModalWindow(state: IModalState) {
       state.isShowModal = false;
       state.fieldProps = [];
       state.isLoading = false;
+      state.fieldsInfo = undefined;
+      state.isHideConfirmButton = false;
     },
     confirmModalAction(state: IModalState) {
       state.isLoading = true;
+    },
+    addFieldsInfoModal(state: IModalState, { payload: content }: PayloadAction<IFieldPropsInfo>) {
+      state.fieldsInfo = content;
     },
   },
 });
 
 export const modalReducer = modalSlice.reducer;
 
-export const { showModalWindow, closeModalWindow, confirmModalAction } = modalSlice.actions;
+export const { showModalWindow, closeModalWindow, confirmModalAction, addFieldsInfoModal } =
+  modalSlice.actions;
 
 export const modalSelector = (state: RootState): IModalState => state.modalStore;

@@ -1,16 +1,21 @@
-import { IFormContent, ModalFormActions } from '../types/formTypes';
+import { IModalContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
-import { addNewBoard, deleteBoard, editBoard, showBoard } from 'store/boardSlice';
+import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
 import { addNewColumn } from 'store/columnSlice';
 
 type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title';
 
-export interface IFieldProps {
+export interface IFieldPropsInput {
   label: string;
   name: fieldName;
   placeholder: string;
   type: string;
   registerOptions: IRegisterOptions;
+}
+
+export interface IFieldPropsInfo {
+  title: string;
+  owner: string;
 }
 
 interface IRequired {
@@ -35,7 +40,7 @@ const required: IRequired = {
   message: 'Это поле обязательно!',
 };
 
-const fieldLogin: IFieldProps = {
+const fieldLogin: IFieldPropsInput = {
   label: 'Логин',
   name: 'login',
   type: 'text',
@@ -53,7 +58,7 @@ const fieldLogin: IFieldProps = {
   },
 };
 
-const fieldPassword: IFieldProps = {
+const fieldPassword: IFieldPropsInput = {
   label: 'Пароль',
   name: 'password',
   registerOptions: {
@@ -71,7 +76,7 @@ const fieldPassword: IFieldProps = {
   placeholder: 'Введите ваш пароль',
 };
 
-const fieldName: IFieldProps = {
+const fieldName: IFieldPropsInput = {
   label: 'Имя',
   name: 'name',
   type: 'text',
@@ -89,7 +94,7 @@ const fieldName: IFieldProps = {
   },
 };
 
-const boardName: IFieldProps = {
+const boardName: IFieldPropsInput = {
   label: 'Название доски',
   name: 'title',
   type: 'text',
@@ -107,7 +112,7 @@ const boardName: IFieldProps = {
   },
 };
 
-const boardDescription: IFieldProps = {
+const boardDescription: IFieldPropsInput = {
   label: 'Описание',
   name: 'owner',
   type: 'text',
@@ -125,7 +130,7 @@ const boardDescription: IFieldProps = {
   },
 };
 
-const columnName: IFieldProps = {
+const columnName: IFieldPropsInput = {
   label: 'Название списка',
   name: 'title',
   type: 'text',
@@ -143,60 +148,57 @@ const columnName: IFieldProps = {
   },
 };
 
-export const signInFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
-export const registrationFieldList: IFieldProps[] = [fieldName, fieldLogin, fieldPassword];
-const changeNameFieldList: IFieldProps[] = [fieldName, fieldPassword];
-const changeLoginFieldList: IFieldProps[] = [fieldLogin, fieldPassword];
-const addBoardFieldList: IFieldProps[] = [boardName, boardDescription];
-const editBoardFieldList: IFieldProps[] = [boardName, boardDescription];
-const addColumnFieldList: IFieldProps[] = [columnName];
+export const signInFieldList: IFieldPropsInput[] = [fieldLogin, fieldPassword];
+export const registrationFieldList: IFieldPropsInput[] = [fieldName, fieldLogin, fieldPassword];
+const changeNameFieldList: IFieldPropsInput[] = [fieldName, fieldPassword];
+const changeLoginFieldList: IFieldPropsInput[] = [fieldLogin, fieldPassword];
+const addBoardFieldList: IFieldPropsInput[] = [boardName, boardDescription];
+const editBoardFieldList: IFieldPropsInput[] = [boardName, boardDescription];
+const addColumnFieldList: IFieldPropsInput[] = [columnName];
 
-export const EDIT_LOGIN: IFormContent = {
+export const EDIT_LOGIN: IModalContent = {
   modalTitle: 'Изменить логин',
   action: 'editLogin',
-  fields: changeLoginFieldList,
+  fieldsInput: changeLoginFieldList,
 };
 
-export const EDIT_NAME: IFormContent = {
+export const EDIT_NAME: IModalContent = {
   modalTitle: 'Изменить имя',
   action: 'editName',
-  fields: changeNameFieldList,
+  fieldsInput: changeNameFieldList,
 };
 
-export const DELETE_USER: IFormContent = {
+export const DELETE_USER: IModalContent = {
   modalTitle: 'Удалить пользователя?',
   action: 'deleteUser',
-  fields: [],
 };
 
-export const ADD_BOARD: IFormContent = {
+export const ADD_BOARD: IModalContent = {
   modalTitle: 'Добавить доску',
   action: 'addNewBoard',
-  fields: addBoardFieldList,
+  fieldsInput: addBoardFieldList,
 };
 
-export const DELETE_BOARD: IFormContent = {
+export const DELETE_BOARD: IModalContent = {
   modalTitle: 'Удалить доску?',
   action: 'deleteBoard',
-  fields: [],
 };
 
-export const EDIT_BOARD: IFormContent = {
+export const EDIT_BOARD: IModalContent = {
   modalTitle: 'Редактирование',
   action: 'editBoard',
-  fields: editBoardFieldList,
+  fieldsInput: editBoardFieldList,
 };
 
-export const ADD_COLUMN: IFormContent = {
-  modalTitle: 'Создать cписок задач',
+export const ADD_COLUMN: IModalContent = {
+  modalTitle: 'Создать список задач',
   action: 'addNewColumn',
-  fields: addColumnFieldList,
+  fieldsInput: addColumnFieldList,
 };
 
-export const SHOW_BOARD_INFO: IFormContent = {
-  modalTitle: 'Доска ',
-  action: 'showBoard',
-  fields: [],
+export const SHOW_BOARD_INFO: IModalContent = {
+  modalTitle: 'Доска',
+  isHideConfirmButton: true,
 };
 
 export const modalActions: ModalFormActions = {
@@ -206,6 +208,5 @@ export const modalActions: ModalFormActions = {
   addNewBoard,
   deleteBoard,
   editBoard,
-  showBoard,
   addNewColumn,
 };

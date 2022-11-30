@@ -10,6 +10,7 @@ import { AppDispatch } from '../../store/store';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { useForm } from 'react-hook-form';
 import ModalTitle from './ModalTitle';
+import ModalInfo from './ModalInfo';
 
 const Form = styled('form')`
   min-width: 300px;
@@ -33,7 +34,7 @@ const Form = styled('form')`
   }
 `;
 
-const ModalForm: FC = () => {
+const ModalContent: FC = () => {
   const {
     register,
     handleSubmit,
@@ -45,7 +46,8 @@ const ModalForm: FC = () => {
   const handleClose = (): void => {
     dispatch(closeModalWindow());
   };
-  const { fieldProps, action, isLoading, modalTitle } = useAppSelector(modalSelector);
+  const { fieldProps, action, isLoading, modalTitle, fieldsInfo, isHideConfirmButton } =
+    useAppSelector(modalSelector);
   const onSubmit = (data: AppFormTypes): void => {
     dispatch(confirmModalAction());
     dispatch(modalActions[action](data) as Parameters<AppDispatch>[0]);
@@ -53,6 +55,7 @@ const ModalForm: FC = () => {
   return (
     <>
       <ModalTitle>{modalTitle}</ModalTitle>
+      {fieldsInfo && <ModalInfo title={fieldsInfo.title} owner={fieldsInfo.owner} />}
       <Form onSubmit={handleSubmit(onSubmit)}>
         {fieldProps.map(({ name, label, placeholder, type, registerOptions }) => (
           <TextField
@@ -70,7 +73,7 @@ const ModalForm: FC = () => {
           />
         ))}
         <CenteringContainer justifyContent="flex-end" gap="1rem">
-          <ConfirmButton isLoading={isLoading} />
+          {isHideConfirmButton || <ConfirmButton isLoading={isLoading} />}
           <CloseButton handleClose={handleClose} />
         </CenteringContainer>
       </Form>
@@ -78,4 +81,4 @@ const ModalForm: FC = () => {
   );
 };
 
-export default ModalForm;
+export default ModalContent;
