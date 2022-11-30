@@ -7,7 +7,6 @@ import ColumnList from '../components/ColumnList';
 
 const BoardPage: FC = () => {
   const { title, owner } = useAppSelector(currentBoardSelector);
-
   return (
     <Box
       sx={{

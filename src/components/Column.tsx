@@ -28,12 +28,23 @@ const styleContent = {
   flexShrink: 0,
 };
 
+const styleBox = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'absolute',
+  top: '15%',
+  right: '5%',
+  zIndex: 1,
+};
+
 const Column: FC<IColumnProps> = ({ column }) => {
   const [showOptions, setShowOptions] = useState(false);
-  const toggleShowOptions = () => {
+  const toggleShowOptions = (): void => {
     setShowOptions(!showOptions);
   };
-  const closeShowOptions = () => {
+  const closeShowOptions = (): void => {
     setShowOptions(false);
   };
   return (
@@ -46,29 +57,28 @@ const Column: FC<IColumnProps> = ({ column }) => {
           sx={{ fontSize: '1.6rem', width: '100%' }}
           onBlur={closeShowOptions}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'absolute',
-              top: '15%',
-              right: '5%',
-              zIndex: 1,
-            }}
-          >
-            <TooltipButton
-              title=""
-              handler={toggleShowOptions}
-              icon={<MoreVertIcon />}
-              backgroundColor="transparent"
-            />
+          <Box sx={styleBox}>
+            <TooltipButton title="" handler={toggleShowOptions} icon={<MoreVertIcon />} />
             {showOptions && (
               <>
-                <TooltipButton title="Описание" handler={() => {}} icon={<SearchIcon />} />
-                <TooltipButton title="Изменить" handler={() => {}} icon={<EditIcon />} />
-                <TooltipButton title="Удалить" handler={() => {}} icon={<DeleteIcon />} />
+                <TooltipButton
+                  title="Описание"
+                  handler={(): void => {}}
+                  backgroundColor="rgba(0,0,0,0.7)"
+                  icon={<SearchIcon />}
+                />
+                <TooltipButton
+                  title="Изменить"
+                  handler={(): void => {}}
+                  backgroundColor="rgba(0,0,0,0.7)"
+                  icon={<EditIcon />}
+                />
+                <TooltipButton
+                  title="Удалить"
+                  handler={(): void => {}}
+                  backgroundColor="rgba(0,0,0,0.7)"
+                  icon={<DeleteIcon />}
+                />
               </>
             )}
           </Box>

@@ -1,7 +1,11 @@
 import React, { FC } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { Button, Tooltip } from '@mui/material';
+import { Button, styled, Tooltip } from '@mui/material';
 import { IButtonComponent } from './types';
+
+const Title = styled('span')`
+  font-size: 1.2rem;
+`;
 
 const styleFull = {
   maxWidth: 275,
@@ -24,7 +28,7 @@ const AddButton: FC<IButtonComponent> = ({
 }) => {
   const isFull = type === 'full';
   return (
-    <Tooltip title={children} arrow>
+    <Tooltip title={children && <Title>{children}</Title>} arrow sx={{ fontSize: '1.6rem' }}>
       <Button variant={variant} sx={isFull ? styleFull : styleSmall} onClick={onClick}>
         <AddIcon fontSize={isFull ? 'large' : 'medium'} />
         {isFull ? children : ''}
