@@ -16,7 +16,7 @@ const BoardPage: FC = () => {
   useEffect(() => {
     dispatch(getBoard(_id));
     !_id && navigate(AppRoutes.BOARDS);
-  }, [title, _id, owner, navigate, dispatch, isShowModal]);
+  }, [title, _id, owner, isShowModal]);
   return (
     <Box
       sx={{
