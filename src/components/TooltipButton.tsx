@@ -5,7 +5,7 @@ const Title = styled('span')`
   font-size: 1.2rem;
 `;
 
-interface props {
+interface ITooltipButtonProps {
   title: string;
   sizeIcon?: 'large' | 'small' | 'medium';
   color?: string;
@@ -14,11 +14,11 @@ interface props {
   backgroundColor?: string;
 }
 
-const TooltipButton: FC<props> = ({
+const TooltipButton: FC<ITooltipButtonProps> = ({
   title,
   handler,
   color = 'rgb(237, 108, 2)',
-  backgroundColor = 'rgba(0,0,0,0.8)',
+  backgroundColor = 'rgba(255,255,255,0)',
   icon,
 }) => {
   return (
