@@ -10,3 +10,11 @@ export type IColumn = {
   owner: string;
   order: number;
 };
+
+export type ITask = {
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  users: string[];
+};

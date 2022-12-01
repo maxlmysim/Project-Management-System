@@ -1,27 +1,29 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IColumnResponse } from '../types/responseTypes';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IColumnResponse, ITaskResponse } from '../types/responseTypes';
 import { RootState, TypedThunkAPI } from './store';
 import { hideLoader, showLoader } from './loaderSlice';
 import { AxiosError } from 'axios';
 import { columnService } from '../api/columnService';
-import { IColumn } from '../types/boardTypes';
+import { IColumn, ITask } from '../types/boardTypes';
 import { closeModalWindow } from './modalSlice';
 
 interface IColumnState {
   columns: IColumnResponse[];
+  currentColumn: IColumnResponse;
 }
 
 const initialState: IColumnState = {
   columns: [],
+  currentColumn: { _id: '', title: '', order: 0, users: [], owner: '', tasks: [] },
 };
 
-export const getAllColumns = createAsyncThunk<IColumnResponse[], void, TypedThunkAPI>(
-  'column/getAllColumns',
+export const getAllColumnsByBoard = createAsyncThunk<IColumnResponse[], void, TypedThunkAPI>(
+  'column/getAllColumnsByBoard',
   async (_, { rejectWithValue, getState, dispatch }) => {
     try {
       dispatch(showLoader());
       const { _id } = getState().boardStore.currentBoard;
-      const response = await columnService.getAllColumns(_id);
+      const response = await columnService.getAllColumnsByBoard(_id);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
@@ -55,20 +57,76 @@ export const addNewColumn = createAsyncThunk<IColumnResponse, IColumn, TypedThun
   }
 );
 
+export const addNewTask = createAsyncThunk<ITaskResponse, ITask, TypedThunkAPI>(
+  'column/addNewTask',
+  async (data: ITask, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const idBoard = getState().boardStore.currentBoard._id;
+      const idColumn = getState().columnStore.currentColumn._id;
+      data.order = getState().columnStore.currentColumn.tasks.length;
+      data.users = [];
+      data.userId = getState().authStore.userId;
+      const response = await columnService.addNewTask(idBoard, idColumn, data);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
+    }
+  }
+);
+
+export const getAllTasksByBoard = createAsyncThunk<ITaskResponse[], void, TypedThunkAPI>(
+  'column/getAllTasksByBoard',
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const idBoard = getState().boardStore.currentBoard._id;
+      const response = await columnService.getAllTasksByBoard(idBoard);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
 const columnSlice = createSlice({
   name: 'Column',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentColumn(state: IColumnState, { payload: content }: PayloadAction<IColumnResponse>) {
+      state.currentColumn = content;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getAllColumns.fulfilled, (state, { payload: columns }) => {
+    builder.addCase(getAllColumnsByBoard.fulfilled, (state, { payload: columns }) => {
       state.columns = columns;
     });
     builder.addCase(addNewColumn.fulfilled, (state, { payload: column }) => {
       state.columns = [...state.columns, column];
+      state.currentColumn = column;
+    });
+    builder.addCase(addNewTask.fulfilled, (state, { payload: task }) => {
+      state.currentColumn.tasks = [...state.currentColumn.tasks, task];
+      state.columns = state.columns.map((column: IColumnResponse) => {
+        if (column._id === state.currentColumn._id) {
+          return { ...column, tasks: [...state.currentColumn.tasks] };
+        }
+        return column;
+      });
     });
   },
 });
 
 export const columnReducer = columnSlice.reducer;
+
+export const { setCurrentColumn } = columnSlice.actions;
 
 export const columnSelector = (state: RootState): IColumnState => state.columnStore;

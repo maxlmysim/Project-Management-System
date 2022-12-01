@@ -7,21 +7,28 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import TooltipButton from './TooltipButton';
+import { SxProps } from '@mui/system';
+import { Theme } from '@mui/material/styles';
+import { useAppDispatch } from '../hooks/storeHooks';
+import { showModalWindow } from '../store/modalSlice';
+import { ADD_TASK } from '../constants/modalField';
+import { setCurrentColumn } from '../store/columnSlice';
 
 interface IColumnProps {
   column: IColumnResponse;
 }
 
-const style = {
+const style: SxProps<Theme> = {
   maxWidth: 275,
   width: 1,
   minHeight: 100,
   cursor: 'pointer',
   flexShrink: 0,
   overflow: 'visible',
+  backgroundColor: 'rgba(255, 255, 255, 0.3)',
 };
 
-const styleContent = {
+const styleContent: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
@@ -29,13 +36,21 @@ const styleContent = {
 };
 
 const Column: FC<IColumnProps> = ({ column }) => {
+  const dispatch = useAppDispatch();
   const [showOptions, setShowOptions] = useState(false);
-  const toggleShowOptions = () => {
+
+  const toggleShowOptions = (): void => {
     setShowOptions(!showOptions);
   };
-  const closeShowOptions = () => {
+  const closeShowOptions = (): void => {
     setShowOptions(false);
   };
+
+  const onAddTask = (): void => {
+    dispatch(setCurrentColumn(column));
+    dispatch(showModalWindow(ADD_TASK));
+  };
+
   return (
     <Card sx={style} onClick={(): void => {}}>
       <CardContent sx={styleContent}>
@@ -74,7 +89,13 @@ const Column: FC<IColumnProps> = ({ column }) => {
           </Box>
           {column.title}
         </Button>
-        <AddButton type="small" onClick={(): void => {}}>
+        {column.tasks.map((task) => (
+          <Card key={task._id}>
+            <CardContent>{task.title}</CardContent>
+          </Card>
+        ))}
+
+        <AddButton type="small" onClick={onAddTask}>
           {'Добавить задачу'}
         </AddButton>
         <Typography>{column.order}</Typography>

@@ -3,7 +3,7 @@ import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { loaderSelector } from '../store/loaderSlice';
-import { columnSelector, getAllColumns } from '../store/columnSlice';
+import { columnSelector, getAllColumnsByBoard } from '../store/columnSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_COLUMN } from '../constants/modalField';
 import Column from './Column';
@@ -13,12 +13,15 @@ const ColumnList: FC = () => {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector(loaderSelector);
   const { columns } = useAppSelector(columnSelector);
+
   const onAddColumn = (): void => {
     dispatch(showModalWindow(ADD_COLUMN));
   };
+
   useEffect(() => {
-    dispatch(getAllColumns());
-  }, [dispatch]);
+    dispatch(getAllColumnsByBoard());
+  }, []);
+
   return (
     <CenteringContainer
       justifyContent="flex-start"
