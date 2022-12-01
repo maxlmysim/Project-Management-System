@@ -1,14 +1,13 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { loaderSelector } from '../store/loaderSlice';
-import { columnSelector, getAllColumnsByBoard } from '../store/columnSlice';
+import { columnSelector } from '../store/columnSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_COLUMN } from '../constants/modalField';
 import Column from './Column';
 import CenteringContainer from './СenteringСontainer';
-import { useParams } from 'react-router-dom';
 
 const ColumnList: FC = () => {
   const dispatch = useAppDispatch();
@@ -18,13 +17,6 @@ const ColumnList: FC = () => {
   const onAddColumn = (): void => {
     dispatch(showModalWindow(ADD_COLUMN));
   };
-
-  const { idBoard } = useParams();
-  useEffect(() => {
-    if (idBoard) {
-      dispatch(getAllColumnsByBoard(idBoard));
-    }
-  }, []);
 
   return (
     <CenteringContainer
