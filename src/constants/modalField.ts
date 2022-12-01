@@ -178,7 +178,7 @@ const taskDescription: IFieldPropsInput = {
       message: 'Минимальная длинна названия 4 символа',
     },
     maxLength: {
-      value: 30,
+      value: 100,
       message: 'Максимальная длинна названия 100 символов',
     },
   },

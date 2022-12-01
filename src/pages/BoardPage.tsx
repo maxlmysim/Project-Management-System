@@ -23,9 +23,10 @@ const BoardPage: FC = () => {
       sx={{
         flexGrow: 1,
         backgroundColor: 'rgb(66, 165, 245)',
-        overflowY: 'hidden',
+        overflowX: 'auto',
         p: '1rem',
-        w: 1,
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <BoardHeader title={title} owner={owner} />

@@ -23,8 +23,7 @@ const ColumnList: FC = () => {
       justifyContent="flex-start"
       alignItems="flex-start"
       gap="1rem"
-      flex="1 1"
-      style={{ padding: '1rem', width: '100%' }}
+      style={{ width: '100%' }}
     >
       {isLoading ? (
         <Loader color="#ffffff" />

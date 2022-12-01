@@ -100,10 +100,11 @@ const Column: FC<IColumnProps> = ({ column }) => {
           </Box>
           {column.title}
         </Button>
-        {column.tasks.map((task) => (
-          <Task key={task._id} task={task} />
-        ))}
-
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {column.tasks.map((task) => (
+            <Task key={task._id} task={task} />
+          ))}
+        </Box>
         <AddButton type="small" onClick={onAddTask}>
           {'Добавить задачу'}
         </AddButton>
