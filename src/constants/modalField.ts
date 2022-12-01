@@ -1,9 +1,9 @@
 import { IModalContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
 import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
-import { addNewColumn } from 'store/columnSlice';
+import { addNewColumn, addNewTask } from 'store/columnSlice';
 
-type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title';
+type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title' | 'description';
 
 export interface IFieldPropsInput {
   label: string;
@@ -148,6 +148,42 @@ const columnName: IFieldPropsInput = {
   },
 };
 
+const taskName: IFieldPropsInput = {
+  label: 'Название задачи',
+  name: 'title',
+  type: 'text',
+  placeholder: 'Введите название задачи',
+  registerOptions: {
+    required,
+    minLength: {
+      value: 2,
+      message: 'Минимальная длинна названия 2 символа',
+    },
+    maxLength: {
+      value: 30,
+      message: 'Максимальная длинна названия 30 символов',
+    },
+  },
+};
+
+const taskDescription: IFieldPropsInput = {
+  label: 'Описание задачи',
+  name: 'description',
+  type: 'text',
+  placeholder: 'Введите описание задачи',
+  registerOptions: {
+    required,
+    minLength: {
+      value: 2,
+      message: 'Минимальная длинна названия 4 символа',
+    },
+    maxLength: {
+      value: 30,
+      message: 'Максимальная длинна названия 100 символов',
+    },
+  },
+};
+
 export const signInFieldList: IFieldPropsInput[] = [fieldLogin, fieldPassword];
 export const registrationFieldList: IFieldPropsInput[] = [fieldName, fieldLogin, fieldPassword];
 const changeNameFieldList: IFieldPropsInput[] = [fieldName, fieldPassword];
@@ -155,6 +191,7 @@ const changeLoginFieldList: IFieldPropsInput[] = [fieldLogin, fieldPassword];
 const addBoardFieldList: IFieldPropsInput[] = [boardName, boardDescription];
 const editBoardFieldList: IFieldPropsInput[] = [boardName, boardDescription];
 const addColumnFieldList: IFieldPropsInput[] = [columnName];
+const addTaskFieldList: IFieldPropsInput[] = [taskName, taskDescription];
 
 export const EDIT_LOGIN: IModalContent = {
   modalTitle: 'Изменить логин',
@@ -201,6 +238,12 @@ export const SHOW_BOARD_INFO: IModalContent = {
   isHideConfirmButton: true,
 };
 
+export const ADD_TASK: IModalContent = {
+  modalTitle: 'Добавить задачу',
+  action: 'addNewTask',
+  fieldsInput: addTaskFieldList,
+};
+
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
@@ -209,4 +252,5 @@ export const modalActions: ModalFormActions = {
   deleteBoard,
   editBoard,
   addNewColumn,
+  addNewTask,
 };
