@@ -1,7 +1,7 @@
 import { IModalContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
 import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
-import { addNewColumn, addNewTask } from 'store/columnSlice';
+import { addNewColumn, addNewTask, deleteTask, editTask } from 'store/columnSlice';
 
 type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title' | 'description';
 
@@ -192,6 +192,7 @@ const addBoardFieldList: IFieldPropsInput[] = [boardName, boardDescription];
 const editBoardFieldList: IFieldPropsInput[] = [boardName, boardDescription];
 const addColumnFieldList: IFieldPropsInput[] = [columnName];
 const addTaskFieldList: IFieldPropsInput[] = [taskName, taskDescription];
+const editTaskFieldList: IFieldPropsInput[] = [taskName, taskDescription];
 
 export const EDIT_LOGIN: IModalContent = {
   modalTitle: 'Изменить логин',
@@ -249,6 +250,17 @@ export const ADD_TASK: IModalContent = {
   fieldsInput: addTaskFieldList,
 };
 
+export const DELETE_TASK: IModalContent = {
+  modalTitle: 'Удалить задачу?',
+  action: 'deleteTask',
+};
+
+export const EDIT_TASK: IModalContent = {
+  modalTitle: 'Редактирование',
+  action: 'editTask',
+  fieldsInput: editTaskFieldList,
+};
+
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
@@ -258,4 +270,6 @@ export const modalActions: ModalFormActions = {
   editBoard,
   addNewColumn,
   addNewTask,
+  deleteTask,
+  editTask,
 };

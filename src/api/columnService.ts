@@ -21,7 +21,27 @@ export const columnService = {
       data
     );
   },
+  editTask(
+    idBoard: string,
+    idColumn: string,
+    idTask: string,
+    data: ITask
+  ): Promise<AxiosResponse<ITaskResponse>> {
+    return api.put(
+      `${Endpoints.BOARDS}/${idBoard}${Endpoints.COLUMNS}/${idColumn}${Endpoints.TASKS}/${idTask}`,
+      data
+    );
+  },
   getAllTasksByBoard(idBoard: string): Promise<AxiosResponse<ITaskResponse[]>> {
     return api.get(`${Endpoints.TASKS_SET}/${idBoard}`);
+  },
+  deleteTask(
+    idBoard: string,
+    idColumn: string,
+    idTask: string
+  ): Promise<AxiosResponse<ITaskResponse>> {
+    return api.delete(
+      `${Endpoints.BOARDS}/${idBoard}${Endpoints.COLUMNS}/${idColumn}${Endpoints.TASKS}/${idTask}`
+    );
   },
 };

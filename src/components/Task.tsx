@@ -5,10 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ITaskResponse } from '../types/responseTypes';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { addFieldsInfoModal, showModalWindow } from '../store/modalSlice';
-import { SHOW_TASK_INFO } from '../constants/modalField';
+import { DELETE_TASK, EDIT_TASK, SHOW_TASK_INFO } from '../constants/modalField';
 import CenteringContainer from './СenteringСontainer';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { setCurrentTask } from 'store/columnSlice';
 
 interface ITaskProps {
   task: ITaskResponse;
@@ -21,6 +22,16 @@ const Task: FC<ITaskProps> = ({ task }) => {
   const onShowTaskInfo = (): void => {
     dispatch(addFieldsInfoModal({ title, owner: description }));
     dispatch(showModalWindow(SHOW_TASK_INFO));
+  };
+
+  const onDeleteTask = (): void => {
+    dispatch(setCurrentTask(task));
+    dispatch(showModalWindow(DELETE_TASK));
+  };
+
+  const onEditTask = (): void => {
+    dispatch(setCurrentTask(task));
+    dispatch(showModalWindow(EDIT_TASK));
   };
 
   return (
@@ -36,8 +47,11 @@ const Task: FC<ITaskProps> = ({ task }) => {
           {description}
         </Typography>
         <CenteringContainer>
-          <ModeEditIcon sx={{ color: 'rgb(25, 118, 210)', fontSize: '2rem' }} />
-          <DeleteIcon sx={{ color: 'rgb(210,25,25)', fontSize: '2rem' }} />
+          <ModeEditIcon
+            sx={{ color: 'rgb(25, 118, 210)', fontSize: '2rem' }}
+            onClick={onEditTask}
+          />
+          <DeleteIcon sx={{ color: 'rgb(210,25,25)', fontSize: '2rem' }} onClick={onDeleteTask} />
         </CenteringContainer>
       </CenteringContainer>
     </Card>
