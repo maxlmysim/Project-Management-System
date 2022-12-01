@@ -17,13 +17,12 @@ const initialState: IColumnState = {
   currentColumn: { _id: '', title: '', order: 0, users: [], owner: '', tasks: [] },
 };
 
-export const getAllColumnsByBoard = createAsyncThunk<IColumnResponse[], void, TypedThunkAPI>(
+export const getAllColumnsByBoard = createAsyncThunk<IColumnResponse[], string, TypedThunkAPI>(
   'column/getAllColumnsByBoard',
-  async (_, { rejectWithValue, getState, dispatch }) => {
+  async (boardId, { rejectWithValue, dispatch }) => {
     try {
       dispatch(showLoader());
-      const { _id } = getState().boardStore.currentBoard;
-      const response = await columnService.getAllColumnsByBoard(_id);
+      const response = await columnService.getAllColumnsByBoard(boardId);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;

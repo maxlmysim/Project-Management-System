@@ -8,6 +8,7 @@ import { showModalWindow } from '../store/modalSlice';
 import { ADD_COLUMN } from '../constants/modalField';
 import Column from './Column';
 import CenteringContainer from './СenteringСontainer';
+import { useParams } from 'react-router-dom';
 
 const ColumnList: FC = () => {
   const dispatch = useAppDispatch();
@@ -18,8 +19,11 @@ const ColumnList: FC = () => {
     dispatch(showModalWindow(ADD_COLUMN));
   };
 
+  const { idBoard } = useParams();
   useEffect(() => {
-    dispatch(getAllColumnsByBoard());
+    if (idBoard) {
+      dispatch(getAllColumnsByBoard(idBoard));
+    }
   }, []);
 
   return (
