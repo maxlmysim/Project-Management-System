@@ -13,6 +13,7 @@ import { useAppDispatch } from '../hooks/storeHooks';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_TASK } from '../constants/modalField';
 import { setCurrentColumn } from '../store/columnSlice';
+import Task from './Task';
 
 interface IColumnProps {
   column: IColumnResponse;
@@ -100,9 +101,7 @@ const Column: FC<IColumnProps> = ({ column }) => {
           {column.title}
         </Button>
         {column.tasks.map((task) => (
-          <Card key={task._id}>
-            <CardContent>{task.title}</CardContent>
-          </Card>
+          <Task key={task._id} task={task} />
         ))}
 
         <AddButton type="small" onClick={onAddTask}>

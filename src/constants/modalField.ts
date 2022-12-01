@@ -238,6 +238,11 @@ export const SHOW_BOARD_INFO: IModalContent = {
   isHideConfirmButton: true,
 };
 
+export const SHOW_TASK_INFO: IModalContent = {
+  modalTitle: 'Задача',
+  isHideConfirmButton: true,
+};
+
 export const ADD_TASK: IModalContent = {
   modalTitle: 'Добавить задачу',
   action: 'addNewTask',
