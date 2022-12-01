@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Box, Button, Card, CardContent, Typography } from '@mui/material';
+import { Box, Button, Card, Typography } from '@mui/material';
 import { IColumnResponse } from '../types/responseTypes';
 import AddButton from './Buttons/AddButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -27,13 +27,10 @@ const style: SxProps<Theme> = {
   flexShrink: 0,
   maxHeight: '100%',
   backgroundColor: 'rgba(255, 255, 255, 0.3)',
-};
-
-const styleContent: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  maxHeight: '100%',
+  padding: '1rem',
 };
 
 const styleBox = {
@@ -65,51 +62,49 @@ const Column: FC<IColumnProps> = ({ column }) => {
 
   return (
     <Card sx={style} onClick={(): void => {}}>
-      <CardContent sx={styleContent}>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="medium"
-          sx={{ fontSize: '1.6rem', width: '100%' }}
-          onBlur={closeShowOptions}
-        >
-          <Box sx={styleBox}>
-            <TooltipButton title="" handler={toggleShowOptions} icon={<MoreVertIcon />} />
-            {showOptions && (
-              <>
-                <TooltipButton
-                  title="Описание"
-                  handler={(): void => {}}
-                  backgroundColor="rgba(0,0,0,0.7)"
-                  icon={<SearchIcon />}
-                />
-                <TooltipButton
-                  title="Изменить"
-                  handler={(): void => {}}
-                  backgroundColor="rgba(0,0,0,0.7)"
-                  icon={<EditIcon />}
-                />
-                <TooltipButton
-                  title="Удалить"
-                  handler={(): void => {}}
-                  backgroundColor="rgba(0,0,0,0.7)"
-                  icon={<DeleteIcon />}
-                />
-              </>
-            )}
-          </Box>
-          {column.title}
-        </Button>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', overflow: 'auto' }}>
-          {column.tasks.map((task) => (
-            <Task key={task._id} task={task} />
-          ))}
+      <Button
+        variant="contained"
+        color="secondary"
+        size="medium"
+        sx={{ fontSize: '1.6rem', width: '100%' }}
+        onBlur={closeShowOptions}
+      >
+        <Box sx={styleBox}>
+          <TooltipButton title="" handler={toggleShowOptions} icon={<MoreVertIcon />} />
+          {showOptions && (
+            <>
+              <TooltipButton
+                title="Описание"
+                handler={(): void => {}}
+                backgroundColor="rgba(0,0,0,0.7)"
+                icon={<SearchIcon />}
+              />
+              <TooltipButton
+                title="Изменить"
+                handler={(): void => {}}
+                backgroundColor="rgba(0,0,0,0.7)"
+                icon={<EditIcon />}
+              />
+              <TooltipButton
+                title="Удалить"
+                handler={(): void => {}}
+                backgroundColor="rgba(0,0,0,0.7)"
+                icon={<DeleteIcon />}
+              />
+            </>
+          )}
         </Box>
-        <AddButton type="small" onClick={onAddTask}>
-          {'Добавить задачу'}
-        </AddButton>
-        <Typography>{column.order}</Typography>
-      </CardContent>
+        {column.title}
+      </Button>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', overflow: 'auto' }}>
+        {column.tasks.map((task) => (
+          <Task key={task._id} task={task} />
+        ))}
+      </Box>
+      <AddButton type="small" onClick={onAddTask}>
+        {'Добавить задачу'}
+      </AddButton>
+      <Typography>{column.order}</Typography>
     </Card>
   );
 };
