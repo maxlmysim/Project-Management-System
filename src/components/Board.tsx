@@ -48,17 +48,19 @@ const Board: FC<props> = ({ board }) => {
     <Card
       key={board._id}
       sx={{
-        maxWidth: 275,
+        maxWidth: 290,
         width: 1,
         minHeight: 100,
         cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       onClick={onOpenBoard}
     >
       <CardContent>
-        <CenteringContainer justifyContent="space-between" alignItems="center">
+        <CenteringContainer justifyContent="space-between" alignItems="center" wrap="wrap">
           <Typography
-            sx={{ fontSize: '2.4rem' }}
+            sx={{ fontSize: '2.4rem', m: 0, overflowWrap: 'break-word', maxWidth: 275 }}
             variant="h5"
             component="h4"
             gutterBottom
@@ -73,7 +75,7 @@ const Board: FC<props> = ({ board }) => {
           {board.owner}
         </Typography>
       </CardContent>
-      <Divider variant="middle" sx={{ m: '0 1rem 1rem' }} color="#696565" />
+      <Divider variant="middle" sx={{ m: 'auto 1rem 1rem' }} color="#696565" />
       <CardActions style={{ justifyContent: 'center' }}>
         <EditButton onClick={onEditBoard} />
         <DeleteButton onClick={onDeleteBoard} />
