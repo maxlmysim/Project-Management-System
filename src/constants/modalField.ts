@@ -103,11 +103,11 @@ const boardName: IFieldPropsInput = {
     required,
     minLength: {
       value: 2,
-      message: 'Минимальная длинна имени 2 символа',
+      message: 'Минимальная длинна названия 2 символа',
     },
     maxLength: {
-      value: 30,
-      message: 'Максимальная длинна имени 30 символов',
+      value: 20,
+      message: 'Максимальная длинна названия 20 символов',
     },
   },
 };
