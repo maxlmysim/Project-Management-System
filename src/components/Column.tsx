@@ -13,6 +13,7 @@ import { useAppDispatch } from '../hooks/storeHooks';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_TASK } from '../constants/modalField';
 import { setCurrentColumn } from '../store/columnSlice';
+import Task from './Task';
 
 interface IColumnProps {
   column: IColumnResponse;
@@ -24,7 +25,7 @@ const style: SxProps<Theme> = {
   minHeight: 100,
   cursor: 'pointer',
   flexShrink: 0,
-  overflow: 'visible',
+  maxHeight: '100%',
   backgroundColor: 'rgba(255, 255, 255, 0.3)',
 };
 
@@ -32,7 +33,7 @@ const styleContent: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  flexShrink: 0,
+  maxHeight: '100%',
 };
 
 const styleBox = {
@@ -99,12 +100,11 @@ const Column: FC<IColumnProps> = ({ column }) => {
           </Box>
           {column.title}
         </Button>
-        {column.tasks.map((task) => (
-          <Card key={task._id}>
-            <CardContent>{task.title}</CardContent>
-          </Card>
-        ))}
-
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', overflow: 'auto' }}>
+          {column.tasks.map((task) => (
+            <Task key={task._id} task={task} />
+          ))}
+        </Box>
         <AddButton type="small" onClick={onAddTask}>
           {'Добавить задачу'}
         </AddButton>

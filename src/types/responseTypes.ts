@@ -21,6 +21,7 @@ export interface IBoardResponse extends IBoard {
 
 export interface IColumnResponse extends IColumn {
   _id: string;
+  boardId: string;
   tasks: ITaskResponse[];
 }
 
