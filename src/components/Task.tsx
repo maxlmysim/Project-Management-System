@@ -35,7 +35,7 @@ const Task: FC<ITaskProps> = ({ task }) => {
   };
 
   return (
-    <Card>
+    <Card sx={{ overflow: 'visible' }}>
       <CenteringContainer style={{ padding: '1.3rem' }} direction="column" alignItems="flex-start">
         <Box>
           <Typography variant="h5" component="h5" display="inline" fontWeight="bold">

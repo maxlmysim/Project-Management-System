@@ -25,7 +25,7 @@ const style: SxProps<Theme> = {
   minHeight: 100,
   cursor: 'pointer',
   flexShrink: 0,
-  overflow: 'visible',
+  maxHeight: '100%',
   backgroundColor: 'rgba(255, 255, 255, 0.3)',
 };
 
@@ -33,7 +33,7 @@ const styleContent: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  flexShrink: 0,
+  maxHeight: '100%',
 };
 
 const styleBox = {
@@ -100,7 +100,7 @@ const Column: FC<IColumnProps> = ({ column }) => {
           </Box>
           {column.title}
         </Button>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', overflow: 'auto' }}>
           {column.tasks.map((task) => (
             <Task key={task._id} task={task} />
           ))}

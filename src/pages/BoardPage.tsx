@@ -23,7 +23,6 @@ const BoardPage: FC = () => {
       sx={{
         flexGrow: 1,
         backgroundColor: 'rgb(66, 165, 245)',
-        overflowX: 'auto',
         p: '1rem',
         display: 'flex',
         flexDirection: 'column',
