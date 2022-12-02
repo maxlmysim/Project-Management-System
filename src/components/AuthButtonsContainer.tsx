@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/storeHooks';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { AppRoutes } from '../constants/routes';
 
 interface props {
   isLogin: boolean;
@@ -22,16 +23,16 @@ const AuthButtonsContainer: FC<props> = ({
   const dispatch = useAppDispatch();
 
   function onLogin(): void {
-    navigate('/login');
+    navigate(AppRoutes.LOGIN);
   }
 
   function onSignOut(): void {
     dispatch(signOut());
-    navigate('/login');
+    navigate(AppRoutes.LOGIN);
   }
 
   function onRegistration(): void {
-    navigate('/registration');
+    navigate(AppRoutes.REGISTRATION);
   }
   return (
     <>
