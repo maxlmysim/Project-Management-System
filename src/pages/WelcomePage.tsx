@@ -6,6 +6,8 @@ import Section from '../components/Section';
 import Technology from '../components/Technology';
 import Teammate from '../components/Teammate';
 import { advantageList, teamList, technologiesList } from '../constants/welcomePageInfo';
+import { authSelector } from '../store/authSlice';
+import { useAppSelector } from '../hooks/storeHooks';
 
 const SectionContainer = styled('div')`
   display: grid;
@@ -19,6 +21,7 @@ const SectionContainer = styled('div')`
 `;
 
 const WelcomePage: FC = () => {
+  const { isLogin, name } = useAppSelector(authSelector);
   return (
     <main>
       <Section>
@@ -26,8 +29,9 @@ const WelcomePage: FC = () => {
           <SectionContainer>
             <Logo />
             <Typography variant="h3" sx={{ fontWeight: '700', marginBottom: '20px' }}>
-              Ищите удобное приложение, в которым будет удобно управлять процессом постановки и
-              выполнения задач?
+              {isLogin
+                ? `Приветствуем вас, ${name}!`
+                : 'Ищите удобное приложение, в которым будет удобно управлять процессом постановки ивыполнения задач?'}
             </Typography>
             <Typography component="p" variant="h4">
               Рады представить Вашему вниманию наше приложение PMA. С ним Вы можете лего управлять
