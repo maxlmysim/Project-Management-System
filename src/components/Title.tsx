@@ -10,7 +10,7 @@ const Title: FC<ITitle> = ({ children, type = '' }) => {
   if (type === 'board') {
     return (
       <Typography
-        sx={{ fontSize: '2.4rem' }}
+        sx={{ fontSize: '2.4rem', m: 0, overflowWrap: 'break-word', maxWidth: 275 }}
         variant="h5"
         component="h4"
         gutterBottom
