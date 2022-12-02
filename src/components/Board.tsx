@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Card, CardActions, CardContent, Divider } from '@mui/material';
+import { Card, CardActions, CardContent, Divider, Typography } from '@mui/material';
 import { IBoardResponse } from '../types/responseTypes';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { setBoard } from '../store/boardSlice';
@@ -53,15 +53,35 @@ const Board: FC<props> = ({ board }) => {
   };
 
   return (
-    <Card key={board._id} sx={styleCard} onClick={onOpenBoard}>
+    <Card
+      key={board._id}
+      sx={{
+        maxWidth: 290,
+        width: 1,
+        minHeight: 100,
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+      onClick={onOpenBoard}
+    >
       <CardContent>
-        <CenteringContainer justifyContent="space-between" alignItems="center">
-          <Title type="board">{board.title}</Title>
+        <CenteringContainer justifyContent="space-between" alignItems="center" wrap="wrap">
+          <Typography
+            sx={{ fontSize: '2.4rem', m: 0, overflowWrap: 'break-word', maxWidth: 275 }}
+            variant="h5"
+            component="h4"
+            gutterBottom
+            color="#1565c0"
+            fontWeight="bold"
+          >
+            {board.title}
+          </Typography>
           <InfoButton variant="text" onClick={onShowBoardInfo} />
         </CenteringContainer>
         <Title type="owner">{board.owner}</Title>
       </CardContent>
-      <Divider variant="middle" sx={{ m: '0 1rem 1rem' }} color="#696565" />
+      <Divider variant="middle" sx={{ m: 'auto 1rem 1rem' }} color="#696565" />
       <CardActions style={{ justifyContent: 'center' }}>
         <EditButton onClick={onEditBoard} />
         <DeleteButton onClick={onDeleteBoard} />

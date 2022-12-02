@@ -2,7 +2,7 @@ import { deleteUser, editLogin, editName } from '../store/authSlice';
 import { IFieldPropsInput } from '../constants/modalField';
 import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
 import { IColumn } from './boardTypes';
-import { addNewColumn } from '../store/columnSlice';
+import { addNewColumn, addNewTask, deleteTask, editTask } from '../store/columnSlice';
 
 export type ModalFormActions = {
   editLogin: typeof editLogin;
@@ -12,6 +12,9 @@ export type ModalFormActions = {
   deleteBoard: typeof deleteBoard;
   editBoard: typeof editBoard;
   addNewColumn: typeof addNewColumn;
+  addNewTask: typeof addNewTask;
+  deleteTask: typeof deleteTask;
+  editTask: typeof editTask;
 };
 
 export type ModalActionKeys = keyof ModalFormActions;
@@ -25,6 +28,8 @@ export type AppFormTypes = {
   users: string[];
   columns: IColumn[];
   order: number;
+  description: string;
+  userId: string;
 };
 
 export type IModalContent = {

@@ -3,7 +3,9 @@ enum Endpoints {
   SIGN_UP = '/auth/signup',
   USERS = '/users',
   BOARDS = '/boards',
-  COLUMNS = 'columns',
+  COLUMNS = '/columns',
+  TASKS = '/tasks',
+  TASKS_SET = '/tasksset',
 }
 
 export default Endpoints;

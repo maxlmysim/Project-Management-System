@@ -1,4 +1,4 @@
-import { IBoard, IColumn } from './boardTypes';
+import { IBoard, IColumn, ITask } from './boardTypes';
 
 export interface IResponseUserData {
   _id: string;
@@ -21,4 +21,12 @@ export interface IBoardResponse extends IBoard {
 
 export interface IColumnResponse extends IColumn {
   _id: string;
+  boardId: string;
+  tasks: ITaskResponse[];
+}
+
+export interface ITaskResponse extends ITask {
+  _id: string;
+  boardId: string;
+  columnId: string;
 }
