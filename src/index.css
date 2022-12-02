@@ -8,16 +8,23 @@ html {
     font-size:10px;
 }
 
-html::-webkit-scrollbar {
+*::-webkit-scrollbar {
     height: 12px;
     width: 10px;
 }
 
-html::-webkit-scrollbar-thumb {
-    background: #0f4a85;
-    border: 1px solid #666;
+*::-webkit-scrollbar-thumb {
+    background: #1976d2;
+    border: 1px solid #1976d2;
 }
 
-html::-webkit-scrollbar-track {
-    background: rgba(0,0,0,.2);
+*::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: transparent;
+}
+
+*::-webkit-scrollbar-track-piece {
+    border-radius: 10px;
+    border: 1px solid gray;
+    background: rgba(237, 108, 2, 0.8);
 }
