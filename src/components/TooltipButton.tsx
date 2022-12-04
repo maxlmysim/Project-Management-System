@@ -9,7 +9,7 @@ interface ITooltipButtonProps {
   title: string;
   sizeIcon?: 'large' | 'small' | 'medium';
   color?: string;
-  handler: () => void;
+  handler: (e: React.MouseEvent<HTMLDivElement>) => void;
   icon?: React.ReactNode;
   backgroundColor?: string;
 }

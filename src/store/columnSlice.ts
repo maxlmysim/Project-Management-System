@@ -67,6 +67,45 @@ export const addNewColumn = createAsyncThunk<IColumnResponse, IColumn, TypedThun
   }
 );
 
+export const deleteColumn = createAsyncThunk<IColumnResponse, void, TypedThunkAPI>(
+  'column/deleteColumn',
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { boardId, _id } = getState().columnStore.currentColumn;
+      const response = await columnService.deleteColumn(boardId, _id);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
+    }
+  }
+);
+
+export const editColumn = createAsyncThunk<IColumnResponse, IColumn, TypedThunkAPI>(
+  'column/editColumn',
+  async (column, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { _id, boardId, order } = getState().columnStore.currentColumn;
+      column.order = order;
+      const response = await columnService.editColumn(boardId, _id, column);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
+    }
+  }
+);
+
 export const addNewTask = createAsyncThunk<ITaskResponse, ITask, TypedThunkAPI>(
   'column/addNewTask',
   async (data: ITask, { rejectWithValue, getState, dispatch }) => {
@@ -178,9 +217,23 @@ const columnSlice = createSlice({
     builder.addCase(getAllColumnsByBoard.fulfilled, (state, { payload: columns }) => {
       state.columns = columns;
     });
+    builder.addCase(editColumn.fulfilled, (state, { payload: column }) => {
+      state.columns = state.columns.map((columnState) => {
+        if (columnState._id === column._id) {
+          columnState.title = column.title;
+          columnState.order = column.order;
+        }
+        return columnState;
+      });
+    });
     builder.addCase(addNewColumn.fulfilled, (state, { payload: column }) => {
       state.columns = [...state.columns, column];
       state.currentColumn = column;
+    });
+
+    builder.addCase(deleteColumn.fulfilled, (state, { payload: column }) => {
+      state.columns = state.columns.filter((columnState) => columnState._id !== column._id);
+      state.currentColumn = initialState.currentColumn;
     });
     builder.addCase(addNewTask.fulfilled, (state, { payload: task }) => {
       state.currentColumn.tasks = [...state.currentColumn.tasks, task];

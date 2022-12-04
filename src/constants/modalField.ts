@@ -1,7 +1,14 @@
 import { IModalContent, ModalFormActions } from '../types/formTypes';
 import { deleteUser, editLogin, editName } from '../store/authSlice';
 import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
-import { addNewColumn, addNewTask, deleteTask, editTask } from 'store/columnSlice';
+import {
+  addNewColumn,
+  addNewTask,
+  deleteColumn,
+  deleteTask,
+  editColumn,
+  editTask,
+} from 'store/columnSlice';
 
 type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title' | 'description';
 
@@ -191,6 +198,7 @@ const changeLoginFieldList: IFieldPropsInput[] = [fieldLogin, fieldPassword];
 const addBoardFieldList: IFieldPropsInput[] = [boardName, boardDescription];
 const editBoardFieldList: IFieldPropsInput[] = [boardName, boardDescription];
 const addColumnFieldList: IFieldPropsInput[] = [columnName];
+const editColumnFieldList: IFieldPropsInput[] = [columnName];
 const addTaskFieldList: IFieldPropsInput[] = [taskName, taskDescription];
 const editTaskFieldList: IFieldPropsInput[] = [taskName, taskDescription];
 
@@ -239,6 +247,17 @@ export const SHOW_BOARD_INFO: IModalContent = {
   isHideConfirmButton: true,
 };
 
+export const DELETE_COLUMN: IModalContent = {
+  modalTitle: 'Удалить список?',
+  action: 'deleteColumn',
+};
+
+export const EDIT_COLUMN: IModalContent = {
+  modalTitle: 'Редактирование',
+  action: 'editColumn',
+  fieldsInput: editColumnFieldList,
+};
+
 export const SHOW_TASK_INFO: IModalContent = {
   modalTitle: 'Задача',
   isHideConfirmButton: true,
@@ -269,6 +288,8 @@ export const modalActions: ModalFormActions = {
   deleteBoard,
   editBoard,
   addNewColumn,
+  deleteColumn,
+  editColumn,
   addNewTask,
   deleteTask,
   editTask,

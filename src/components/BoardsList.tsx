@@ -58,7 +58,7 @@ const BoardsList: FC = () => {
   const handlePage = (event: React.ChangeEvent<unknown>, page: number): void => {
     dispatch(setPage(page));
   };
-  useLayoutEffect(() => {
+  useLayoutEffect((): void => {
     dispatch(getAllBoards());
   }, [dispatch]);
   return (

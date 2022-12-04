@@ -8,6 +8,12 @@ export const columnService = {
   getAllColumnsByBoard(id: string): Promise<AxiosResponse<IColumnResponse[]>> {
     return api.get(`${Endpoints.BOARDS}/${id}${Endpoints.COLUMNS}`);
   },
+  deleteColumn(idBoard: string, _id: string): Promise<AxiosResponse<IColumnResponse>> {
+    return api.delete(`${Endpoints.BOARDS}/${idBoard}${Endpoints.COLUMNS}/${_id}`);
+  },
+  editColumn(idBoard: string, _id: string, data: IColumn): Promise<AxiosResponse<IColumnResponse>> {
+    return api.put(`${Endpoints.BOARDS}/${idBoard}${Endpoints.COLUMNS}/${_id}`, data);
+  },
   addNewColumn(id: string, data: IColumn): Promise<AxiosResponse<IColumnResponse>> {
     return api.post(`${Endpoints.BOARDS}/${id}${Endpoints.COLUMNS}`, data);
   },
