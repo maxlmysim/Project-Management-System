@@ -1,8 +1,7 @@
 import { api } from './index';
 import { AxiosResponse } from 'axios';
 import Endpoints from '../constants/endpoints';
-import { IBoardResponse } from 'types/responseTypes';
-import { IBoard } from '../types/boardTypes';
+import { IBoard, IBoardResponse } from '../types/boardTypes';
 
 export const boardService = {
   addNewBoard(data: IBoard): Promise<AxiosResponse<IBoardResponse>> {

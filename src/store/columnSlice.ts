@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IColumnResponse, ITaskResponse } from '../types/responseTypes';
 import { RootState, TypedThunkAPI } from './store';
 import { hideLoader, showLoader } from './loaderSlice';
 import { AxiosError } from 'axios';
 import { columnService } from '../api/columnService';
-import { IColumn, ITask } from '../types/boardTypes';
+import { IColumn, IColumnResponse } from '../types/columnTypes';
+import { ITask, ITaskResponse } from '../types/taskTypes';
+
 import { closeModalWindow } from './modalSlice';
 
 interface IColumnState {

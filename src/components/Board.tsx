@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Card, CardActions, CardContent, Divider } from '@mui/material';
-import { IBoardResponse } from '../types/responseTypes';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { setBoard } from '../store/boardSlice';
 import { addFieldsInfoModal, showModalWindow } from '../store/modalSlice';
@@ -12,6 +11,7 @@ import DeleteButton from './Buttons/DeleteButton';
 import InfoButton from './Buttons/InfoButton';
 import CenteringContainer from './СenteringСontainer';
 import Title from './Title';
+import { IBoardResponse } from 'types/boardTypes';
 
 interface props {
   board: IBoardResponse;

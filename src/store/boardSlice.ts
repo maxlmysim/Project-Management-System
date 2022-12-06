@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { RootState, TypedThunkAPI } from './store';
-import { IBoardResponse } from '../types/responseTypes';
-import { IBoard } from '../types/boardTypes';
+import { IBoard, IBoardResponse } from '../types/boardTypes';
 import { boardService } from '../api/boardService';
 import { closeModalWindow } from './modalSlice';
 import { hideLoader, showLoader } from './loaderSlice';

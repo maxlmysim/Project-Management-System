@@ -1,6 +1,21 @@
-import React, { CSSProperties, FC } from 'react';
+import React, { CSSProperties, FC, LegacyRef, MutableRefObject, Ref } from 'react';
+import { oneOfType, func, shape, instanceOf } from 'prop-types';
 
-interface props {
+type Key = string | number;
+
+/**
+ * @internal You shouldn't need to use this type since you never see these attributes
+ * inside your component or have to validate them.
+ */
+interface Attributes {
+  key?: Key | null | undefined;
+}
+
+interface ClassAttributes<T> extends Attributes {
+  ref?: LegacyRef<T> | undefined;
+}
+
+interface props extends ClassAttributes<HTMLDivElement> {
   children: React.ReactNode | boolean;
   alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
   justifyContent?:

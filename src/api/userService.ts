@@ -1,8 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { api } from './index';
 import Endpoints from '../constants/endpoints';
-import { IUserData } from '../types/userTypes';
-import { IResponseUserData } from '../types/responseTypes';
+import { IResponseUserData, IUserData } from '../types/userTypes';
 
 export const userService = {
   getUser(userId: string): Promise<AxiosResponse<IResponseUserData>> {

@@ -1,7 +1,6 @@
 import { deleteUser, editLogin, editName } from '../store/authSlice';
 import { IFieldPropsInput } from '../constants/modalField';
 import { addNewBoard, deleteBoard, editBoard } from 'store/boardSlice';
-import { IColumn } from './boardTypes';
 import {
   addNewColumn,
   deleteColumn,
@@ -10,6 +9,7 @@ import {
   deleteTask,
   editTask,
 } from '../store/columnSlice';
+import { IColumn } from './columnTypes';
 
 export type ModalFormActions = {
   editLogin: typeof editLogin;
