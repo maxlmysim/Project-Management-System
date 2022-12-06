@@ -9,7 +9,7 @@ import { setCurrentColumn } from '../store/columnSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { DELETE_COLUMN, EDIT_COLUMN } from '../constants/modalField';
 import { useAppDispatch } from '../hooks/storeHooks';
-import { IColumnResponse } from '../types/responseTypes';
+import { IColumnResponse } from 'types/columnTypes';
 
 const styleBox = {
   display: 'flex',

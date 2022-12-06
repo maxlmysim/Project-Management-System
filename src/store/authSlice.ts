@@ -5,8 +5,13 @@ import { TOKEN, USER_ID } from '../constants/api';
 import { RootState, TypedThunkAPI } from './store';
 import { userService } from '../api/userService';
 import { AppFormTypes } from '../types/formTypes';
-import { INewUser, IUser } from 'types/userTypes';
-import { IResponseUserData, ISignInResponse, ISignUpResponse } from '../types/responseTypes';
+import {
+  INewUser,
+  ISignUpResponse,
+  IUser,
+  IResponseUserData,
+  ISignInResponse,
+} from 'types/userTypes';
 import { closeModalWindow } from './modalSlice';
 import { AppRoutes } from '../constants/routes';
 

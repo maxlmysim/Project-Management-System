@@ -4,6 +4,7 @@ enum Endpoints {
   USERS = '/users',
   BOARDS = '/boards',
   COLUMNS = '/columns',
+  COLUMNS_SET = '/columnsset',
   TASKS = '/tasks',
   TASKS_SET = '/tasksset',
 }

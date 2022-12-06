@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios';
-import { IColumnResponse, ITaskResponse } from '../types/responseTypes';
 import { api } from './index';
 import Endpoints from '../constants/endpoints';
-import { IColumn, ITask } from '../types/boardTypes';
+import { IColumn, IColumnResponse, IColumnSet } from 'types/columnTypes';
+import { ITask, ITaskResponse } from 'types/taskTypes';
 
 export const columnService = {
   getAllColumnsByBoard(id: string): Promise<AxiosResponse<IColumnResponse[]>> {
@@ -16,6 +16,9 @@ export const columnService = {
   },
   addNewColumn(id: string, data: IColumn): Promise<AxiosResponse<IColumnResponse>> {
     return api.post(`${Endpoints.BOARDS}/${id}${Endpoints.COLUMNS}`, data);
+  },
+  updateColumnsSet(data: IColumnSet[]): Promise<AxiosResponse<IColumnResponse[]>> {
+    return api.patch(`${Endpoints.COLUMNS_SET}`, data);
   },
   addNewTask(
     idBoard: string,
