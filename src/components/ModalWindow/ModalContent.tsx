@@ -57,12 +57,13 @@ const ModalContent: FC = () => {
       <ModalTitle>{modalTitle}</ModalTitle>
       {fieldsInfo && <ModalInfo title={fieldsInfo.title} owner={fieldsInfo.owner} />}
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {fieldProps.map(({ name, label, placeholder, type, registerOptions }) => (
+        {fieldProps.map(({ name, label, placeholder, type, registerOptions, defaultValue }) => (
           <TextField
             key={name}
             label={label}
             placeholder={placeholder}
             type={type}
+            defaultValue={defaultValue}
             {...register(name, registerOptions)}
             sx={{ width: 1 }}
             error={!!errors[name as keyof typeof errors]}

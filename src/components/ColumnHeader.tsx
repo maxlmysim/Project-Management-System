@@ -32,7 +32,7 @@ const ColumnHeader: FC<IColumnResponse> = (column) => {
   };
   const onEditColumn = (): void => {
     dispatch(setCurrentColumn(column));
-    dispatch(showModalWindow(EDIT_COLUMN));
+    dispatch(showModalWindow(EDIT_COLUMN(column.title)));
     closeShowOptions();
   };
   const toggleShowOptions = (): void => {
