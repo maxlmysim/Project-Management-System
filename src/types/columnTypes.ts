@@ -2,8 +2,6 @@ import { ITaskResponse } from './taskTypes';
 
 export type IColumn = {
   title: string;
-  users: string[];
-  owner: string;
   order: number;
 };
 

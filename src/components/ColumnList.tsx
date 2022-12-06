@@ -1,15 +1,15 @@
-import React, { FC, useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { loaderSelector } from '../store/loaderSlice';
-import { columnSelector } from '../store/columnSlice';
+import { columnSelector, updateColumnsSet } from '../store/columnSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_COLUMN } from '../constants/modalField';
 import Column from './Column';
 import { Box, styled } from '@mui/material';
-import { DragDropContext, Droppable, DropResult, ResponderProvided } from 'react-beautiful-dnd';
-import { IColumnResponse } from 'types/columnTypes';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { IColumnResponse, IColumnSet } from 'types/columnTypes';
 
 const Container = styled('div')`
   display: flex;
@@ -33,31 +33,43 @@ const ColumnList: FC = () => {
   const [columns, setColumns] = useState<IColumnResponse[]>(columnsFromState);
 
   useEffect(() => {
-    setColumns(columnsFromState);
+    const sortColumns = [...columnsFromState].sort((a, b) => a.order - b.order);
+    setColumns(sortColumns);
   }, [columnsFromState]);
 
   const onAddColumn = (): void => {
     dispatch(showModalWindow(ADD_COLUMN));
   };
 
-  const onDragEnd = useCallback(
-    (result: DropResult, provided: ResponderProvided) => {
-      if (!result.destination) {
-        return;
-      }
-      console.log(result);
+  const reorder = (
+    list: IColumnResponse[],
+    startIndex: number,
+    endIndex: number
+  ): IColumnResponse[] => {
+    const result: IColumnResponse[] = [...list];
+    const [moveItem] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, moveItem);
 
-      const moveItem = columns[result.source.index];
-      const newArray: IColumnResponse[] = [
-        ...columns.slice(0, result.source.index - 1),
-        ...columns.slice(result.source.index, columns.length),
-      ];
-      newArray.splice(result.destination.index, 0, moveItem);
-      console.log(newArray);
-      console.log(moveItem);
-    },
-    [columnsFromState]
-  );
+    return result.map((column, index) => ({ ...column, order: index }));
+  };
+
+  const onDragEnd = (result: DropResult): void => {
+    if (!result.destination) {
+      return;
+    }
+    const newList: IColumnResponse[] = reorder(
+      columns,
+      result.source.index,
+      result.destination.index
+    );
+    setColumns(newList);
+
+    const newListOrder: IColumnSet[] = newList.map((column) => ({
+      order: column.order,
+      _id: column._id,
+    }));
+    dispatch(updateColumnsSet(newListOrder));
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -77,9 +89,6 @@ const ColumnList: FC = () => {
                 </Container>
               )}
             </Droppable>
-            {/*{columns.map((column, index) => (*/}
-            {/*  <Column key={index} column={column} />*/}
-            {/*))}*/}
           </>
         )}
       </Box>
