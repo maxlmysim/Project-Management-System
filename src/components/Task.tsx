@@ -33,7 +33,7 @@ const Task: FC<ITaskProps> = ({ task }) => {
 
   const onEditTask = (): void => {
     dispatch(setCurrentTask(task));
-    dispatch(showModalWindow(EDIT_TASK));
+    dispatch(showModalWindow(EDIT_TASK(task.title, task.description)));
   };
 
   function onDragOver(e: React.DragEvent<HTMLDivElement>, task: ITaskResponse): void {

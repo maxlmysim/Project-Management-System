@@ -46,7 +46,7 @@ const Board: FC<props> = ({ board }) => {
   const onEditBoard = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     dispatch(setBoard(board));
-    dispatch(showModalWindow(EDIT_BOARD));
+    dispatch(showModalWindow(EDIT_BOARD(board.title, board.owner)));
   };
 
   const onOpenBoard = (): void => {

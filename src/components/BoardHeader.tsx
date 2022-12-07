@@ -26,7 +26,7 @@ const BoardHeader: FC<IBoardHeader> = ({ title, owner }) => {
   };
   const onEditBoard = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
-    dispatch(showModalWindow(EDIT_BOARD));
+    dispatch(showModalWindow(EDIT_BOARD(title, owner)));
   };
   return (
     <CenteringContainer direction="column" flex="0 1 auto" style={{ marginBottom: '1rem' }}>

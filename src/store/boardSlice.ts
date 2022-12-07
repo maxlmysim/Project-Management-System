@@ -102,7 +102,6 @@ export const editBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>
   async (board, { rejectWithValue, getState, dispatch }) => {
     try {
       const { _id, users } = getState().boardStore.currentBoard;
-      console.log(_id);
       const data = { ...board, users };
       const response = await boardService.editBoard(_id, data);
       return response.data;
