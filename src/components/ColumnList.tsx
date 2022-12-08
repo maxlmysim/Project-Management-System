@@ -8,8 +8,15 @@ import { showModalWindow } from '../store/modalSlice';
 import { ADD_COLUMN } from '../constants/modalField';
 import Column from './Column';
 import { Box, styled } from '@mui/material';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import { IColumnResponse, IColumnSet } from 'types/columnTypes';
+import {
+  DragDropContext,
+  DraggableLocation,
+  Droppable,
+  DroppableProps,
+  DropResult,
+} from 'react-beautiful-dnd';
+import { IColumnResponse } from 'types/columnTypes';
+import { combineColumns, newSetColumnOrder, reorderColumn, reorderTask } from '../helper/order';
 
 const Container = styled('div')`
   display: flex;
@@ -41,34 +48,51 @@ const ColumnList: FC = () => {
     dispatch(showModalWindow(ADD_COLUMN));
   };
 
-  const reorder = (
-    list: IColumnResponse[],
-    startIndex: number,
-    endIndex: number
-  ): IColumnResponse[] => {
-    const result: IColumnResponse[] = [...list];
-    const [moveItem] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, moveItem);
-
-    return result.map((column, index) => ({ ...column, order: index }));
-  };
-
   const onDragEnd = (result: DropResult): void => {
     if (!result.destination) {
       return;
     }
-    const newList: IColumnResponse[] = reorder(
-      columns,
-      result.source.index,
-      result.destination.index
-    );
-    setColumns(newList);
 
-    const newListOrder: IColumnSet[] = newList.map((column) => ({
-      order: column.order,
-      _id: column._id,
-    }));
-    dispatch(updateColumnsSet(newListOrder));
+    if (
+      result.destination.droppableId === result.source.droppableId &&
+      result.destination.index === result.source.index
+    ) {
+      return;
+    }
+
+    const source: DraggableLocation = result.source;
+    const destination: DraggableLocation = result.destination;
+
+    if (result.type === 'COLUMN') {
+      const newList: IColumnResponse[] = reorderColumn(
+        columns,
+        result.source.index,
+        result.destination.index
+      );
+      setColumns(newList);
+
+      dispatch(updateColumnsSet(newSetColumnOrder(newList)));
+      return;
+    }
+
+    if (result.type === 'TASK') {
+      const currentColumn = columns.find(
+        (column) => column._id === source.droppableId
+      ) as IColumnResponse;
+      const nextColumn = columns.find(
+        (column) => column._id === destination.droppableId
+      ) as IColumnResponse;
+
+      const [newCurrentColumn, newNextColumn] = reorderTask(
+        currentColumn,
+        nextColumn,
+        source.index,
+        destination.index
+      );
+
+      setColumns(combineColumns(columns, newNextColumn, newCurrentColumn));
+      return;
+    }
   };
 
   return (
@@ -78,7 +102,7 @@ const ColumnList: FC = () => {
           <Loader color="#ffffff" />
         ) : (
           <>
-            <Droppable droppableId={columns[0]?.boardId || 'id'} direction="horizontal">
+            <Droppable droppableId="board" type="COLUMN" direction="horizontal">
               {(provided) => (
                 <Container {...provided.droppableProps} ref={provided.innerRef}>
                   {columns.map((column) => (

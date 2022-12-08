@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Box, Card, Typography } from '@mui/material';
 import TooltipButton from './TooltipButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,16 +10,17 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { setCurrentTask } from 'store/columnSlice';
 import { ITaskResponse } from '../types/taskTypes';
+import { DraggableProvided } from 'react-beautiful-dnd';
+import DragIcon from './DragIcon';
 
 interface ITaskProps {
   task: ITaskResponse;
+  dropProvided: DraggableProvided;
 }
 
-const Task: FC<ITaskProps> = ({ task }) => {
+const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
   const dispatch = useAppDispatch();
   const { title, description } = task;
-
-  const [currentElement, setCurrentElement] = useState<HTMLElement>();
 
   const onShowTaskInfo = (): void => {
     dispatch(addFieldsInfoModal({ title, owner: description }));
@@ -36,43 +37,20 @@ const Task: FC<ITaskProps> = ({ task }) => {
     dispatch(showModalWindow(EDIT_TASK));
   };
 
-  function onDragOver(e: React.DragEvent<HTMLDivElement>, task: ITaskResponse): void {
-    e.preventDefault();
-    const target = e.target as HTMLElement;
-    console.log(e.clientX, e.clientY);
-    target.style.backgroundColor = 'red';
-    target.style.position = 'relative';
-    target.style.top = `100px`;
-  }
-
-  function onDragLeave(e: React.DragEvent<HTMLDivElement>): void {
-    const target = e.target as HTMLElement;
-    target.style.backgroundColor = 'white';
-  }
-
-  function onDragStart(e: React.DragEvent<HTMLDivElement>): void {
-    const target = e.target as HTMLElement;
-    setCurrentElement(target);
-  }
-
-  function onDragEnd(e: React.DragEvent<HTMLDivElement>): void {}
-
-  function onDrop(e: React.DragEvent<HTMLDivElement>, task: ITaskResponse): void {
-    e.preventDefault();
-  }
-
   return (
     <Card
-      sx={{ overflow: 'visible', cursor: 'grab' }}
-      data-card="dragDrop"
-      draggable={true}
-      onDragOver={(e) => onDragOver(e, task)}
-      onDragLeave={(e) => onDragLeave(e)}
-      onDragStart={(e) => onDragStart(e)}
-      onDragEnd={(e) => onDragEnd(e)}
-      onDrop={(e) => onDrop(e, task)}
+      sx={{ overflow: 'visible', cursor: 'grab', width: '100%', margin: '0 auto' }}
+      ref={dropProvided.innerRef}
+      {...dropProvided.draggableProps}
+      {...dropProvided.dragHandleProps}
     >
-      <CenteringContainer style={{ padding: '1.3rem' }} direction="column" alignItems="flex-start">
+      {/*{order}*/}
+      <CenteringContainer
+        style={{ padding: '1.3rem', position: 'relative' }}
+        direction="column"
+        alignItems="flex-start"
+      >
+        <DragIcon position="absolute" top="20px" right="10px" />
         <Box>
           <Typography variant="h5" component="h5" display="inline" fontWeight="bold">
             {title}

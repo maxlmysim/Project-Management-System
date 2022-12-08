@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box, Card, Typography } from '@mui/material';
+import { Card, styled, Typography } from '@mui/material';
 import AddButton from './Buttons/AddButton';
 import { SxProps } from '@mui/system';
 import { Theme } from '@mui/material/styles';
@@ -9,7 +9,7 @@ import { ADD_TASK } from '../constants/modalField';
 import { setCurrentColumn } from '../store/columnSlice';
 import Task from './Task';
 import ColumnHeader from './ColumnHeader';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { IColumnResponse } from 'types/columnTypes';
 
 export interface IColumnProps {
@@ -30,6 +30,13 @@ const style: SxProps<Theme> = {
   padding: '1rem',
 };
 
+const Container = styled('div')`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: auto;
+`;
+
 const Column: FC<IColumnProps> = ({ column }) => {
   const dispatch = useAppDispatch();
   const onAddTask = (): void => {
@@ -39,19 +46,21 @@ const Column: FC<IColumnProps> = ({ column }) => {
 
   return (
     <Draggable draggableId={column._id} index={column.order}>
-      {(provided, snapshot) => (
-        <Card
-          sx={style}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <ColumnHeader {...column} />
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', overflow: 'auto' }}>
-            {column.tasks.map((task) => (
-              <Task key={task._id} task={task} />
-            ))}
-          </Box>
+      {(provided) => (
+        <Card sx={style} ref={provided.innerRef} {...provided.draggableProps}>
+          <ColumnHeader column={column} dragHandle={provided.dragHandleProps} />
+          <Droppable droppableId={column._id} type="TASK">
+            {(dropProvided) => (
+              <Container {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
+                {column.tasks.map((task) => (
+                  <Draggable key={task._id} draggableId={task._id} index={task.order}>
+                    {(provided) => <Task task={task} dropProvided={provided} />}
+                  </Draggable>
+                ))}
+                {dropProvided.placeholder}
+              </Container>
+            )}
+          </Droppable>
           <AddButton type="small" onClick={onAddTask}>
             {'Добавить задачу'}
           </AddButton>
