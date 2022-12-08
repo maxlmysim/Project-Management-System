@@ -11,3 +11,5 @@ export interface ITaskResponse extends ITask {
   boardId: string;
   columnId: string;
 }
+
+export type ITasksSet = Pick<ITaskResponse, '_id' | 'order'>;

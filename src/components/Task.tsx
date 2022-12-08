@@ -44,7 +44,6 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
       {...dropProvided.draggableProps}
       {...dropProvided.dragHandleProps}
     >
-      {/*{order}*/}
       <CenteringContainer
         style={{ padding: '1.3rem', position: 'relative' }}
         direction="column"

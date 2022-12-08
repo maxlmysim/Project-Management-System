@@ -5,7 +5,7 @@ export type IColumn = {
   order: number;
 };
 
-export type IColumnSet = Pick<IColumnResponse, '_id' | 'order'>;
+export type IColumnsSet = Pick<IColumnResponse, '_id' | 'order'>;
 
 export interface IColumnResponse extends IColumn {
   _id: string;

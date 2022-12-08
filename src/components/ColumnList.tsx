@@ -3,20 +3,20 @@ import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { loaderSelector } from '../store/loaderSlice';
-import { columnSelector, updateColumnsSet } from '../store/columnSlice';
+import { columnSelector, updateColumnsSet, updateTasksSet } from '../store/columnSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_COLUMN } from '../constants/modalField';
 import Column from './Column';
 import { Box, styled } from '@mui/material';
-import {
-  DragDropContext,
-  DraggableLocation,
-  Droppable,
-  DroppableProps,
-  DropResult,
-} from 'react-beautiful-dnd';
+import { DragDropContext, DraggableLocation, Droppable, DropResult } from 'react-beautiful-dnd';
 import { IColumnResponse } from 'types/columnTypes';
-import { combineColumns, newSetColumnOrder, reorderColumn, reorderTask } from '../helper/order';
+import {
+  combineColumns,
+  newSetColumnsOrder,
+  newSetTasksOrder,
+  reorderColumn,
+  reorderTask,
+} from '../helper/order';
 
 const Container = styled('div')`
   display: flex;
@@ -71,7 +71,7 @@ const ColumnList: FC = () => {
       );
       setColumns(newList);
 
-      dispatch(updateColumnsSet(newSetColumnOrder(newList)));
+      dispatch(updateColumnsSet(newSetColumnsOrder(newList)));
       return;
     }
 
@@ -90,7 +90,15 @@ const ColumnList: FC = () => {
         destination.index
       );
 
-      setColumns(combineColumns(columns, newNextColumn, newCurrentColumn));
+      const newListColumns: IColumnResponse[] = combineColumns(
+        columns,
+        newNextColumn,
+        newCurrentColumn
+      );
+      const newListTasks = newSetTasksOrder([...newCurrentColumn.tasks, ...newNextColumn.tasks]);
+
+      setColumns(newListColumns);
+      dispatch(updateTasksSet(newListTasks));
       return;
     }
   };
@@ -106,7 +114,7 @@ const ColumnList: FC = () => {
               {(provided) => (
                 <Container {...provided.droppableProps} ref={provided.innerRef}>
                   {columns.map((column) => (
-                    <Column key={column._id} column={column} />
+                    <Column key={column._id} column={column} tasks={column.tasks} />
                   ))}
                   {<AddButton onClick={onAddColumn}>{'Добавить список'}</AddButton>}
                   {provided.placeholder}

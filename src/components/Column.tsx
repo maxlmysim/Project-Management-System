@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useLayoutEffect, useState } from 'react';
 import { Card, styled, Typography } from '@mui/material';
 import AddButton from './Buttons/AddButton';
 import { SxProps } from '@mui/system';
@@ -11,9 +11,11 @@ import Task from './Task';
 import ColumnHeader from './ColumnHeader';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { IColumnResponse } from 'types/columnTypes';
+import { ITaskResponse } from '../types/taskTypes';
 
 export interface IColumnProps {
   column: IColumnResponse;
+  tasks: ITaskResponse[];
 }
 
 const style: SxProps<Theme> = {
@@ -37,8 +39,16 @@ const Container = styled('div')`
   overflow: auto;
 `;
 
-const Column: FC<IColumnProps> = ({ column }) => {
+const Column: FC<IColumnProps> = ({ column, tasks }) => {
   const dispatch = useAppDispatch();
+
+  const [sortTasks, setSortTasks] = useState<ITaskResponse[]>(tasks);
+
+  useLayoutEffect(() => {
+    const sortTask = [...tasks].sort((a, b) => a.order - b.order);
+    setSortTasks(sortTask);
+  }, [tasks]);
+
   const onAddTask = (): void => {
     dispatch(setCurrentColumn(column));
     dispatch(showModalWindow(ADD_TASK));
@@ -52,7 +62,7 @@ const Column: FC<IColumnProps> = ({ column }) => {
           <Droppable droppableId={column._id} type="TASK">
             {(dropProvided) => (
               <Container {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
-                {column.tasks.map((task) => (
+                {sortTasks.map((task) => (
                   <Draggable key={task._id} draggableId={task._id} index={task.order}>
                     {(provided) => <Task task={task} dropProvided={provided} />}
                   </Draggable>

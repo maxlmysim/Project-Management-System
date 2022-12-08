@@ -1,4 +1,5 @@
-import { IColumnResponse, IColumnSet } from '../types/columnTypes';
+import { IColumnResponse, IColumnsSet } from '../types/columnTypes';
+import { ITaskResponse, ITasksSet } from '../types/taskTypes';
 
 export const reorderColumn = (
   list: IColumnResponse[],
@@ -29,6 +30,7 @@ export const reorderTask = (
   }
 
   const [moveItem] = current.tasks.splice(startIndex, 1);
+  moveItem.columnId = next._id;
   next.tasks.splice(endIndex, 0, moveItem);
   current.tasks = current.tasks.map((item, index) => ({ ...item, order: index }));
   next.tasks = next.tasks.map((item, index) => ({ ...item, order: index }));
@@ -36,10 +38,19 @@ export const reorderTask = (
   return [current, next];
 };
 
-export const newSetColumnOrder = (columns: IColumnResponse[]): IColumnSet[] => {
+export const newSetColumnsOrder = (columns: IColumnResponse[]): IColumnsSet[] => {
   return columns.map((column) => ({
     order: column.order,
     _id: column._id,
+  }));
+};
+
+export const newSetTasksOrder = (tasks: ITaskResponse[]): ITasksSet[] => {
+  const unique = new Set(tasks);
+  return [...unique].map((task) => ({
+    order: task.order,
+    _id: task._id,
+    columnId: task.columnId,
   }));
 };
 
