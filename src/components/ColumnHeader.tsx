@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import TooltipButton from './TooltipButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,8 +10,13 @@ import { showModalWindow } from '../store/modalSlice';
 import { DELETE_COLUMN, EDIT_COLUMN } from '../constants/modalField';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { IColumnResponse } from 'types/columnTypes';
+import { SxProps } from '@mui/system';
+import { Theme } from '@mui/material/styles';
+import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
+import styled from '@emotion/styled';
+import DragIcon from './DragIcon';
 
-const styleBox = {
+const styleBox: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -22,7 +27,31 @@ const styleBox = {
   zIndex: 1,
 };
 
-const ColumnHeader: FC<IColumnResponse> = (column) => {
+const Container = styled('div')`
+  color: #fff;
+  background-color: #9c27b0;
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0px rgb(0 0 0 / 14%),
+    0 1px 5px 0px rgb(0 0 0 / 12%);
+  font-size: 1.6rem;
+  width: 100%;
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: grab;
+`;
+
+interface IProps {
+  column: IColumnResponse;
+  dragHandle?: DraggableProvidedDragHandleProps | undefined;
+}
+
+const ColumnHeader: FC<IProps> = ({ column, dragHandle }) => {
   const dispatch = useAppDispatch();
   const [showOptions, setShowOptions] = useState(false);
   const onDeleteColumn = (): void => {
@@ -42,12 +71,8 @@ const ColumnHeader: FC<IColumnResponse> = (column) => {
     if (showOptions) setShowOptions(false);
   };
   return (
-    <Button
-      variant="contained"
-      color="secondary"
-      size="medium"
-      sx={{ fontSize: '1.6rem', width: '100%' }}
-    >
+    <Container {...dragHandle}>
+      <DragIcon position="absolute" top="50%" left="5%" />
       <Box sx={styleBox} onMouseLeave={closeShowOptions}>
         <TooltipButton title="" handler={toggleShowOptions} icon={<MoreVertIcon />} />
         {showOptions && (
@@ -74,7 +99,7 @@ const ColumnHeader: FC<IColumnResponse> = (column) => {
         )}
       </Box>
       {column.title}
-    </Button>
+    </Container>
   );
 };
 

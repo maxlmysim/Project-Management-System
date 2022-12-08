@@ -3,8 +3,8 @@ import { RootState, TypedThunkAPI } from './store';
 import { hideLoader, showLoader } from './loaderSlice';
 import { AxiosError } from 'axios';
 import { columnService } from '../api/columnService';
-import { IColumn, IColumnResponse, IColumnSet } from '../types/columnTypes';
-import { ITask, ITaskResponse } from '../types/taskTypes';
+import { IColumn, IColumnResponse, IColumnsSet } from '../types/columnTypes';
+import { ITask, ITaskResponse, ITasksSet } from '../types/taskTypes';
 
 import { closeModalWindow } from './modalSlice';
 
@@ -107,11 +107,27 @@ export const editColumn = createAsyncThunk<IColumnResponse, IColumn, TypedThunkA
   }
 );
 
-export const updateColumnsSet = createAsyncThunk<IColumnResponse[], IColumnSet[], TypedThunkAPI>(
+export const updateColumnsSet = createAsyncThunk<IColumnResponse[], IColumnsSet[], TypedThunkAPI>(
   'column/updateColumnsSet',
   async (data, { rejectWithValue }) => {
     try {
       const response = await columnService.updateColumnsSet(data);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const updateTasksSet = createAsyncThunk<IColumnResponse[], ITasksSet[], TypedThunkAPI>(
+  'column/updateTasksSet',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await columnService.updateTasksSet(data);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
@@ -280,9 +296,6 @@ const columnSlice = createSlice({
         }
         return column;
       });
-    });
-    builder.addCase(updateColumnsSet.fulfilled, (state, { payload: columns }) => {
-      state.columns = columns;
     });
   },
 });
