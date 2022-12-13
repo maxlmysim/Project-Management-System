@@ -1,5 +1,5 @@
 import React, { FC, useLayoutEffect, useState } from 'react';
-import { Card, styled, Typography } from '@mui/material';
+import { Card, styled } from '@mui/material';
 import AddButton from './Buttons/AddButton';
 import { SxProps } from '@mui/system';
 import { Theme } from '@mui/material/styles';
@@ -30,6 +30,7 @@ const style: SxProps<Theme> = {
   flexDirection: 'column',
   gap: '10px',
   padding: '1rem',
+  overflow: 'visible',
 };
 
 const Container = styled('div')`
@@ -75,7 +76,6 @@ const Column: FC<IColumnProps> = ({ column, tasks }) => {
           <AddButton type="small" onClick={onAddTask}>
             {'Добавить задачу'}
           </AddButton>
-          <Typography>{column.order}</Typography>
         </Card>
       )}
     </Draggable>

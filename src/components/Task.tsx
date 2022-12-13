@@ -39,7 +39,12 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
 
   return (
     <Card
-      sx={{ overflow: 'visible', cursor: 'grab', width: '100%', margin: '0 auto' }}
+      sx={{
+        overflow: 'visible',
+        cursor: 'grab',
+        width: '100%',
+        margin: '0 auto',
+      }}
       ref={dropProvided.innerRef}
       {...dropProvided.draggableProps}
       {...dropProvided.dragHandleProps}
