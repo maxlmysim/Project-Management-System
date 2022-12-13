@@ -37,6 +37,7 @@ const Container = styled('div')`
   flex-direction: column;
   gap: 1rem;
   overflow: auto;
+  min-height: 10px;
 `;
 
 const Column: FC<IColumnProps> = ({ column, tasks }) => {
