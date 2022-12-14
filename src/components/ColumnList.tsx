@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
@@ -127,14 +127,14 @@ const ColumnList: FC = () => {
         ) : (
           <>
             <Droppable droppableId="board" type="COLUMN" direction="horizontal">
-              {(provided) => (
+              {(provided): ReactElement => (
                 <Container {...provided.droppableProps} ref={provided.innerRef}>
                   {columns.map((column) => (
                     <Column key={column._id} column={column} tasks={column.tasks} />
                   ))}
                   {
                     <Draggable draggableId="AddButtonColumn" index={columns.length}>
-                      {(provided) => (
+                      {(provided): ReactElement => (
                         <AddButton onClick={onAddColumn} dropProvided={provided}>
                           {'Добавить список'}
                           {columns.length}
