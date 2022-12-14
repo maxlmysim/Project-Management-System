@@ -69,7 +69,6 @@ const Column: FC<IColumnProps> = ({ column, tasks }) => {
           <AddButton type="small" onClick={onAddTask}>
             {'Добавить задачу'}
           </AddButton>
-          {column.order}
         </Card>
       )}
     </Draggable>

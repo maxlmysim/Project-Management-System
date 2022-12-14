@@ -129,7 +129,6 @@ const ColumnList: FC = () => {
                       {(provided): ReactElement => (
                         <AddButton onClick={onAddColumn} dropProvided={provided}>
                           {'Добавить список'}
-                          {columns.length}
                         </AddButton>
                       )}
                     </Draggable>

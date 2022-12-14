@@ -73,7 +73,6 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
             sx={{ color: 'rgb(210,25,25)', fontSize: '2rem', cursor: 'pointer' }}
             onClick={onDeleteTask}
           />
-          {task.order}
         </CenteringContainer>
       </CenteringContainer>
     </Card>
