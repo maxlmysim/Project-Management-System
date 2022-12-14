@@ -2,7 +2,7 @@ import React, { FC, useLayoutEffect } from 'react';
 import { Container, Pagination, styled } from '@mui/material';
 import muiTheme from '../constants/muiTheme';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { boardSelector, getAllBoards, setPage } from '../store/boardSlice';
+import { boardSelector, getAllBoards, setCurrentPageNum } from '../store/boardSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_BOARD } from '../constants/modalField';
 import Board from './Board';
@@ -47,20 +47,23 @@ const GridContainer = styled('div')`
 
 const BoardsList: FC = () => {
   const dispatch = useAppDispatch();
-  const { boards, currentPage } = useAppSelector(boardSelector);
+  const { boards, currentPageNum } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(loaderSelector);
-  const boardsToShow = boards.slice(12 * (currentPage - 1), 12 * currentPage);
+  const boardsToShow = boards.slice(12 * (currentPageNum - 1), 12 * currentPageNum);
   const lastPage = Math.floor(boards.length / 12) + 1;
-  const isShowAddBoard = lastPage === currentPage;
+  const isShowAddBoard = lastPage === currentPageNum;
+
+  useLayoutEffect((): void => {
+    dispatch(getAllBoards());
+  }, []);
+
   const addNewBoard = (): void => {
     dispatch(showModalWindow(ADD_BOARD));
   };
   const handlePage = (event: React.ChangeEvent<unknown>, page: number): void => {
-    dispatch(setPage(page));
+    dispatch(setCurrentPageNum(page));
   };
-  useLayoutEffect((): void => {
-    dispatch(getAllBoards());
-  }, [dispatch]);
+
   return (
     <Container sx={ContainerStyle}>
       {isLoading ? (
