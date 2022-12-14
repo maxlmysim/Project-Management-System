@@ -3,12 +3,23 @@ import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { loaderSelector } from '../store/loaderSlice';
-import { columnSelector, updateColumnsSet, updateTasksSet } from '../store/columnSlice';
+import {
+  columnSelector,
+  updateColumnsSet,
+  updateOrderColumns,
+  updateTasksSet,
+} from '../store/columnSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_COLUMN } from '../constants/modalField';
 import Column from './Column';
 import { Box, styled } from '@mui/material';
-import { DragDropContext, DraggableLocation, Droppable, DropResult } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Draggable,
+  DraggableLocation,
+  Droppable,
+  DropResult,
+} from 'react-beautiful-dnd';
 import { IColumnResponse } from 'types/columnTypes';
 import {
   combineColumns,
@@ -48,6 +59,10 @@ const ColumnList: FC = () => {
     dispatch(showModalWindow(ADD_COLUMN));
   };
 
+  const onDragStart = (result: DropResult): void => {
+    if (result.type === 'COLUMN') {
+    }
+  };
   const onDragEnd = (result: DropResult): void => {
     if (!result.destination) {
       return;
@@ -71,6 +86,7 @@ const ColumnList: FC = () => {
       );
       setColumns(newList);
 
+      dispatch(updateOrderColumns(newList));
       dispatch(updateColumnsSet(newSetColumnsOrder(newList)));
       return;
     }
@@ -104,7 +120,7 @@ const ColumnList: FC = () => {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <Box sx={{ position: 'relative', flexGrow: 1 }}>
         {isLoading ? (
           <Loader color="#ffffff" />
@@ -116,7 +132,16 @@ const ColumnList: FC = () => {
                   {columns.map((column) => (
                     <Column key={column._id} column={column} tasks={column.tasks} />
                   ))}
-                  {<AddButton onClick={onAddColumn}>{'Добавить список'}</AddButton>}
+                  {
+                    <Draggable draggableId="AddButtonColumn" index={columns.length}>
+                      {(provided) => (
+                        <AddButton onClick={onAddColumn} dropProvided={provided}>
+                          {'Добавить список'}
+                          {columns.length}
+                        </AddButton>
+                      )}
+                    </Draggable>
+                  }
                   {provided.placeholder}
                 </Container>
               )}

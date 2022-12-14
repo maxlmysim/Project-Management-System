@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
+import { DraggableProvided } from 'react-beautiful-dnd';
 
 export interface IButtonComponent extends IButton {
   children?: React.ReactNode;
+  dropProvided?: DraggableProvided;
 }
 
 export interface IButton {
@@ -9,4 +11,5 @@ export interface IButton {
   onBlur?: (e: React.FocusEvent<HTMLButtonElement>) => void;
   variant?: 'contained' | 'text' | 'outlined';
   type?: 'full' | 'small';
+  style?: CSSProperties;
 }
