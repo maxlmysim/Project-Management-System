@@ -78,11 +78,8 @@ export const deleteColumn = createAsyncThunk<IColumnResponse[], void, TypedThunk
       const column = response.data;
 
       const state = getState().columnStore;
-      const columnsList = state.columns
-        .filter((columnState) => columnState._id !== column._id)
-        .sort((a, b) => a.order - b.order);
+      const columnsList = state.columns.filter((columnState) => columnState._id !== column._id);
       const reorderColumns = reorderColumn(columnsList, 0, 0);
-      console.log(columnsList, reorderColumns);
       const setColumns = newSetColumnsOrder(reorderColumns);
       dispatch(updateColumnsSet(setColumns));
 
@@ -139,7 +136,6 @@ export const updateTasksSet = createAsyncThunk<IColumnResponse[], ITasksSet[], T
   'column/updateTasksSet',
   async (data, { rejectWithValue }) => {
     try {
-      console.log(111);
       const response = await columnService.updateTasksSet(data);
       return response.data;
     } catch (err) {
@@ -216,7 +212,6 @@ export const editTask = createAsyncThunk<ITaskResponse, ITask, TypedThunkAPI>(
         order,
         userId,
       };
-      console.log(newData);
       const response = await columnService.editTask(boardId, columnId, taskId, newData);
       return response.data;
     } catch (err) {
@@ -252,10 +247,7 @@ const columnSlice = createSlice({
   name: 'Column',
   initialState,
   reducers: {
-    updateOrderColumns(
-      state: IColumnState,
-      { payload: content }: PayloadAction<IColumnResponse[]>
-    ) {
+    updateColumns(state: IColumnState, { payload: content }: PayloadAction<IColumnResponse[]>) {
       state.columns = content;
     },
     setCurrentColumn(state: IColumnState, { payload: content }: PayloadAction<IColumnResponse>) {
@@ -321,6 +313,6 @@ const columnSlice = createSlice({
 
 export const columnReducer = columnSlice.reducer;
 
-export const { setCurrentColumn, setCurrentTask, updateOrderColumns } = columnSlice.actions;
+export const { setCurrentColumn, setCurrentTask, updateColumns } = columnSlice.actions;
 
 export const columnSelector = (state: RootState): IColumnState => state.columnStore;

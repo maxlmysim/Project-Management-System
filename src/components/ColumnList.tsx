@@ -1,12 +1,12 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import React, { FC, ReactElement } from 'react';
 import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { loaderSelector } from '../store/loaderSlice';
 import {
   columnSelector,
+  updateColumns,
   updateColumnsSet,
-  updateOrderColumns,
   updateTasksSet,
 } from '../store/columnSlice';
 import { showModalWindow } from '../store/modalSlice';
@@ -46,14 +46,7 @@ const Container = styled('div')`
 const ColumnList: FC = () => {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector(loaderSelector);
-  const { columns: columnsFromState } = useAppSelector(columnSelector);
-
-  const [columns, setColumns] = useState<IColumnResponse[]>(columnsFromState);
-
-  useEffect(() => {
-    const sortColumns = [...columnsFromState].sort((a, b) => a.order - b.order);
-    setColumns(sortColumns);
-  }, [columnsFromState]);
+  const { columns } = useAppSelector(columnSelector);
 
   const onAddColumn = (): void => {
     dispatch(showModalWindow(ADD_COLUMN));
@@ -84,9 +77,8 @@ const ColumnList: FC = () => {
         result.source.index,
         result.destination.index
       );
-      setColumns(newList);
 
-      dispatch(updateOrderColumns(newList));
+      dispatch(updateColumns(newList));
       dispatch(updateColumnsSet(newSetColumnsOrder(newList)));
       return;
     }
@@ -113,7 +105,7 @@ const ColumnList: FC = () => {
       );
       const newListTasks = newSetTasksOrder([...newCurrentColumn.tasks, ...newNextColumn.tasks]);
 
-      setColumns(newListColumns);
+      dispatch(updateColumns(newListColumns));
       dispatch(updateTasksSet(newListTasks));
       return;
     }

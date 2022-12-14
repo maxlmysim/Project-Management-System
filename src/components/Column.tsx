@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useLayoutEffect, useState } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { Card, styled } from '@mui/material';
 import AddButton from './Buttons/AddButton';
 import { SxProps } from '@mui/system';
@@ -44,13 +44,6 @@ const Container = styled('div')`
 const Column: FC<IColumnProps> = ({ column, tasks }) => {
   const dispatch = useAppDispatch();
 
-  const [sortTasks, setSortTasks] = useState<ITaskResponse[]>(tasks);
-
-  useLayoutEffect(() => {
-    const sortTask = [...tasks].sort((a, b) => a.order - b.order);
-    setSortTasks(sortTask);
-  }, [tasks]);
-
   const onAddTask = (): void => {
     dispatch(setCurrentColumn(column));
     dispatch(showModalWindow(ADD_TASK));
@@ -64,7 +57,7 @@ const Column: FC<IColumnProps> = ({ column, tasks }) => {
           <Droppable droppableId={column._id} type="TASK">
             {(dropProvided): ReactElement => (
               <Container {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
-                {sortTasks.map((task) => (
+                {tasks.map((task) => (
                   <Draggable key={task._id} draggableId={task._id} index={task.order}>
                     {(provided): ReactElement => <Task task={task} dropProvided={provided} />}
                   </Draggable>
