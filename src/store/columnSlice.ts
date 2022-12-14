@@ -5,8 +5,10 @@ import { AxiosError } from 'axios';
 import { columnService } from '../api/columnService';
 import { IColumn, IColumnResponse, IColumnsSet } from '../types/columnTypes';
 import { ITask, ITaskResponse, ITasksSet } from '../types/taskTypes';
-
 import { closeModalWindow } from './modalSlice';
+import { newSetColumnsOrder, reorderColumn } from '../helper/order';
+import { boardService } from '../api/boardService';
+import { setCurrentBoard } from './boardSlice';
 
 interface IColumnState {
   columns: IColumnResponse[];
@@ -34,7 +36,12 @@ export const getAllColumnsByBoard = createAsyncThunk<IColumnResponse[], string, 
   async (boardId, { rejectWithValue, dispatch }) => {
     try {
       dispatch(showLoader());
+
       const response = await columnService.getAllColumnsByBoard(boardId);
+      const currentBoard = await boardService.getBoard(boardId);
+
+      dispatch(setCurrentBoard(currentBoard.data));
+
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
@@ -68,13 +75,21 @@ export const addNewColumn = createAsyncThunk<IColumnResponse, IColumn, TypedThun
   }
 );
 
-export const deleteColumn = createAsyncThunk<IColumnResponse, void, TypedThunkAPI>(
+export const deleteColumn = createAsyncThunk<IColumnResponse[], void, TypedThunkAPI>(
   'column/deleteColumn',
   async (_, { rejectWithValue, getState, dispatch }) => {
     try {
       const { boardId, _id } = getState().columnStore.currentColumn;
       const response = await columnService.deleteColumn(boardId, _id);
-      return response.data;
+      const column = response.data;
+
+      const state = getState().columnStore;
+      const columnsList = state.columns.filter((columnState) => columnState._id !== column._id);
+      const reorderColumns = reorderColumn(columnsList, 0, 0);
+      const setColumns = newSetColumnsOrder(reorderColumns);
+      dispatch(updateColumnsSet(setColumns));
+
+      return reorderColumns;
     } catch (err) {
       const error = err as AxiosError;
       if (!error.response) {
@@ -203,7 +218,6 @@ export const editTask = createAsyncThunk<ITaskResponse, ITask, TypedThunkAPI>(
         order,
         userId,
       };
-      console.log(newData);
       const response = await columnService.editTask(boardId, columnId, taskId, newData);
       return response.data;
     } catch (err) {
@@ -239,6 +253,9 @@ const columnSlice = createSlice({
   name: 'Column',
   initialState,
   reducers: {
+    updateColumns(state: IColumnState, { payload: content }: PayloadAction<IColumnResponse[]>) {
+      state.columns = content;
+    },
     setCurrentColumn(state: IColumnState, { payload: content }: PayloadAction<IColumnResponse>) {
       state.currentColumn = content;
     },
@@ -264,8 +281,8 @@ const columnSlice = createSlice({
       state.currentColumn = column;
     });
 
-    builder.addCase(deleteColumn.fulfilled, (state, { payload: column }) => {
-      state.columns = state.columns.filter((columnState) => columnState._id !== column._id);
+    builder.addCase(deleteColumn.fulfilled, (state, { payload: columns }) => {
+      state.columns = columns;
       state.currentColumn = initialState.currentColumn;
     });
     builder.addCase(addNewTask.fulfilled, (state, { payload: task }) => {
@@ -302,6 +319,6 @@ const columnSlice = createSlice({
 
 export const columnReducer = columnSlice.reducer;
 
-export const { setCurrentColumn, setCurrentTask } = columnSlice.actions;
+export const { setCurrentColumn, setCurrentTask, updateColumns } = columnSlice.actions;
 
 export const columnSelector = (state: RootState): IColumnState => state.columnStore;

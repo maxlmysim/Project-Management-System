@@ -31,7 +31,7 @@ const BoardHeader: FC<IBoardHeader> = ({ title, owner }) => {
   return (
     <CenteringContainer direction="column" flex="0 1 auto" style={{ marginBottom: '1rem' }}>
       <Title>{title}</Title>
-      <CenteringContainer justifyContent="space-between">
+      <CenteringContainer justifyContent="space-between" gap={'5px'}>
         <InfoButton variant="contained" onClick={onShowBoardInfo} />
         <EditButton onClick={onEditBoard} />
         <DeleteButton onClick={onDeleteBoard} />

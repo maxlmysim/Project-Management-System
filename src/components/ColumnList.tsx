@@ -1,14 +1,25 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, ReactElement } from 'react';
 import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { loaderSelector } from '../store/loaderSlice';
-import { columnSelector, updateColumnsSet, updateTasksSet } from '../store/columnSlice';
+import {
+  columnSelector,
+  updateColumns,
+  updateColumnsSet,
+  updateTasksSet,
+} from '../store/columnSlice';
 import { showModalWindow } from '../store/modalSlice';
 import { ADD_COLUMN } from '../constants/modalField';
 import Column from './Column';
 import { Box, styled } from '@mui/material';
-import { DragDropContext, DraggableLocation, Droppable, DropResult } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Draggable,
+  DraggableLocation,
+  Droppable,
+  DropResult,
+} from 'react-beautiful-dnd';
 import { IColumnResponse } from 'types/columnTypes';
 import {
   combineColumns,
@@ -35,19 +46,16 @@ const Container = styled('div')`
 const ColumnList: FC = () => {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector(loaderSelector);
-  const { columns: columnsFromState } = useAppSelector(columnSelector);
-
-  const [columns, setColumns] = useState<IColumnResponse[]>(columnsFromState);
-
-  useEffect(() => {
-    const sortColumns = [...columnsFromState].sort((a, b) => a.order - b.order);
-    setColumns(sortColumns);
-  }, [columnsFromState]);
+  const { columns } = useAppSelector(columnSelector);
 
   const onAddColumn = (): void => {
     dispatch(showModalWindow(ADD_COLUMN));
   };
 
+  const onDragStart = (result: DropResult): void => {
+    if (result.type === 'COLUMN') {
+    }
+  };
   const onDragEnd = (result: DropResult): void => {
     if (!result.destination) {
       return;
@@ -69,8 +77,8 @@ const ColumnList: FC = () => {
         result.source.index,
         result.destination.index
       );
-      setColumns(newList);
 
+      dispatch(updateColumns(newList));
       dispatch(updateColumnsSet(newSetColumnsOrder(newList)));
       return;
     }
@@ -97,26 +105,35 @@ const ColumnList: FC = () => {
       );
       const newListTasks = newSetTasksOrder([...newCurrentColumn.tasks, ...newNextColumn.tasks]);
 
-      setColumns(newListColumns);
+      dispatch(updateColumns(newListColumns));
       dispatch(updateTasksSet(newListTasks));
       return;
     }
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <Box sx={{ position: 'relative', flexGrow: 1 }}>
         {isLoading ? (
           <Loader color="#ffffff" />
         ) : (
           <>
             <Droppable droppableId="board" type="COLUMN" direction="horizontal">
-              {(provided) => (
+              {(provided): ReactElement => (
                 <Container {...provided.droppableProps} ref={provided.innerRef}>
                   {columns.map((column) => (
                     <Column key={column._id} column={column} tasks={column.tasks} />
                   ))}
-                  {<AddButton onClick={onAddColumn}>{'Добавить список'}</AddButton>}
+                  {
+                    <Draggable draggableId="AddButtonColumn" index={columns.length}>
+                      {(provided): ReactElement => (
+                        <AddButton onClick={onAddColumn} dropProvided={provided}>
+                          {'Добавить список'}
+                          {columns.length}
+                        </AddButton>
+                      )}
+                    </Draggable>
+                  }
                   {provided.placeholder}
                 </Container>
               )}

@@ -25,10 +25,20 @@ const AddButton: FC<IButtonComponent> = ({
   children,
   variant = 'contained',
   type = 'full',
+  style,
+  dropProvided,
 }) => {
   const isFull = type === 'full';
   return (
-    <Tooltip title={children && <Title>{children}</Title>} arrow sx={{ fontSize: '1.6rem' }}>
+    <Tooltip
+      title={children && <Title>{children}</Title>}
+      arrow
+      sx={{ fontSize: '1.6rem' }}
+      style={style}
+      ref={dropProvided?.innerRef}
+      {...dropProvided?.draggableProps}
+      {...dropProvided?.dragHandleProps}
+    >
       <Button variant={variant} sx={isFull ? styleFull : styleSmall} onClick={onClick}>
         <AddIcon fontSize={isFull ? 'large' : 'medium'} />
         {isFull ? children : ''}

@@ -1,5 +1,5 @@
-import React, { FC, useLayoutEffect, useState } from 'react';
-import { Card, styled, Typography } from '@mui/material';
+import React, { FC, ReactElement } from 'react';
+import { Card, styled } from '@mui/material';
 import AddButton from './Buttons/AddButton';
 import { SxProps } from '@mui/system';
 import { Theme } from '@mui/material/styles';
@@ -30,6 +30,7 @@ const style: SxProps<Theme> = {
   flexDirection: 'column',
   gap: '10px',
   padding: '1rem',
+  overflow: 'visible',
 };
 
 const Container = styled('div')`
@@ -37,17 +38,11 @@ const Container = styled('div')`
   flex-direction: column;
   gap: 1rem;
   overflow: auto;
+  min-height: 10px;
 `;
 
 const Column: FC<IColumnProps> = ({ column, tasks }) => {
   const dispatch = useAppDispatch();
-
-  const [sortTasks, setSortTasks] = useState<ITaskResponse[]>(tasks);
-
-  useLayoutEffect(() => {
-    const sortTask = [...tasks].sort((a, b) => a.order - b.order);
-    setSortTasks(sortTask);
-  }, [tasks]);
 
   const onAddTask = (): void => {
     dispatch(setCurrentColumn(column));
@@ -56,15 +51,15 @@ const Column: FC<IColumnProps> = ({ column, tasks }) => {
 
   return (
     <Draggable draggableId={column._id} index={column.order}>
-      {(provided) => (
+      {(provided): ReactElement => (
         <Card sx={style} ref={provided.innerRef} {...provided.draggableProps}>
           <ColumnHeader column={column} dragHandle={provided.dragHandleProps} />
           <Droppable droppableId={column._id} type="TASK">
-            {(dropProvided) => (
+            {(dropProvided): ReactElement => (
               <Container {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
-                {sortTasks.map((task) => (
+                {tasks.map((task) => (
                   <Draggable key={task._id} draggableId={task._id} index={task.order}>
-                    {(provided) => <Task task={task} dropProvided={provided} />}
+                    {(provided): ReactElement => <Task task={task} dropProvided={provided} />}
                   </Draggable>
                 ))}
                 {dropProvided.placeholder}
@@ -74,7 +69,7 @@ const Column: FC<IColumnProps> = ({ column, tasks }) => {
           <AddButton type="small" onClick={onAddTask}>
             {'Добавить задачу'}
           </AddButton>
-          <Typography>{column.order}</Typography>
+          {column.order}
         </Card>
       )}
     </Draggable>

@@ -10,14 +10,14 @@ interface IBoardState {
   boards: IBoardResponse[];
   currentBoard: IBoardResponse;
   isLoading: boolean;
-  currentPage: number;
+  currentPageNum: number;
 }
 
 const initialState: IBoardState = {
   isLoading: false,
   boards: [],
   currentBoard: { users: [], owner: '', title: '', _id: '' },
-  currentPage: 1,
+  currentPageNum: 1,
 };
 
 export const addNewBoard = createAsyncThunk<IBoardResponse, IBoard, TypedThunkAPI>(
@@ -121,11 +121,11 @@ const boardSlice = createSlice({
   name: 'Board',
   initialState,
   reducers: {
-    setBoard(state: IBoardState, action) {
+    setCurrentBoard(state: IBoardState, action) {
       state.currentBoard = action.payload;
     },
-    setPage(state: IBoardState, action) {
-      state.currentPage = action.payload;
+    setCurrentPageNum(state: IBoardState, action) {
+      state.currentPageNum = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -154,7 +154,7 @@ const boardSlice = createSlice({
   },
 });
 
-export const { setBoard, setPage } = boardSlice.actions;
+export const { setCurrentBoard, setCurrentPageNum } = boardSlice.actions;
 
 export const boardReducer = boardSlice.reducer;
 

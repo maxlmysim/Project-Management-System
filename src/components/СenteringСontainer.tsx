@@ -1,17 +1,12 @@
-import React, { CSSProperties, FC, LegacyRef, MutableRefObject, Ref } from 'react';
-import { oneOfType, func, shape, instanceOf } from 'prop-types';
+import React, { CSSProperties, FC, LegacyRef } from 'react';
 
 type Key = string | number;
 
-/**
- * @internal You shouldn't need to use this type since you never see these attributes
- * inside your component or have to validate them.
- */
 interface Attributes {
   key?: Key | null | undefined;
 }
 
-interface ClassAttributes<T> extends Attributes {
+export interface ClassAttributes<T> extends Attributes {
   ref?: LegacyRef<T> | undefined;
 }
 

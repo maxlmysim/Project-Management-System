@@ -24,7 +24,7 @@ const styleBox: SxProps<Theme> = {
   position: 'absolute',
   top: '15%',
   right: '5%',
-  zIndex: 1,
+  zIndex: 99,
 };
 
 const Container = styled('div')`
@@ -72,7 +72,8 @@ const ColumnHeader: FC<IProps> = ({ column, dragHandle }) => {
   };
   return (
     <Container {...dragHandle}>
-      <DragIcon position="absolute" top="50%" left="5%" />
+      <DragIcon transform={'none'} position={'absolute'} left={'5%'} />
+      {column.title}
       <Box sx={styleBox} onMouseLeave={closeShowOptions}>
         <TooltipButton title="" handler={toggleShowOptions} icon={<MoreVertIcon />} />
         {showOptions && (
@@ -98,7 +99,6 @@ const ColumnHeader: FC<IProps> = ({ column, dragHandle }) => {
           </>
         )}
       </Box>
-      {column.title}
     </Container>
   );
 };

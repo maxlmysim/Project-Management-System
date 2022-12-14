@@ -39,7 +39,12 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
 
   return (
     <Card
-      sx={{ overflow: 'visible', cursor: 'grab', width: '100%', margin: '0 auto' }}
+      sx={{
+        overflow: 'visible',
+        cursor: 'grab',
+        width: '100%',
+        margin: '0 auto',
+      }}
       ref={dropProvided.innerRef}
       {...dropProvided.draggableProps}
       {...dropProvided.dragHandleProps}
@@ -68,6 +73,7 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
             sx={{ color: 'rgb(210,25,25)', fontSize: '2rem', cursor: 'pointer' }}
             onClick={onDeleteTask}
           />
+          {task.order}
         </CenteringContainer>
       </CenteringContainer>
     </Card>

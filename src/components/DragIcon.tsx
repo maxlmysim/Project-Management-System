@@ -12,18 +12,28 @@ interface IProps<TLength = (string & object) | 0> {
   right?: Property.Right<TLength> | undefined;
   color?: Property.Color | undefined;
   size?: Property.FontSize<TLength> | undefined;
+  transform?: Property.Transform | undefined;
 }
 
-const DragIcon: FC<IProps> = ({ size, bottom, top, right, position, left, color }) => {
+const DragIcon: FC<IProps> = ({
+  size,
+  bottom,
+  top,
+  right,
+  position,
+  left,
+  color,
+  transform = 'translate(-50%, -50%)',
+}) => {
   const styleDragIcon: SxProps<Theme> = {
     fontSize: size,
-    color: color,
-    position: position,
-    top: top,
-    left: left,
-    bottom: bottom,
-    right: right,
-    transform: 'translate(-50%, -50%)',
+    color,
+    position,
+    top,
+    left,
+    bottom,
+    right,
+    transform,
     zIndex: 5,
   };
   return <DragIndicatorIcon sx={styleDragIcon} />;
