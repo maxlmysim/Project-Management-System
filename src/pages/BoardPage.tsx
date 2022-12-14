@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useLayoutEffect } from 'react';
 import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { currentBoardSelector } from '../store/boardSlice';
@@ -12,11 +12,13 @@ const BoardPage: FC = () => {
   const { title, owner } = useAppSelector(currentBoardSelector);
 
   const { idBoard } = useParams();
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     if (idBoard) {
       dispatch(getAllColumnsByBoard(idBoard));
     }
   }, []);
+
   return (
     <Box
       sx={{
