@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useLayoutEffect } from 'react';
 import './App.module.css';
 import Header from './components/Header';
 import Footer from 'components/Footer/Footer';
@@ -14,7 +14,7 @@ const App: FC = () => {
   const { isLoadingPage } = useAppSelector(welcomeSelector);
   const { isLogin } = useAppSelector(authSelector);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(getMyUserData());
   }, []);
 

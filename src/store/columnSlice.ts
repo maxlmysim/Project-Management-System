@@ -5,9 +5,10 @@ import { AxiosError } from 'axios';
 import { columnService } from '../api/columnService';
 import { IColumn, IColumnResponse, IColumnsSet } from '../types/columnTypes';
 import { ITask, ITaskResponse, ITasksSet } from '../types/taskTypes';
-
 import { closeModalWindow } from './modalSlice';
 import { newSetColumnsOrder, reorderColumn } from '../helper/order';
+import { boardService } from '../api/boardService';
+import { setCurrentBoard } from './boardSlice';
 
 interface IColumnState {
   columns: IColumnResponse[];
@@ -35,7 +36,12 @@ export const getAllColumnsByBoard = createAsyncThunk<IColumnResponse[], string, 
   async (boardId, { rejectWithValue, dispatch }) => {
     try {
       dispatch(showLoader());
+
       const response = await columnService.getAllColumnsByBoard(boardId);
+      const currentBoard = await boardService.getBoard(boardId);
+
+      dispatch(setCurrentBoard(currentBoard.data));
+
       return response.data;
     } catch (err) {
       const error = err as AxiosError;

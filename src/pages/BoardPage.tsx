@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { currentBoardSelector, getBoard } from '../store/boardSlice';
+import { currentBoardSelector } from '../store/boardSlice';
 import BoardHeader from '../components/BoardHeader';
 import ColumnList from '../components/ColumnList';
 import { useParams } from 'react-router-dom';
@@ -15,7 +15,6 @@ const BoardPage: FC = () => {
   useEffect(() => {
     if (idBoard) {
       dispatch(getAllColumnsByBoard(idBoard));
-      dispatch(getBoard(idBoard));
     }
   }, []);
   return (
