@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useState } from 'react';
+import React, { FC, ReactElement, useLayoutEffect, useState } from 'react';
 import { Card, styled } from '@mui/material';
 import AddButton from './Buttons/AddButton';
 import { SxProps } from '@mui/system';
@@ -58,15 +58,15 @@ const Column: FC<IColumnProps> = ({ column, tasks }) => {
 
   return (
     <Draggable draggableId={column._id} index={column.order}>
-      {(provided) => (
+      {(provided): ReactElement => (
         <Card sx={style} ref={provided.innerRef} {...provided.draggableProps}>
           <ColumnHeader column={column} dragHandle={provided.dragHandleProps} />
           <Droppable droppableId={column._id} type="TASK">
-            {(dropProvided) => (
+            {(dropProvided): ReactElement => (
               <Container {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
                 {sortTasks.map((task) => (
                   <Draggable key={task._id} draggableId={task._id} index={task.order}>
-                    {(provided) => <Task task={task} dropProvided={provided} />}
+                    {(provided): ReactElement => <Task task={task} dropProvided={provided} />}
                   </Draggable>
                 ))}
                 {dropProvided.placeholder}
