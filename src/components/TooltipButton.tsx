@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
-import { IconButton, styled, Tooltip } from '@mui/material';
+import { IconButton, styled, Theme, Tooltip } from '@mui/material';
+import { SxProps } from '@mui/system';
+import { OverridableStringUnion } from '@mui/types';
+import { IconButtonPropsSizeOverrides } from '@mui/material/IconButton/IconButton';
 
 const Title = styled('span')`
   font-size: 1.2rem;
@@ -12,6 +15,21 @@ interface ITooltipButtonProps {
   handler: (e: React.MouseEvent<HTMLDivElement>) => void;
   icon?: React.ReactNode;
   backgroundColor?: string;
+  sxIcon?: SxProps<Theme>;
+  placement?:
+    | 'bottom-end'
+    | 'bottom-start'
+    | 'bottom'
+    | 'left-end'
+    | 'left-start'
+    | 'left'
+    | 'right-end'
+    | 'right-start'
+    | 'right'
+    | 'top-end'
+    | 'top-start'
+    | 'top';
+  size?: OverridableStringUnion<'small' | 'medium' | 'large', IconButtonPropsSizeOverrides>;
 }
 
 const TooltipButton: FC<ITooltipButtonProps> = ({
@@ -20,10 +38,18 @@ const TooltipButton: FC<ITooltipButtonProps> = ({
   color = 'rgb(237, 108, 2)',
   backgroundColor = 'rgba(255,255,255,0)',
   icon,
+  placement = 'right-end',
+  sxIcon,
+  size,
 }) => {
   return (
-    <Tooltip title={title && <Title>{title}</Title>} placement="right-end" onClick={handler} arrow>
-      <IconButton sx={{ color, backgroundColor }} aria-label="upload picture" component="label">
+    <Tooltip title={title && <Title>{title}</Title>} placement={placement} onClick={handler} arrow>
+      <IconButton
+        size={size}
+        sx={{ color, backgroundColor, ...sxIcon }}
+        aria-label="upload picture"
+        component="label"
+      >
         {icon}
       </IconButton>
     </Tooltip>

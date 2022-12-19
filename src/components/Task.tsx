@@ -12,6 +12,7 @@ import { setCurrentTask } from 'store/columnSlice';
 import { ITaskResponse } from '../types/taskTypes';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import DragIcon from './DragIcon';
+import DoneIcon from '@mui/icons-material/Done';
 
 interface ITaskProps {
   task: ITaskResponse;
@@ -35,6 +36,10 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
   const onEditTask = (): void => {
     dispatch(setCurrentTask(task));
     dispatch(showModalWindow(EDIT_TASK(task.title, task.description)));
+  };
+
+  const onDoneTask = (): void => {
+    dispatch(setCurrentTask(task));
   };
 
   return (
@@ -65,13 +70,30 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
           {description}
         </Typography>
         <CenteringContainer>
-          <ModeEditIcon
-            sx={{ color: 'rgb(25, 118, 210)', fontSize: '2rem', cursor: 'pointer' }}
-            onClick={onEditTask}
+          <TooltipButton
+            title="Редактировать"
+            color="rgb(25, 118, 210)"
+            handler={onEditTask}
+            placement="bottom-start"
+            size="small"
+            icon={<ModeEditIcon sx={{ fontSize: '1.8rem' }} />}
           />
-          <DeleteIcon
-            sx={{ color: 'rgb(210,25,25)', fontSize: '2rem', cursor: 'pointer' }}
-            onClick={onDeleteTask}
+          <TooltipButton
+            title="Удалить"
+            color="rgb(210,25,25)"
+            handler={onDeleteTask}
+            placement="bottom-start"
+            size="small"
+            icon={<DeleteIcon sx={{ fontSize: '1.8rem' }} />}
+          />
+          <TooltipButton
+            title="Выполнено"
+            color="#2e7d32"
+            handler={onDoneTask}
+            placement="bottom-start"
+            sxIcon={{ fontSize: '4rem' }}
+            size="small"
+            icon={<DoneIcon sx={{ fontSize: '1.8rem' }} />}
           />
         </CenteringContainer>
       </CenteringContainer>
