@@ -4,7 +4,13 @@ import { hideLoader, showLoader } from './loaderSlice';
 import { AxiosError } from 'axios';
 import { columnService } from '../api/columnService';
 import { IColumn, IColumnResponse, IColumnsSet } from '../types/columnTypes';
-import { ITask, ITaskResponse, ITasksSet } from '../types/taskTypes';
+import {
+  IPointTask,
+  IPointTaskResponse,
+  ITask,
+  ITaskResponse,
+  ITasksSet,
+} from '../types/taskTypes';
 import { closeModalWindow } from './modalSlice';
 import { newSetColumnsOrder, reorderColumn } from '../helper/order';
 import { boardService } from '../api/boardService';
@@ -28,6 +34,7 @@ const initialState: IColumnState = {
     userId: '',
     boardId: '',
     columnId: '',
+    isDone: false,
   },
 };
 
@@ -211,7 +218,6 @@ export const editTask = createAsyncThunk<ITaskResponse, ITask, TypedThunkAPI>(
       } = getState().columnStore.currentTask;
 
       const newData = {
-        columnId,
         title: data.title || title,
         description: data.description || description,
         users,
@@ -249,6 +255,31 @@ export const getAllTasksByBoard = createAsyncThunk<ITaskResponse[], void, TypedT
   }
 );
 
+export const setTaskDone = createAsyncThunk<IPointTaskResponse, void, TypedThunkAPI>(
+  'column/setTaskDone',
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const boardId = getState().boardStore.currentBoard._id;
+      const taskId = getState().columnStore.currentTask._id;
+      const data: IPointTask = {
+        title: 'Completed',
+        boardId,
+        taskId,
+        done: true,
+      };
+
+      const response = await columnService.addPointTask(data);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
 const columnSlice = createSlice({
   name: 'Column',
   initialState,
@@ -266,6 +297,7 @@ const columnSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllColumnsByBoard.fulfilled, (state, { payload: columns }) => {
       state.columns = columns;
+      console.log(columns);
     });
     builder.addCase(editColumn.fulfilled, (state, { payload: column }) => {
       state.columns = state.columns.map((columnState) => {
