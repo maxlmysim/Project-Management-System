@@ -7,6 +7,7 @@ enum Endpoints {
   COLUMNS_SET = '/columnsset',
   TASKS = '/tasks',
   TASKS_SET = '/tasksset',
+  POINTS = '/points',
 }
 
 export default Endpoints;
