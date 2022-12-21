@@ -27,6 +27,7 @@ const style: SxProps<Theme> = {
   flexDirection: 'column',
   gap: '10px',
   padding: '1rem',
+  overflow: 'visible',
 };
 
 const Column: FC<IColumnProps> = ({ column }) => {
