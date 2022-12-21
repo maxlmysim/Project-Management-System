@@ -1,16 +1,14 @@
-import React, { FC, useEffect, useLayoutEffect } from 'react';
+import React, { FC, useLayoutEffect } from 'react';
 import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { currentBoardSelector } from '../store/boardSlice';
 import BoardHeader from '../components/BoardHeader';
 import ColumnList from '../components/ColumnList';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getAllColumnsByBoard } from '../store/columnSlice';
-import { AppRoutes } from '../constants/routes';
 
 const BoardPage: FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const { title, owner } = useAppSelector(currentBoardSelector);
   const { idBoard } = useParams();
@@ -20,12 +18,6 @@ const BoardPage: FC = () => {
       dispatch(getAllColumnsByBoard(idBoard));
     }
   }, []);
-
-  useEffect(() => {
-    if (title === '' && owner === '') {
-      navigate(AppRoutes.BOARDS);
-    }
-  }, [title, owner]);
 
   return (
     <Box
