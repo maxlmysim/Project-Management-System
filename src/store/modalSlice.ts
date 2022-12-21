@@ -28,7 +28,6 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     showModalWindow(state: IModalState, { payload: content }: PayloadAction<IModalContent>) {
-      console.log(content);
       state.isShowModal = true;
       state.modalTitle = content.modalTitle;
 

@@ -25,7 +25,7 @@ export interface IFieldPropsInput {
 
 export interface IFieldPropsInfo {
   title: string;
-  owner: string;
+  owner?: string;
 }
 
 interface IRequired {
@@ -278,6 +278,11 @@ export const SHOW_BOARD_INFO: IModalContent = {
 export const DELETE_COLUMN: IModalContent = {
   modalTitle: 'Удалить список?',
   action: 'deleteColumn',
+};
+
+export const SHOW_COLUMN_INFO: IModalContent = {
+  modalTitle: 'Колонка',
+  isHideConfirmButton: true,
 };
 
 export const EDIT_COLUMN = (title = ''): IModalContent => {
