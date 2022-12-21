@@ -6,7 +6,9 @@ import {
   isBoardAction,
   isColumnAction,
   isDeleteAction,
+  isDoneAction,
   isEditAction,
+  isNotDoneAction,
   isSignAction,
   isSignInAction,
   isSignUpAction,
@@ -83,6 +85,14 @@ const alertSlice = createSlice({
           if (isColumnAction(action)) content.message = 'Список задач изменен';
           if (isTaskAction(action)) content.message = 'Задача изменена';
           if (isUserAction(action)) content.message = 'Пользователь изменен';
+        }
+        if (isDoneAction(action)) {
+          state.isShow = true;
+          if (isTaskAction(action)) content.message = 'Задача выполнена';
+        }
+        if (isNotDoneAction(action)) {
+          state.isShow = true;
+          if (isTaskAction(action)) content.message = 'Задача восстановлена';
         }
         if (isSignAction(action)) {
           state.isShow = true;
