@@ -141,6 +141,7 @@ const boardSlice = createSlice({
     builder.addCase(deleteBoard.fulfilled, (state, { payload: board }) => {
       state.boards = state.boards.filter((boardState) => boardState._id !== board._id);
       state.currentBoard = initialState.currentBoard;
+      console.log(initialState.currentBoard);
     });
     builder.addCase(editBoard.fulfilled, (state, { payload: board }) => {
       state.boards = state.boards.map((boardState) => {

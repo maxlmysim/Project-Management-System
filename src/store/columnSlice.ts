@@ -43,7 +43,6 @@ export const getAllColumnsByBoard = createAsyncThunk<IColumnResponse[], string, 
       const currentBoard = await boardService.getBoard(boardId);
 
       dispatch(setCurrentBoard(currentBoard.data));
-
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
