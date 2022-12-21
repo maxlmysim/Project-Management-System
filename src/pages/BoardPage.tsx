@@ -22,7 +22,6 @@ const BoardPage: FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(1);
     if (title === '' && owner === '') {
       navigate(AppRoutes.BOARDS);
     }
