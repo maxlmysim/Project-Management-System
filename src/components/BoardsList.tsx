@@ -76,13 +76,15 @@ const BoardsList: FC = () => {
             ))}
             {isShowAddBoard && <AddButton onClick={addNewBoard}>{'Добавить доску'}</AddButton>}
           </GridContainer>
-          <Pagination
-            count={lastPage}
-            size="large"
-            color="primary"
-            shape="rounded"
-            onChange={handlePage}
-          />
+          {lastPage > 1 && (
+            <Pagination
+              count={lastPage}
+              size="large"
+              color="primary"
+              shape="rounded"
+              onChange={handlePage}
+            />
+          )}
         </>
       )}
     </Container>
