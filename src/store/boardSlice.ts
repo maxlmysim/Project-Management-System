@@ -5,6 +5,7 @@ import { IBoard, IBoardResponse } from '../types/boardTypes';
 import { boardService } from '../api/boardService';
 import { closeModalWindow } from './modalSlice';
 import { hideLoader, showLoader } from './loaderSlice';
+import { redirect } from './redirectSlice';
 
 interface IBoardState {
   boards: IBoardResponse[];
@@ -84,6 +85,11 @@ export const deleteBoard = createAsyncThunk<IBoardResponse, void, TypedThunkAPI>
     try {
       const { _id } = getState().boardStore.currentBoard;
       const response = await boardService.deleteBoard(_id);
+
+      if (response.status === 200) {
+        dispatch(redirect('/boards'));
+      }
+
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
