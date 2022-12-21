@@ -8,6 +8,8 @@ import {
   addNewTask,
   deleteTask,
   editTask,
+  setTaskDone,
+  setTaskNotDone,
 } from '../store/columnSlice';
 import { IColumn } from './columnTypes';
 
@@ -24,6 +26,8 @@ export type ModalFormActions = {
   addNewTask: typeof addNewTask;
   deleteTask: typeof deleteTask;
   editTask: typeof editTask;
+  setTaskDone: typeof setTaskDone;
+  setTaskNotDone: typeof setTaskNotDone;
 };
 
 export type ModalActionKeys = keyof ModalFormActions;
@@ -39,6 +43,7 @@ export type AppFormTypes = {
   order: number;
   description: string;
   userId: string;
+  isDone: boolean;
 };
 
 export type IModalContent = {

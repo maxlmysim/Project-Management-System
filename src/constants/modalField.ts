@@ -8,6 +8,8 @@ import {
   deleteTask,
   editColumn,
   editTask,
+  setTaskNotDone,
+  setTaskDone,
 } from 'store/columnSlice';
 
 type fieldName = 'login' | 'password' | 'name' | 'owner' | 'title' | 'description';
@@ -310,6 +312,16 @@ export const EDIT_TASK = (title = '', owner = ''): IModalContent => {
   };
 };
 
+export const SET_TASK_DONE: IModalContent = {
+  modalTitle: 'Задача выполнена?',
+  action: 'setTaskDone',
+};
+
+export const SET_TASK_NOT_DONE: IModalContent = {
+  modalTitle: 'Задача не выполнена?',
+  action: 'setTaskNotDone',
+};
+
 export const modalActions: ModalFormActions = {
   editName,
   editLogin,
@@ -323,4 +335,6 @@ export const modalActions: ModalFormActions = {
   addNewTask,
   deleteTask,
   editTask,
+  setTaskDone,
+  setTaskNotDone,
 };

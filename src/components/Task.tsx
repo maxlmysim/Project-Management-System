@@ -4,11 +4,17 @@ import TooltipButton from './TooltipButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { addFieldsInfoModal, showModalWindow } from '../store/modalSlice';
-import { DELETE_TASK, EDIT_TASK, SHOW_TASK_INFO } from '../constants/modalField';
+import {
+  DELETE_TASK,
+  EDIT_TASK,
+  SET_TASK_DONE,
+  SET_TASK_NOT_DONE,
+  SHOW_TASK_INFO,
+} from '../constants/modalField';
 import CenteringContainer from './СenteringСontainer';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { setCurrentTask, setTaskDone } from 'store/columnSlice';
+import { setCurrentTask } from 'store/columnSlice';
 import { ITaskResponse } from '../types/taskTypes';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import DragIcon from './DragIcon';
@@ -42,7 +48,12 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
 
   const onDoneTask = (): void => {
     dispatch(setCurrentTask(task));
-    dispatch(setTaskDone());
+    dispatch(showModalWindow(SET_TASK_DONE));
+  };
+
+  const onNotDoneTask = (): void => {
+    dispatch(setCurrentTask(task));
+    dispatch(showModalWindow(SET_TASK_NOT_DONE));
   };
 
   return (
@@ -120,7 +131,7 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
             <TooltipButton
               title="Не выполнено"
               color="#2e7d32"
-              handler={() => {}}
+              handler={onNotDoneTask}
               placement="bottom-start"
               sxIcon={{ fontSize: '4rem' }}
               size="small"

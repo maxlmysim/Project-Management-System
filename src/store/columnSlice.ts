@@ -4,17 +4,12 @@ import { hideLoader, showLoader } from './loaderSlice';
 import { AxiosError } from 'axios';
 import { columnService } from '../api/columnService';
 import { IColumn, IColumnResponse, IColumnsSet } from '../types/columnTypes';
-import {
-  IPointTask,
-  IPointTaskResponse,
-  ITask,
-  ITaskResponse,
-  ITasksSet,
-} from '../types/taskTypes';
+import { ITask, ITaskResponse, ITasksSet } from '../types/taskTypes';
 import { closeModalWindow } from './modalSlice';
 import { newSetColumnsOrder, reorderColumn } from '../helper/order';
 import { boardService } from '../api/boardService';
 import { setCurrentBoard } from './boardSlice';
+import { getTaskInfoForUpdate } from '../helper/state';
 
 interface IColumnState {
   columns: IColumnResponse[];
@@ -169,6 +164,8 @@ export const addNewTask = createAsyncThunk<ITaskResponse, ITask, TypedThunkAPI>(
       data.order = getState().columnStore.currentColumn.tasks.length;
       data.users = [];
       data.userId = getState().authStore.userId;
+      data.isDone = false;
+
       const response = await columnService.addNewTask(boardId, idColumn, data);
       return response.data;
     } catch (err) {
@@ -207,23 +204,16 @@ export const editTask = createAsyncThunk<ITaskResponse, ITask, TypedThunkAPI>(
   async (data: ITask, { rejectWithValue, getState, dispatch }) => {
     try {
       const {
-        _id: taskId,
-        boardId,
         columnId,
-        title,
-        users,
-        order,
-        description,
-        userId,
-      } = getState().columnStore.currentTask;
+        taskId,
+        data: newData,
+        boardId,
+      } = getTaskInfoForUpdate(getState().columnStore.currentTask);
 
-      const newData = {
-        title: data.title || title,
-        description: data.description || description,
-        users,
-        order,
-        userId,
-      };
+      newData.title = data.title || newData.title;
+      newData.description = data.description || newData.description;
+      newData.isDone = data.isDone || newData.isDone || false;
+
       const response = await columnService.editTask(boardId, columnId, taskId, newData);
       return response.data;
     } catch (err) {
@@ -255,20 +245,16 @@ export const getAllTasksByBoard = createAsyncThunk<ITaskResponse[], void, TypedT
   }
 );
 
-export const setTaskDone = createAsyncThunk<IPointTaskResponse, void, TypedThunkAPI>(
+export const setTaskDone = createAsyncThunk<ITaskResponse, void, TypedThunkAPI>(
   'column/setTaskDone',
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      const boardId = getState().boardStore.currentBoard._id;
-      const taskId = getState().columnStore.currentTask._id;
-      const data: IPointTask = {
-        title: 'Completed',
-        boardId,
-        taskId,
-        done: true,
-      };
+      const { columnId, taskId, data, boardId } = getTaskInfoForUpdate(
+        getState().columnStore.currentTask
+      );
+      data.isDone = true;
 
-      const response = await columnService.addPointTask(data);
+      const response = await columnService.editTask(boardId, columnId, taskId, data);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
@@ -276,6 +262,31 @@ export const setTaskDone = createAsyncThunk<IPointTaskResponse, void, TypedThunk
         throw err;
       }
       return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
+    }
+  }
+);
+
+export const setTaskNotDone = createAsyncThunk<ITaskResponse, void, TypedThunkAPI>(
+  'column/setTaskNotDone',
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { columnId, taskId, data, boardId } = getTaskInfoForUpdate(
+        getState().columnStore.currentTask
+      );
+      data.isDone = false;
+
+      const response = await columnService.editTask(boardId, columnId, taskId, data);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(closeModalWindow());
     }
   }
 );
@@ -297,7 +308,6 @@ const columnSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllColumnsByBoard.fulfilled, (state, { payload: columns }) => {
       state.columns = columns;
-      console.log(columns);
     });
     builder.addCase(editColumn.fulfilled, (state, { payload: column }) => {
       state.columns = state.columns.map((columnState) => {
@@ -336,6 +346,28 @@ const columnSlice = createSlice({
       });
     });
     builder.addCase(editTask.fulfilled, (state, { payload: taskResponse }) => {
+      const { columnId } = taskResponse;
+      state.columns = state.columns.map((column: IColumnResponse) => {
+        if (column._id === columnId) {
+          column.tasks = column.tasks.map((task) =>
+            task._id === taskResponse._id ? taskResponse : task
+          );
+        }
+        return column;
+      });
+    });
+    builder.addCase(setTaskDone.fulfilled, (state, { payload: taskResponse }) => {
+      const { columnId } = taskResponse;
+      state.columns = state.columns.map((column: IColumnResponse) => {
+        if (column._id === columnId) {
+          column.tasks = column.tasks.map((task) =>
+            task._id === taskResponse._id ? taskResponse : task
+          );
+        }
+        return column;
+      });
+    });
+    builder.addCase(setTaskNotDone.fulfilled, (state, { payload: taskResponse }) => {
       const { columnId } = taskResponse;
       state.columns = state.columns.map((column: IColumnResponse) => {
         if (column._id === columnId) {

@@ -4,8 +4,12 @@ export type ITask = {
   description: string;
   userId: string;
   users: string[];
+  isDone: boolean;
 };
 
+export interface ITaskUpdate extends ITask {
+  columnId: string;
+}
 export interface ITaskResponse extends ITask {
   _id: string;
   boardId: string;
