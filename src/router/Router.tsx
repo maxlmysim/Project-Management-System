@@ -17,19 +17,11 @@ const AppRouter: FC<props> = ({ isLogin }) => {
   return (
     <Routes>
       <Route path={AppRoutes.WELCOME} element={<WelcomePage />} />
-      {isLogin ? (
-        <>
-          <Route path={AppRoutes.PROFILE} element={<ProfilePage />} />
-          <Route path={AppRoutes.BOARDS} element={<BoardsPage />} />
-          <Route path={AppRoutes.BOARDS + AppRoutes.ID_BOARDS} element={<BoardPage />} />;
-          <Route path={AppRoutes.LOGIN} element={<LoginPage />} />
-        </>
-      ) : (
-        <>
-          <Route path={AppRoutes.LOGIN} element={<LoginPage />} />
-          <Route path={AppRoutes.REGISTRATION} element={<RegistrationPage />} />
-        </>
-      )}
+      <Route path={AppRoutes.LOGIN} element={<LoginPage />} />
+      <Route path={AppRoutes.PROFILE} element={<ProfilePage />} />
+      <Route path={AppRoutes.REGISTRATION} element={<RegistrationPage />} />
+      {isLogin && <Route path={AppRoutes.BOARDS} element={<BoardsPage />} />}
+      {isLogin && <Route path={AppRoutes.BOARDS + AppRoutes.ID_BOARDS} element={<BoardPage />} />}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

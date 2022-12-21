@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
 import { authSelector } from '../store/authSlice';
@@ -7,10 +7,15 @@ import CenteringContainer from '../components/СenteringСontainer';
 import { showModalWindow } from '../store/modalSlice';
 import { DELETE_USER, EDIT_LOGIN, EDIT_NAME } from '../constants/modalField';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '../constants/routes';
+import Loader from '../components/Loader';
 
 const ProfilePage: FC = () => {
+  const { isLogin } = useAppSelector(authSelector);
   const { login, name } = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const openEditName = (): void => {
     dispatch(showModalWindow(EDIT_NAME));
@@ -24,7 +29,13 @@ const ProfilePage: FC = () => {
     dispatch(showModalWindow(DELETE_USER));
   };
 
-  return (
+  useEffect(() => {
+    !isLogin && navigate(AppRoutes.LOGIN);
+  }, [isLogin]);
+
+  return !isLogin ? (
+    <Loader />
+  ) : (
     <div style={{ backgroundColor: 'rgb(66, 165, 245)', flexGrow: 1, color: 'white' }}>
       <Typography variant="h3" component="h3" align="center" margin="2rem auto">
         Профиль

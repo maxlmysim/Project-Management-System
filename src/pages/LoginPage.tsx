@@ -7,6 +7,7 @@ import { signInFieldList } from '../constants/modalField';
 import { useAppSelector } from '../hooks/storeHooks';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../constants/routes';
+import Loader from '../components/Loader';
 
 const LoginPage: FC = () => {
   const { isLogin } = useAppSelector(authSelector);
@@ -14,7 +15,9 @@ const LoginPage: FC = () => {
   useEffect(() => {
     isLogin && navigate(AppRoutes.WELCOME);
   }, [isLogin]);
-  return (
+  return isLogin ? (
+    <Loader />
+  ) : (
     <Container component="main">
       <Box alignItems="center" sx={{ display: 'flex', flexDirection: 'column', marginTop: '3rem' }}>
         <Avatar sx={{ backgroundColor: 'rgb(156, 39, 176);' }}>

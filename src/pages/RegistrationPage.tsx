@@ -1,12 +1,23 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Avatar, Box, Container, Typography } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AuthField from '../components/AuthField';
-import { signUp } from 'store/authSlice';
+import { authSelector, signUp } from 'store/authSlice';
 import { registrationFieldList } from '../constants/modalField';
+import { useAppSelector } from '../hooks/storeHooks';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '../constants/routes';
+import Loader from '../components/Loader';
 
 const RegistrationPage: FC = () => {
-  return (
+  const { isLogin } = useAppSelector(authSelector);
+  const navigate = useNavigate();
+  useEffect(() => {
+    isLogin && navigate(AppRoutes.WELCOME);
+  }, [isLogin]);
+  return isLogin ? (
+    <Loader />
+  ) : (
     <Container component="main">
       <Box
         sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '3rem' }}
