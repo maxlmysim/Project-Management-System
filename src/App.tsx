@@ -8,13 +8,18 @@ import { authSelector, getMyUserData } from './store/authSlice';
 import { welcomeSelector } from './store/welcomeSlice';
 import Loader from './components/Loader';
 import AppRouter from './router/Router';
+import { useNavigate } from 'react-router-dom';
+import { setNavigate } from 'store/redirectSlice';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { isLoadingPage } = useAppSelector(welcomeSelector);
   const { isLogin } = useAppSelector(authSelector);
 
   useLayoutEffect(() => {
+    dispatch(setNavigate(navigate));
     dispatch(getMyUserData());
   }, []);
 

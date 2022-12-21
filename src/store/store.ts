@@ -7,7 +7,10 @@ import { loaderReducer } from './loaderSlice';
 import { columnReducer } from './columnSlice';
 import { alertReducer } from './alertSlice';
 import { IBoard } from '../types/boardTypes';
+import { createBrowserHistory } from 'history';
+import { redirectReducer } from './redirectSlice';
 
+export const history = createBrowserHistory();
 export const store = configureStore({
   reducer: {
     authStore: authReducers,
@@ -17,7 +20,12 @@ export const store = configureStore({
     columnStore: columnReducer,
     loaderStore: loaderReducer,
     alertStore: alertReducer,
+    redirectStore: redirectReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
   devTools: true,
 });
 
@@ -41,7 +49,6 @@ export type TypedThunkAPI = {
 };
 
 export type GenericAsyncThunk = AsyncThunk<IBoard[], string, TypedThunkAPI>;
-
 export type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 export type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 export type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
