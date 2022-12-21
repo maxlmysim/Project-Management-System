@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Avatar, Box, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AuthField from '../components/AuthField';
@@ -11,7 +11,9 @@ import { AppRoutes } from '../constants/routes';
 const LoginPage: FC = () => {
   const { isLogin } = useAppSelector(authSelector);
   const navigate = useNavigate();
-  isLogin && navigate(AppRoutes.WELCOME);
+  useEffect(() => {
+    isLogin && navigate(AppRoutes.WELCOME);
+  }, [isLogin]);
   return (
     <Container component="main">
       <Box alignItems="center" sx={{ display: 'flex', flexDirection: 'column', marginTop: '3rem' }}>
