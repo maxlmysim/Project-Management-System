@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 
 interface props {
   title: string;
-  owner: string;
+  owner?: string;
 }
 const ModalInfo: FC<props> = ({ title, owner }) => {
   return (
@@ -17,9 +17,11 @@ const ModalInfo: FC<props> = ({ title, owner }) => {
       >
         {title}
       </Typography>
-      <Typography variant="h6" component="h5" marginBottom="1rem" marginRight="auto">
-        {owner}
-      </Typography>
+      {owner && (
+        <Typography variant="h6" component="h5" marginBottom="1rem" marginRight="auto">
+          {owner}
+        </Typography>
+      )}
     </>
   );
 };

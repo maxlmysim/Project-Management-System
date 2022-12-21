@@ -6,8 +6,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { setCurrentColumn } from '../store/columnSlice';
-import { showModalWindow } from '../store/modalSlice';
-import { DELETE_COLUMN, EDIT_COLUMN } from '../constants/modalField';
+import { addFieldsInfoModal, showModalWindow } from '../store/modalSlice';
+import { DELETE_COLUMN, EDIT_COLUMN, SHOW_COLUMN_INFO } from '../constants/modalField';
 import { useAppDispatch } from '../hooks/storeHooks';
 import { IColumnResponse } from 'types/columnTypes';
 import { SxProps } from '@mui/system';
@@ -54,6 +54,17 @@ interface IProps {
 const ColumnHeader: FC<IProps> = ({ column, dragHandle }) => {
   const dispatch = useAppDispatch();
   const [showOptions, setShowOptions] = useState(false);
+
+  const closeShowOptions = (): void => {
+    if (showOptions) setShowOptions(false);
+  };
+
+  const onShowInfo = (): void => {
+    dispatch(setCurrentColumn(column));
+    dispatch(addFieldsInfoModal({ title: column.title }));
+    dispatch(showModalWindow(SHOW_COLUMN_INFO));
+    closeShowOptions();
+  };
   const onDeleteColumn = (): void => {
     dispatch(setCurrentColumn(column));
     dispatch(showModalWindow(DELETE_COLUMN));
@@ -67,9 +78,7 @@ const ColumnHeader: FC<IProps> = ({ column, dragHandle }) => {
   const toggleShowOptions = (): void => {
     setShowOptions(!showOptions);
   };
-  const closeShowOptions = (): void => {
-    if (showOptions) setShowOptions(false);
-  };
+
   return (
     <Container {...dragHandle}>
       <DragIcon transform={'none'} position={'absolute'} left={'5%'} />
@@ -80,7 +89,7 @@ const ColumnHeader: FC<IProps> = ({ column, dragHandle }) => {
           <>
             <TooltipButton
               title="Описание"
-              handler={(): void => {}}
+              handler={onShowInfo}
               backgroundColor="rgba(0,0,0,0.7)"
               icon={<SearchIcon />}
             />
