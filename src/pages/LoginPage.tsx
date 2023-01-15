@@ -8,10 +8,12 @@ import { useAppSelector } from '../hooks/storeHooks';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../constants/routes';
 import Loader from '../components/Loader';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage: FC = () => {
   const { isLogin } = useAppSelector(authSelector);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   useEffect(() => {
     isLogin && navigate(AppRoutes.WELCOME);
   }, [isLogin]);
@@ -24,9 +26,9 @@ const LoginPage: FC = () => {
           <LockOutlinedIcon sx={{ width: '70%', height: 'auto' }} />
         </Avatar>
         <Typography variant="h3" component="h3" align="center" sx={{ margin: '0 auto 1rem' }}>
-          Вход
+          {t('auth.signIn')}
         </Typography>
-        <AuthField fields={signInFieldList} action={signIn} buttonText="Войти" />
+        <AuthField fields={signInFieldList} action={signIn} buttonText={t('auth.signIn')} />
       </Box>
     </Container>
   );

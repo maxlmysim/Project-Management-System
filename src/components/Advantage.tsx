@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { styled, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const Content = styled('div')`
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -22,11 +23,12 @@ const Content = styled('div')`
 `;
 
 const Advantage: FC<{ text: string }> = ({ text }) => {
+  const { t } = useTranslation('translation', { keyPrefix: 'welcome.advantages' });
   return (
     <Content>
       <BusinessCenterIcon color="primary" />
       <Typography component="p" variant="h4">
-        {text}
+        {t(text)}
       </Typography>
     </Content>
   );

@@ -68,36 +68,36 @@ const alertSlice = createSlice({
         };
         if (isDeleteAction(action)) {
           state.isShow = true;
-          if (isBoardAction(action)) content.message = 'Доска удалена';
-          if (isColumnAction(action)) content.message = 'Список задач удален';
-          if (isTaskAction(action)) content.message = 'Задача удалена';
-          if (isUserAction(action)) content.message = 'Пользователь удален';
+          if (isBoardAction(action)) content.message = 'delete.board';
+          if (isColumnAction(action)) content.message = 'delete.column';
+          if (isTaskAction(action)) content.message = 'delete.task';
+          if (isUserAction(action)) content.message = 'delete.user';
         }
         if (isAddAction(action)) {
           state.isShow = true;
-          if (isBoardAction(action)) content.message = 'Доска добавлена';
-          if (isColumnAction(action)) content.message = 'Список задач добавлен';
-          if (isTaskAction(action)) content.message = 'Задача добавлена';
+          if (isBoardAction(action)) content.message = 'add.board';
+          if (isColumnAction(action)) content.message = 'add.column';
+          if (isTaskAction(action)) content.message = 'add.task';
         }
         if (isEditAction(action)) {
           state.isShow = true;
-          if (isBoardAction(action)) content.message = 'Доска изменена';
-          if (isColumnAction(action)) content.message = 'Список задач изменен';
-          if (isTaskAction(action)) content.message = 'Задача изменена';
-          if (isUserAction(action)) content.message = 'Пользователь изменен';
+          if (isBoardAction(action)) content.message = 'edit.board';
+          if (isColumnAction(action)) content.message = 'edit.column';
+          if (isTaskAction(action)) content.message = 'edit.task';
+          if (isUserAction(action)) content.message = 'edit.user';
         }
         if (isDoneAction(action)) {
           state.isShow = true;
-          if (isTaskAction(action)) content.message = 'Задача выполнена';
+          if (isTaskAction(action)) content.message = 'done.task.done';
         }
         if (isNotDoneAction(action)) {
           state.isShow = true;
-          if (isTaskAction(action)) content.message = 'Задача восстановлена';
+          if (isTaskAction(action)) content.message = 'done.task.notDone';
         }
         if (isSignAction(action)) {
           state.isShow = true;
-          if (isSignUpAction(action)) content.message = 'Пользователь создан';
-          if (isSignInAction(action)) content.message = 'Пользователь авторизован';
+          if (isSignUpAction(action)) content.message = 'sign.up';
+          if (isSignInAction(action)) content.message = 'sign.in';
         }
         state.content = { ...content };
       }
@@ -111,15 +111,15 @@ const alertSlice = createSlice({
         };
         if (isAddAction(action)) {
           state.isShow = true;
-          content.message = 'Невозможно добавить';
+          content.message = 'add.error';
         }
         if (isDeleteAction(action)) {
           state.isShow = true;
-          content.message = 'Невозможно удалить';
+          content.message = 'delete.error';
         }
         if (isEditAction(action)) {
           state.isShow = true;
-          content.message = 'Невозможно изменить';
+          content.message = 'edit.error';
         }
         state.content = { ...content };
       }

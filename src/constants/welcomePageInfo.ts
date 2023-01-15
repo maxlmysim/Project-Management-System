@@ -1,10 +1,10 @@
 export const advantageList: string[] = [
-  'Простой и интуитивно понятный интерфейс',
-  'Персональный полностью редактируемый список проектов',
-  'Возможность создавать неограниченное количестов стадий выполнения задач и самих задач',
-  'Возможность добавлять/редактировать/удалять задачи, назначать команду исполнителей и ответственного',
-  'Мгновенное изменение статусов задач и проектов для удобства взаимодействия между командой исполнителей',
-  'Удобный поиск среди списка всех ваших проектов',
+  'simple',
+  'personal',
+  'creatable',
+  'addable',
+  'editable',
+  'searchable',
 ];
 
 export interface ITechnology {
@@ -58,19 +58,19 @@ export const technologiesList: ITechnology[] = [
 
 export interface ITeammate {
   name: string;
-  role: string[];
+  roles: string[];
   linkGit: string;
 }
 
 export const teamList: ITeammate[] = [
   {
     name: 'Maksim Lapko',
-    role: ['FrontEnd developer', 'Teamlead'],
+    roles: ['developer', 'teamlead'],
     linkGit: 'https://github.com/maxlmysim',
   },
   {
     name: 'Vlad Belyaev',
-    role: ['FrontEnd developer'],
+    roles: ['developer'],
     linkGit: 'https://github.com/jocker-py',
   },
 ];

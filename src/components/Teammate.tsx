@@ -2,6 +2,7 @@ import { Link, styled, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { ITeammate } from 'constants/welcomePageInfo';
+import { useTranslation } from 'react-i18next';
 
 const LinkStyle = styled(Link)`
   display: grid;
@@ -42,15 +43,16 @@ const LinkStyle = styled(Link)`
 `;
 
 const Teammate: FC<{ teammate: ITeammate }> = ({ teammate }) => {
-  const { name, role, linkGit } = teammate;
+  const { t } = useTranslation('translation', { keyPrefix: 'welcome.teammate' });
+  const { name, roles, linkGit } = teammate;
   return (
     <LinkStyle href={linkGit} target="_blank">
       <GroupsIcon />
       <Typography variant="h4" component="h4">
-        {name}
+        {t(name)}
       </Typography>
       <Typography variant="h5" component="h5">
-        {role.join(', ')}
+        {roles.map((role) => t(role)).join(', ')}
       </Typography>
     </LinkStyle>
   );

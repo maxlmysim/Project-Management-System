@@ -8,10 +8,12 @@ import { useAppSelector } from '../hooks/storeHooks';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../constants/routes';
 import Loader from '../components/Loader';
+import { useTranslation } from 'react-i18next';
 
 const RegistrationPage: FC = () => {
   const { isLogin } = useAppSelector(authSelector);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   useEffect(() => {
     isLogin && navigate(AppRoutes.WELCOME);
   }, [isLogin]);
@@ -26,9 +28,9 @@ const RegistrationPage: FC = () => {
           <PersonAddIcon sx={{ width: '70%', height: 'auto' }} />
         </Avatar>
         <Typography variant="h3" component="h3" sx={{ textAlign: 'center', margin: '0 auto 1rem' }}>
-          Регистрация
+          {t('auth.signUp')}
         </Typography>
-        <AuthField fields={registrationFieldList} action={signUp} buttonText="Регистрация" />
+        <AuthField fields={registrationFieldList} action={signUp} buttonText={t('auth.signUp')} />
       </Box>
     </Container>
   );

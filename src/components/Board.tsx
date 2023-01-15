@@ -29,7 +29,6 @@ const styleCard = {
 const Board: FC<props> = ({ board }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const onShowBoardInfo = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     dispatch(setCurrentBoard(board));

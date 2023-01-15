@@ -9,6 +9,7 @@ import Board from './Board';
 import { loaderSelector } from '../store/loaderSlice';
 import Loader from './Loader';
 import AddButton from './Buttons/AddButton';
+import { useTranslation } from 'react-i18next';
 
 const ContainerStyle = {
   m: '1rem',
@@ -47,6 +48,7 @@ const GridContainer = styled('div')`
 
 const BoardsList: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation('translation', { keyPrefix: 'fields.board' });
   const { boards, currentPageNum } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(loaderSelector);
   const boardsToShow = boards.slice(12 * (currentPageNum - 1), 12 * currentPageNum);
@@ -74,7 +76,7 @@ const BoardsList: FC = () => {
             {boardsToShow.map((board) => (
               <Board board={board} key={board._id} />
             ))}
-            {isShowAddBoard && <AddButton onClick={addNewBoard}>{'Добавить доску'}</AddButton>}
+            {isShowAddBoard && <AddButton onClick={addNewBoard}>{t('add')}</AddButton>}
           </GridContainer>
           {lastPage > 1 && (
             <Pagination

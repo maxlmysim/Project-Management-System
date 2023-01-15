@@ -21,6 +21,7 @@ import DragIcon from './DragIcon';
 import DoneIcon from '@mui/icons-material/Done';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import UndoIcon from '@mui/icons-material/Undo';
+import { useTranslation } from 'react-i18next';
 
 interface ITaskProps {
   task: ITaskResponse;
@@ -29,6 +30,7 @@ interface ITaskProps {
 
 const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation('translation', { keyPrefix: 'actions' });
   const { title, description, isDone } = task;
 
   const onShowTaskInfo = (): void => {
@@ -97,7 +99,7 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
           >
             {title}
           </Typography>
-          <TooltipButton title="Описание" handler={onShowTaskInfo} icon={<SearchIcon />} />
+          <TooltipButton title={t('info')} handler={onShowTaskInfo} icon={<SearchIcon />} />
         </Box>
         <Typography
           variant="h6"
@@ -111,7 +113,7 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
         <CenteringContainer>
           {isDone || (
             <TooltipButton
-              title="Редактировать"
+              title={t('edit')}
               color="rgb(25, 118, 210)"
               handler={onEditTask}
               placement="bottom-start"
@@ -120,7 +122,7 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
             />
           )}
           <TooltipButton
-            title="Удалить"
+            title={t('delete')}
             color="rgb(210,25,25)"
             handler={onDeleteTask}
             placement="bottom-start"
@@ -129,7 +131,7 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
           />
           {isDone ? (
             <TooltipButton
-              title="Не выполнено"
+              title={t('restore')}
               color="#2e7d32"
               handler={onNotDoneTask}
               placement="bottom-start"
@@ -139,7 +141,7 @@ const Task: FC<ITaskProps> = ({ task, dropProvided }) => {
             />
           ) : (
             <TooltipButton
-              title="Выполнено"
+              title={t('done')}
               color="#2e7d32"
               handler={onDoneTask}
               placement="bottom-start"

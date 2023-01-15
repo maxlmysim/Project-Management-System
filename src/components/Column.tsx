@@ -12,6 +12,7 @@ import ColumnHeader from './ColumnHeader';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { IColumnResponse } from 'types/columnTypes';
 import { ITaskResponse } from '../types/taskTypes';
+import { useTranslation } from 'react-i18next';
 
 export interface IColumnProps {
   column: IColumnResponse;
@@ -43,6 +44,7 @@ const Container = styled('div')`
 
 const Column: FC<IColumnProps> = ({ column, tasks }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation('translation', { keyPrefix: 'fields.task' });
 
   const onAddTask = (): void => {
     dispatch(setCurrentColumn(column));
@@ -67,7 +69,7 @@ const Column: FC<IColumnProps> = ({ column, tasks }) => {
             )}
           </Droppable>
           <AddButton type="small" onClick={onAddTask}>
-            {'Добавить задачу'}
+            {t('add')}
           </AddButton>
         </Card>
       )}

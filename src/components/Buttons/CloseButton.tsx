@@ -1,12 +1,14 @@
 import React, { FC } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface ICloseButton {
   handleClose: () => void;
 }
 
 const CloseButton: FC<ICloseButton> = ({ handleClose }) => {
+  const { t } = useTranslation('translation', { keyPrefix: 'actions' });
   return (
     <Button
       variant="contained"
@@ -16,7 +18,7 @@ const CloseButton: FC<ICloseButton> = ({ handleClose }) => {
       startIcon={<CloseIcon />}
       onClick={handleClose}
     >
-      Закрыть
+      {t('close')}
     </Button>
   );
 };

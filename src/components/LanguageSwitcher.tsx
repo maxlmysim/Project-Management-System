@@ -1,16 +1,20 @@
 import React, { FC, useState } from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
+import { useTranslation } from 'react-i18next';
 
 interface props {
   fontSize?: string;
 }
 
 const LanguageSwitcher: FC<props> = ({ fontSize = '1.8rem' }) => {
+  const { i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const [currenLanguage, setCurrenLanguage] = useState('RU');
+  const [currenLanguage, setCurrenLanguage] = useState(
+    i18n.resolvedLanguage === 'ru' ? 'ru' : 'en'
+  );
 
   const openMenuLanguage = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
@@ -20,9 +24,10 @@ const LanguageSwitcher: FC<props> = ({ fontSize = '1.8rem' }) => {
     setAnchorEl(null);
   };
 
-  const changeLanguage = (language: string): void => {
+  const changeLanguage = async (language: string): Promise<void> => {
     setAnchorEl(null);
     setCurrenLanguage(language);
+    await i18n.changeLanguage(language);
   };
 
   return (
@@ -32,10 +37,16 @@ const LanguageSwitcher: FC<props> = ({ fontSize = '1.8rem' }) => {
         {currenLanguage}
       </Button>
       <Menu anchorEl={anchorEl} open={open} onClose={closeMenuLanguage}>
-        <MenuItem sx={{ fontSize: fontSize }} onClick={(): void => changeLanguage('RU')}>
+        <MenuItem
+          sx={{ fontSize: fontSize }}
+          onClick={async (): Promise<void> => await changeLanguage('ru')}
+        >
           RU
         </MenuItem>
-        <MenuItem sx={{ fontSize: fontSize }} onClick={(): void => changeLanguage('EN')}>
+        <MenuItem
+          sx={{ fontSize: fontSize }}
+          onClick={async (): Promise<void> => await changeLanguage('en')}
+        >
           EN
         </MenuItem>
       </Menu>

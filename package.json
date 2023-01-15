@@ -58,6 +58,7 @@
     ]
   },
   "devDependencies": {
-    "eslint-config-prettier": "^8.5.0"
+    "eslint-config-prettier": "^8.5.0",
+    "i18next-browser-languagedetector": "^7.0.1"
   }
 }
