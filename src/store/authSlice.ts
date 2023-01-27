@@ -14,6 +14,7 @@ import {
 } from 'types/userTypes';
 import { closeModalWindow } from './modalSlice';
 import { AppRoutes } from '../constants/routes';
+import { redirect } from './redirectSlice';
 
 interface IAuthState {
   isLogin: boolean;
@@ -49,7 +50,7 @@ export const signIn = createAsyncThunk<ISignInResponse, IUser, TypedThunkAPI>(
 
 export const signUp = createAsyncThunk<ISignUpResponse, INewUser, TypedThunkAPI>(
   'users/singUp',
-  async (newUser: INewUser, { rejectWithValue }) => {
+  async (newUser: INewUser, { rejectWithValue, dispatch }) => {
     try {
       const response = await authService.signUpUser(newUser);
       return response.data;
@@ -59,6 +60,8 @@ export const signUp = createAsyncThunk<ISignUpResponse, INewUser, TypedThunkAPI>
         throw err;
       }
       return rejectWithValue(error.response?.data);
+    } finally {
+      dispatch(redirect(AppRoutes.LOGIN));
     }
   }
 );
@@ -190,7 +193,6 @@ const authSlice = createSlice({
     });
     builder.addCase(signUp.fulfilled, (state) => {
       state.isLoading = false;
-      window.location.href = AppRoutes.LOGIN;
     });
     builder.addCase(signUp.pending, (state) => {
       state.isLoading = true;
