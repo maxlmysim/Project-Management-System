@@ -15,6 +15,7 @@ import { Theme } from '@mui/material/styles';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 import DragIcon from './DragIcon';
+import { useTranslation } from 'react-i18next';
 
 const styleBox: SxProps<Theme> = {
   display: 'flex',
@@ -53,6 +54,7 @@ interface IProps {
 
 const ColumnHeader: FC<IProps> = ({ column, dragHandle }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation('translation', { keyPrefix: 'actions' });
   const [showOptions, setShowOptions] = useState(false);
 
   const closeShowOptions = (): void => {
@@ -88,19 +90,19 @@ const ColumnHeader: FC<IProps> = ({ column, dragHandle }) => {
         {showOptions && (
           <>
             <TooltipButton
-              title="Описание"
+              title={t('info')}
               handler={onShowInfo}
               backgroundColor="rgba(0,0,0,0.7)"
               icon={<SearchIcon />}
             />
             <TooltipButton
-              title="Изменить"
+              title={t('edit')}
               handler={onEditColumn}
               backgroundColor="rgba(0,0,0,0.7)"
               icon={<EditIcon />}
             />
             <TooltipButton
-              title="Удалить"
+              title={t('delete')}
               handler={onDeleteColumn}
               backgroundColor="rgba(0,0,0,0.7)"
               icon={<DeleteIcon />}

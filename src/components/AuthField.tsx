@@ -7,6 +7,7 @@ import { AppDispatch } from 'store/store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { IFieldPropsInput } from '../constants/modalField';
 import { AppFormTypes } from '../types/formTypes';
+import { useTranslation } from 'react-i18next';
 
 const Form = styled('form')`
   max-width: 400px;
@@ -54,6 +55,7 @@ interface props {
 const AuthField: FC<props> = ({ action, buttonText, fields }) => {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector(authSelector);
+  const { t } = useTranslation();
 
   const {
     register,
@@ -73,15 +75,15 @@ const AuthField: FC<props> = ({ action, buttonText, fields }) => {
         fields.map((field) => (
           <TextField
             key={field.name}
-            label={field.label}
-            placeholder={field.placeholder}
+            label={t(field.label)}
+            placeholder={`${t(field.placeholder)}`}
             type={field.type}
             {...register(field.name, field.registerOptions)}
             sx={{ width: 1 }}
             error={!!errors[field.name as keyof typeof errors]}
             helperText={
               errors[field.name as keyof typeof errors] &&
-              `${errors[field.name as keyof typeof errors]?.message}`
+              t(`${errors[field.name as keyof typeof errors]?.message}`)
             }
           />
         ))}

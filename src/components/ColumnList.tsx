@@ -28,6 +28,7 @@ import {
   reorderColumn,
   reorderTask,
 } from '../helper/order';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled('div')`
   display: flex;
@@ -45,6 +46,7 @@ const Container = styled('div')`
 
 const ColumnList: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation('translation', { keyPrefix: 'fields.column' });
   const { isLoading } = useAppSelector(loaderSelector);
   const { columns } = useAppSelector(columnSelector);
 
@@ -128,7 +130,7 @@ const ColumnList: FC = () => {
                     <Draggable draggableId="AddButtonColumn" index={columns.length}>
                       {(provided): ReactElement => (
                         <AddButton onClick={onAddColumn} dropProvided={provided}>
-                          {'Добавить список'}
+                          {t('add')}
                         </AddButton>
                       )}
                     </Draggable>

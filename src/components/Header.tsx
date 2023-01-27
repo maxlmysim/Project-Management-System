@@ -8,6 +8,7 @@ import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import HomeIcon from '@mui/icons-material/Home';
 import ModalWindow from './ModalWindow/ModalWindow';
+import { useTranslation } from 'react-i18next';
 
 const fontSize = '1.8rem';
 
@@ -17,7 +18,7 @@ interface props {
 
 const Header: FC<props> = ({ isLogin }) => {
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const onMainPage = (): void => navigate(AppRoutes.WELCOME);
   const onProfilePage = (): void => navigate(AppRoutes.PROFILE);
   const onBoardsPage = (): void => navigate(AppRoutes.BOARDS);
@@ -28,18 +29,18 @@ const Header: FC<props> = ({ isLogin }) => {
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Button color="inherit" sx={{ fontSize: '1.8rem' }} onClick={onMainPage}>
             <HomeIcon sx={{ fontSize: '1.2em', marginRight: '5px' }} />
-            Главная
+            {t('welcome.main')}
           </Button>
           <div>
             {isLogin && (
               <>
                 <Button color="inherit" sx={{ fontSize: '1.8rem' }} onClick={onBoardsPage}>
                   <DashboardRoundedIcon sx={{ fontSize: '1.2em', marginRight: '5px' }} />
-                  Доски
+                  {t('fields.board.title')}
                 </Button>
                 <Button color="inherit" sx={{ fontSize: '1.8rem' }} onClick={onProfilePage}>
                   <AccountBoxRoundedIcon sx={{ fontSize: '1.2em', marginRight: '5px' }} />
-                  Профиль
+                  {t('profile.title')}
                 </Button>
               </>
             )}

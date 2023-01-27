@@ -47,79 +47,79 @@ interface IRegisterOptions {
 
 const required: IRequired = {
   value: true,
-  message: 'Это поле обязательно!',
+  message: 'fields.message.require',
 };
 
 const fieldLogin: IFieldPropsInput = {
-  label: 'Логин',
+  label: 'fields.login.label',
   name: 'login',
   type: 'text',
-  placeholder: 'Введите ваш логин',
+  placeholder: 'fields.login.placeholder',
   registerOptions: {
     required,
     minLength: {
       value: 4,
-      message: 'Минимальная длинна логина 4 символа',
+      message: 'fields.message.min4',
     },
     maxLength: {
       value: 20,
-      message: 'Максимальная длинна логина 20 символов',
+      message: 'fields.message.max20',
     },
   },
 };
 
 const fieldPassword: IFieldPropsInput = {
-  label: 'Пароль',
+  label: 'fields.password.label',
   name: 'password',
   registerOptions: {
     required,
     minLength: {
       value: 8,
-      message: 'Минимальная длинна пароля 8 символа',
+      message: 'fields.message.min8',
     },
     maxLength: {
       value: 50,
-      message: 'Максимальная длинна пароля 50 символов',
+      message: 'fields.message.max50',
     },
   },
   type: 'password',
-  placeholder: 'Введите ваш пароль',
+  placeholder: 'fields.password.placeholder',
 };
 
 const fieldName: IFieldPropsInput = {
-  label: 'Имя',
+  label: 'fields.name.label',
   name: 'name',
   type: 'text',
-  placeholder: 'Введите ваше имя',
+  placeholder: 'fields.name.placeholder',
   registerOptions: {
     required,
     minLength: {
       value: 2,
-      message: 'Минимальная длинна имени 2 символа',
+      message: 'fields.message.min2',
     },
     maxLength: {
       value: 50,
-      message: 'Максимальная длинна имени 50 символов',
+      message: 'fields.message.max50',
     },
   },
 };
 
 const boardName = (value = ''): IFieldPropsInput => {
   return {
-    label: 'Название доски',
-    name: 'title',
+    label: 'fields.board.label',
+    name: 'name',
     type: 'text',
-    placeholder: 'Введите название доски',
+    placeholder: 'fields.board.placeholder',
     defaultValue: value,
     registerOptions: {
       required,
       minLength: {
         value: 2,
-        message: 'Минимальная длинна названия 2 символа',
+        message: 'fields.message.min2',
       },
       maxLength: {
         value: 20,
-        message: 'Максимальная длинна названия 20 символов',
+        message: 'fields.message.max20',
       },
     },
   };
@@ -127,20 +127,20 @@ const boardName = (value = ''): IFieldPropsInput => {
 
 const boardDescription = (value = ''): IFieldPropsInput => {
   return {
-    label: 'Описание',
+    label: 'fields.board.description.label',
     name: 'owner',
     type: 'text',
-    placeholder: 'Введите описание',
+    placeholder: 'fields.board.description.placeholder',
     defaultValue: value,
     registerOptions: {
       required,
       minLength: {
         value: 4,
-        message: 'Минимальная длинна описания 4 символа',
+        message: 'fields.message.min4',
       },
       maxLength: {
         value: 100,
-        message: 'Максимальная длинна описания 100 символов',
+        message: 'fields.message.max100',
       },
     },
   };
@@ -148,20 +148,20 @@ const boardDescription = (value = ''): IFieldPropsInput => {
 
 const columnName = (value = ''): IFieldPropsInput => {
   return {
-    label: 'Название списка',
+    label: 'fields.column.label',
     name: 'title',
     type: 'text',
-    placeholder: 'Введите название',
+    placeholder: 'fields.column.placeholder',
     defaultValue: value,
     registerOptions: {
       required,
       minLength: {
         value: 2,
-        message: 'Минимальная длинна имени 2 символа',
+        message: 'fields.message.min2',
       },
       maxLength: {
         value: 50,
-        message: 'Максимальная длинна имени 30 символов',
+        message: 'fields.message.max30',
       },
     },
   };
@@ -169,20 +169,20 @@ const columnName = (value = ''): IFieldPropsInput => {
 
 const taskName = (value = ''): IFieldPropsInput => {
   return {
-    label: 'Название задачи',
+    label: 'fields.task.label',
     name: 'title',
     type: 'text',
-    placeholder: 'Введите название задачи',
+    placeholder: 'fields.task.placeholder',
     defaultValue: value,
     registerOptions: {
       required,
       minLength: {
         value: 2,
-        message: 'Минимальная длинна названия 2 символа',
+        message: 'fields.message.min2',
       },
       maxLength: {
         value: 30,
-        message: 'Максимальная длинна названия 30 символов',
+        message: 'fields.message.max30',
       },
     },
   };
@@ -190,20 +190,20 @@ const taskName = (value = ''): IFieldPropsInput => {
 
 const taskDescription = (value = ''): IFieldPropsInput => {
   return {
-    label: 'Описание задачи',
+    label: 'fields.task.description.label',
     name: 'description',
     type: 'text',
-    placeholder: 'Введите описание задачи',
+    placeholder: 'fields.task.description.placeholder',
     defaultValue: value,
     registerOptions: {
       required,
       minLength: {
         value: 2,
-        message: 'Минимальная длинна названия 4 символа',
+        message: 'fields.message.min4',
       },
       maxLength: {
         value: 100,
-        message: 'Максимальная длинна названия 100 символов',
+        message: 'fields.message.max100',
       },
     },
   };
@@ -229,101 +229,101 @@ const editBoardFieldList = (title = '', owner = ''): IFieldPropsInput[] => [
 ];
 
 export const EDIT_LOGIN: IModalContent = {
-  modalTitle: 'Изменить логин',
+  modalTitle: 'modalTitle.editLogin',
   action: 'editLogin',
   fieldsInput: changeLoginFieldList,
 };
 
 export const EDIT_NAME: IModalContent = {
-  modalTitle: 'Изменить имя',
+  modalTitle: 'modalTitle.editName',
   action: 'editName',
   fieldsInput: changeNameFieldList,
 };
 
 export const DELETE_USER: IModalContent = {
-  modalTitle: 'Удалить пользователя?',
+  modalTitle: 'modalTitle.deleteUser',
   action: 'deleteUser',
 };
 
 export const ADD_BOARD: IModalContent = {
-  modalTitle: 'Добавить доску',
+  modalTitle: 'modalTitle.addNewBoard',
   action: 'addNewBoard',
   fieldsInput: addBoardFieldList,
 };
 
 export const DELETE_BOARD: IModalContent = {
-  modalTitle: 'Удалить доску?',
+  modalTitle: 'modalTitle.deleteBoard',
   action: 'deleteBoard',
 };
 
 export const EDIT_BOARD = (title = '', owner = ''): IModalContent => {
   return {
-    modalTitle: 'Редактирование',
+    modalTitle: 'modalTitle.editBoard',
     action: 'editBoard',
     fieldsInput: editBoardFieldList(title, owner),
   };
 };
 
 export const ADD_COLUMN: IModalContent = {
-  modalTitle: 'Создать список задач',
+  modalTitle: 'modalTitle.addNewColumn',
   action: 'addNewColumn',
   fieldsInput: addColumnFieldList,
 };
 
 export const SHOW_BOARD_INFO: IModalContent = {
-  modalTitle: 'Доска',
+  modalTitle: 'modalTitle.board',
   isHideConfirmButton: true,
 };
 
 export const DELETE_COLUMN: IModalContent = {
-  modalTitle: 'Удалить список?',
+  modalTitle: 'modalTitle.deleteColumn',
   action: 'deleteColumn',
 };
 
 export const SHOW_COLUMN_INFO: IModalContent = {
-  modalTitle: 'Колонка',
+  modalTitle: 'modalTitle.column',
   isHideConfirmButton: true,
 };
 
 export const EDIT_COLUMN = (title = ''): IModalContent => {
   return {
-    modalTitle: 'Редактирование',
+    modalTitle: 'modalTitle.editColumn',
     action: 'editColumn',
     fieldsInput: editColumnFieldList(title),
   };
 };
 
 export const SHOW_TASK_INFO: IModalContent = {
-  modalTitle: 'Задача',
+  modalTitle: 'modalTitle.task',
   isHideConfirmButton: true,
 };
 
 export const ADD_TASK: IModalContent = {
-  modalTitle: 'Добавить задачу',
+  modalTitle: 'modalTitle.addNewTask',
   action: 'addNewTask',
   fieldsInput: addTaskFieldList,
 };
 
 export const DELETE_TASK: IModalContent = {
-  modalTitle: 'Удалить задачу?',
+  modalTitle: 'modalTitle.deleteTask',
   action: 'deleteTask',
 };
 
 export const EDIT_TASK = (title = '', owner = ''): IModalContent => {
   return {
-    modalTitle: 'Редактирование',
+    modalTitle: 'modalTitle.editTask',
     action: 'editTask',
     fieldsInput: editTaskFieldList(title, owner),
   };
 };
 
 export const SET_TASK_DONE: IModalContent = {
-  modalTitle: 'Задача выполнена?',
+  modalTitle: 'modalTitle.setTaskDone',
   action: 'setTaskDone',
 };
 
 export const SET_TASK_NOT_DONE: IModalContent = {
-  modalTitle: 'Задача не выполнена?',
+  modalTitle: 'modalTitle.setTaskNotDone',
   action: 'setTaskNotDone',
 };
 

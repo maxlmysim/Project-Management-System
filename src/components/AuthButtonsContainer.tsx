@@ -7,6 +7,7 @@ import { useAppDispatch } from '../hooks/storeHooks';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { AppRoutes } from '../constants/routes';
+import { useTranslation } from 'react-i18next';
 
 interface props {
   isLogin: boolean;
@@ -21,6 +22,7 @@ const AuthButtonsContainer: FC<props> = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   function onLogin(): void {
     navigate(AppRoutes.LOGIN);
@@ -39,17 +41,17 @@ const AuthButtonsContainer: FC<props> = ({
       {isLogin ? (
         <Button color="inherit" sx={{ fontSize: fontSize }} onClick={onSignOut}>
           <LogoutIcon sx={{ fontSize: fontSizeIcon, marginRight: '5px' }} />
-          Выход
+          {t('auth.signOut')}
         </Button>
       ) : (
         <>
           <Button color="inherit" sx={{ fontSize: fontSize }} onClick={onLogin}>
             <PersonIcon sx={{ fontSize: fontSizeIcon, marginRight: '5px' }} />
-            Вход
+            {t('auth.signIn')}
           </Button>
           <Button color="inherit" sx={{ fontSize: fontSize }} onClick={onRegistration}>
             <LockOpenIcon sx={{ fontSize: fontSizeIcon, marginRight: '5px' }} />
-            Регистрация
+            {t('auth.signUp')}
           </Button>
         </>
       )}

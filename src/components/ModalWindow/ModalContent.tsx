@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { useForm } from 'react-hook-form';
 import ModalTitle from './ModalTitle';
 import ModalInfo from './ModalInfo';
+import { useTranslation } from 'react-i18next';
 
 const Form = styled('form')`
   min-width: 300px;
@@ -35,6 +36,7 @@ const Form = styled('form')`
 `;
 
 const ModalContent: FC = () => {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -54,14 +56,14 @@ const ModalContent: FC = () => {
   };
   return (
     <>
-      <ModalTitle>{modalTitle}</ModalTitle>
+      <ModalTitle>{t(modalTitle)}</ModalTitle>
       {fieldsInfo && <ModalInfo title={fieldsInfo.title} owner={fieldsInfo.owner} />}
       <Form onSubmit={handleSubmit(onSubmit)}>
         {fieldProps.map(({ name, label, placeholder, type, registerOptions, defaultValue }) => (
           <TextField
             key={name}
-            label={label}
-            placeholder={placeholder}
+            label={t(label)}
+            placeholder={`${t(placeholder)}`}
             type={type}
             defaultValue={defaultValue}
             {...register(name, registerOptions)}
@@ -69,7 +71,7 @@ const ModalContent: FC = () => {
             error={!!errors[name as keyof typeof errors]}
             helperText={
               errors[name as keyof typeof errors] &&
-              `${errors[name as keyof typeof errors]?.message}`
+              t(`${errors[name as keyof typeof errors]?.message}`)
             }
           />
         ))}

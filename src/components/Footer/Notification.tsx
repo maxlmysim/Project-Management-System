@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Alert, Fade } from '@mui/material';
 import { IAlertContent } from '../../store/alertSlice';
+import { useTranslation } from 'react-i18next';
 
 const alertStyle = {
   position: 'fixed',
@@ -19,10 +20,11 @@ interface INotification {
 }
 
 const Notification: FC<INotification> = ({ isShow, content }) => {
+  const { t } = useTranslation('translation', { keyPrefix: 'alert' });
   return (
     <Fade in={isShow} {...{ timeout: 500 }}>
       <Alert sx={alertStyle} variant="filled" severity={content.type}>
-        {content.message}
+        {t(content.message)}
       </Alert>
     </Fade>
   );

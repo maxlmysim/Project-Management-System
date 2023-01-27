@@ -1,10 +1,10 @@
 export const advantageList: string[] = [
-  'Простой и интуитивно понятный интерфейс',
-  'Персональный полностью редактируемый список проектов',
-  'Возможность создавать неограниченное количестов стадий выполнения задач и самих задач',
-  'Возможность добавлять/редактировать/удалять задачи, назначать команду исполнителей и ответственного',
-  'Мгновенное изменение статусов задач и проектов для удобства взаимодействия между командой исполнителей',
-  'Удобный поиск среди списка всех ваших проектов',
+  'simple',
+  'personal',
+  'creatable',
+  'addable',
+  'editable',
+  'searchable',
 ];
 
 export interface ITechnology {
@@ -54,32 +54,26 @@ export const technologiesList: ITechnology[] = [
     imgLink:
       'https://images.velog.io/images/rjsdnql123/post/efeffb05-ffea-4592-a238-a7e3905d28b1/logo.png',
   },
-  {
-    name: 'React Beautiful DnD',
-    link: 'https://github.com/atlassian/react-beautiful-dnd',
-    imgLink:
-      'https://user-images.githubusercontent.com/2182637/53611918-54c1ff80-3c24-11e9-9917-66ac3cef513d.png',
-  },
 ];
 
 export interface ITeammate {
   name: string;
+  roles: string[];
   username: string;
-  role: string[];
   linkGit: string;
 }
 
 export const teamList: ITeammate[] = [
   {
     name: 'Maksim Lapko',
+    roles: ['developer', 'teamlead'],
     username: 'maxlmysim',
-    role: ['FrontEnd developer', 'Teamlead'],
     linkGit: 'https://github.com/maxlmysim',
   },
   {
     name: 'Vlad Belyaev',
+    roles: ['developer'],
     username: 'jocker-py',
-    role: ['FrontEnd developer'],
     linkGit: 'https://github.com/jocker-py',
   },
 ];

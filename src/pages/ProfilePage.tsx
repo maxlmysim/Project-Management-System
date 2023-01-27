@@ -10,10 +10,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../constants/routes';
 import Loader from '../components/Loader';
+import { useTranslation } from 'react-i18next';
 
 const ProfilePage: FC = () => {
   const { isLogin } = useAppSelector(authSelector);
   const { login, name } = useAppSelector(authSelector);
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -38,17 +40,17 @@ const ProfilePage: FC = () => {
   ) : (
     <div style={{ backgroundColor: 'rgb(66, 165, 245)', flexGrow: 1, color: 'white' }}>
       <Typography variant="h3" component="h3" align="center" margin="2rem auto">
-        Профиль
+        {t('profile.title')}
       </Typography>
       <CenteringContainer>
         <Card sx={{ maxWidth: 700, width: 1 }}>
           <CardContent>
             <Typography variant="h4" component="h4" fontWeight="bold" gutterBottom>
-              Имя: {name}
+              {t('profile.name') + ': ' + name}
               <TooltipButton title="edit" handler={openEditName} icon={<EditIcon />} />
             </Typography>
             <Typography variant="h4" component="h4" fontWeight="bold" gutterBottom>
-              Логин: {login}{' '}
+              {t('profile.login') + ': ' + login}
               <TooltipButton title="edit" handler={openEditLogin} icon={<EditIcon />} />
             </Typography>
             <Button
@@ -57,13 +59,13 @@ const ProfilePage: FC = () => {
               style={{ fontSize: '1.5rem' }}
               onClick={openDeleteUserModal}
             >
-              Удалить учетную запись
+              {t('profile.delete')}
             </Button>
           </CardContent>
         </Card>
       </CenteringContainer>
       <Typography variant="h2" component="h3" align="center" margin="2rem auto" fontWeight="bold">
-        Мои задачи
+        {t('profile.tasks')}
       </Typography>
     </div>
   );

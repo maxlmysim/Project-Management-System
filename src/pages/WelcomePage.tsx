@@ -8,6 +8,7 @@ import Teammate from '../components/Teammate';
 import { advantageList, teamList, technologiesList } from '../constants/welcomePageInfo';
 import { authSelector } from '../store/authSlice';
 import { useAppSelector } from '../hooks/storeHooks';
+import { useTranslation } from 'react-i18next';
 
 const SectionContainer = styled('div')`
   display: grid;
@@ -22,6 +23,7 @@ const SectionContainer = styled('div')`
 
 const WelcomePage: FC = () => {
   const { isLogin, name } = useAppSelector(authSelector);
+  const { t } = useTranslation('translation', { keyPrefix: 'welcome' });
   return (
     <main>
       <Section>
@@ -29,14 +31,10 @@ const WelcomePage: FC = () => {
           <SectionContainer>
             <Logo />
             <Typography variant="h3" sx={{ fontWeight: '700', marginBottom: '20px' }}>
-              {isLogin
-                ? `Приветствуем вас, ${name}!`
-                : 'Ищите удобное приложение, в которым будет удобно управлять процессом постановки ивыполнения задач?'}
+              {isLogin ? t('hello') + name + '!' : t('question')}
             </Typography>
             <Typography component="p" variant="h4">
-              Рады представить Вашему вниманию наше приложение PMA. С ним Вы можете лего управлять
-              своим проектом, быть в курсе всех поставленных задач и контролировать ход их
-              выполнения.
+              {t('introduction')}
             </Typography>
           </SectionContainer>
         </Container>
@@ -55,7 +53,7 @@ const WelcomePage: FC = () => {
       <Section>
         <Container>
           <Typography variant="h3" sx={{ fontWeight: '700', marginBottom: '20px' }}>
-            Данное приложение разработано с применением следующих технологий:
+            {t('technology')}
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             {technologiesList.map((technology) => (
@@ -71,7 +69,7 @@ const WelcomePage: FC = () => {
           variant="h3"
           sx={{ fontWeight: '700', margin: '0 auto 20px', textAlign: 'center' }}
         >
-          Наша команда:
+          {t('team')}
         </Typography>
         <Grid container spacing={2} justifyContent="center">
           {teamList.map((teammate) => (
