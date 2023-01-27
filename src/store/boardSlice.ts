@@ -6,6 +6,7 @@ import { boardService } from '../api/boardService';
 import { closeModalWindow } from './modalSlice';
 import { hideLoader, showLoader } from './loaderSlice';
 import { redirect } from './redirectSlice';
+import { AppRoutes } from '../constants/routes';
 
 interface IBoardState {
   boards: IBoardResponse[];
@@ -87,7 +88,7 @@ export const deleteBoard = createAsyncThunk<IBoardResponse, void, TypedThunkAPI>
       const response = await boardService.deleteBoard(_id);
 
       if (response.status === 200) {
-        dispatch(redirect('/boards'));
+        dispatch(redirect(AppRoutes.BOARDS));
       }
 
       return response.data;

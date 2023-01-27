@@ -7,10 +7,8 @@ import { loaderReducer } from './loaderSlice';
 import { columnReducer } from './columnSlice';
 import { alertReducer } from './alertSlice';
 import { IBoard } from '../types/boardTypes';
-// import { createBrowserHistory } from 'history';
 import { redirectReducer } from './redirectSlice';
-//
-// export const history = createBrowserHistory();
+
 export const store = configureStore({
   reducer: {
     authStore: authReducers,

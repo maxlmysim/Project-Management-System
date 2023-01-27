@@ -59,6 +59,7 @@ export const technologiesList: ITechnology[] = [
 export interface ITeammate {
   name: string;
   roles: string[];
+  username: string;
   linkGit: string;
 }
 
@@ -66,11 +67,13 @@ export const teamList: ITeammate[] = [
   {
     name: 'Maksim Lapko',
     roles: ['developer', 'teamlead'],
+    username: 'maxlmysim',
     linkGit: 'https://github.com/maxlmysim',
   },
   {
     name: 'Vlad Belyaev',
     roles: ['developer'],
+    username: 'jocker-py',
     linkGit: 'https://github.com/jocker-py',
   },
 ];
