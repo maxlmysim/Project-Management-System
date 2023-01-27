@@ -54,6 +54,12 @@ export const technologiesList: ITechnology[] = [
     imgLink:
       'https://images.velog.io/images/rjsdnql123/post/efeffb05-ffea-4592-a238-a7e3905d28b1/logo.png',
   },
+  {
+    name: 'React Beautiful DnD',
+    link: 'https://github.com/atlassian/react-beautiful-dnd',
+    imgLink:
+      'https://user-images.githubusercontent.com/2182637/53611918-54c1ff80-3c24-11e9-9917-66ac3cef513d.png',
+  },
 ];
 
 export interface ITeammate {
