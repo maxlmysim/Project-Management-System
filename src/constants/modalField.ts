@@ -107,7 +107,7 @@ const fieldName: IFieldPropsInput = {
 const boardName = (value = ''): IFieldPropsInput => {
   return {
     label: 'fields.board.label',
-    name: 'name',
+    name: 'title',
     type: 'text',
     placeholder: 'fields.board.placeholder',
     defaultValue: value,
