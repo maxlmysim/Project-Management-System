@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size:10px;
+}
+
+*::-webkit-scrollbar {
+    height: 12px;
+    width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #1976d2;
+    border: 1px solid #1976d2;
+}
+
+*::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: transparent;
+}
+
+*::-webkit-scrollbar-track-piece {
+    border-radius: 10px;
+    border: 1px solid gray;
+    background: rgba(237, 108, 2, 0.8);
+}
